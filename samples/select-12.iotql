@@ -1,0 +1,4 @@
+-- selecting some dotted value, with a colon-name and a dash
+SELECT
+    meta.iot:model-id
+;

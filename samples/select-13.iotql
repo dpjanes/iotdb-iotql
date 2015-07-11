@@ -1,0 +1,4 @@
+-- perform a function on a value
+SELECT
+    UPPER("hi there")
+;

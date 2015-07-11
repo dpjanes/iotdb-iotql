@@ -1,0 +1,5 @@
+-- perform a function on a list
+SELECT
+    MAX([ 1, 2, 3, 4, 5])
+;
+

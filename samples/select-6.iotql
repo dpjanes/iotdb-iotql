@@ -1,0 +1,4 @@
+-- selecting false, results in the same
+SELECT
+    false
+;
