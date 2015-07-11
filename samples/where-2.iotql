@@ -1,0 +1,6 @@
+-- select a thing by name
+SELECT
+    id, meta.name
+WHERE
+    meta.name = "The Name"
+;

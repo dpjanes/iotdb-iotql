@@ -1,0 +1,7 @@
+-- select a thing by value (<)
+SELECT
+    id, meta.name
+WHERE
+    state.sensor.temperature < 20;
+;
+

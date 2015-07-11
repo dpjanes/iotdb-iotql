@@ -1,0 +1,6 @@
+-- select a thing by ID
+SELECT
+    id
+WHERE
+    id = "some-thing-id"
+;
