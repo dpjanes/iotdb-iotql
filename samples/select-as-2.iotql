@@ -1,0 +1,4 @@
+-- name multiple columns
+SELECT
+    id as the_id, meta.name AS the_name
+;
