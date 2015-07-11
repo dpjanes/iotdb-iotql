@@ -1,0 +1,4 @@
+-- true
+SELECT
+    1 = 1
+;

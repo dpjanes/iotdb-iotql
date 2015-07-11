@@ -1,0 +1,4 @@
+-- false
+SELECT
+    1 < 0
+;
