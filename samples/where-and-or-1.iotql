@@ -1,0 +1,9 @@
+-- select a thing by ID and Name
+-- this should return a Thing
+SELECT
+    id
+WHERE
+    id = "some-thing-id"
+AND
+    meta.name = "The Name"
+;
