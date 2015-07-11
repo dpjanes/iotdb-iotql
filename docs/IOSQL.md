@@ -82,7 +82,7 @@ Mappings:
 
 * <code>state.brightness</code> → OSTATE(iot-attribute:brightness)
 * <code>meta.zone</code> → META(iot:zone)
-* <code>,meta.facet</code> → META(iot:facet)
+* <code>meta.facet</code> → META(iot:facet)
 * <code>facets.lighting</code> → iot-facet:lighting
 * % → a value between 0 and 100, equivalent to UNITS(#,iot-unit:math.fraction.percent)
 
@@ -111,7 +111,7 @@ Note - what do we do with Things that don't have the attribute <code>sensor.temp
 		
 Mappings:
 
-* <code>state.sensor.temperature</code> → ISTATE(iot-attribute:sensor.temperature)
+* <code>state.sensor.temperature</code> → OSTATE(iot-attribute:sensor.temperature)
 * <code>units.temperature.metric.celsius</code> → iot-attribute:temperature.metric.celsius
 * <code>facets.climate</code> → iot-facet:climate
 * <code>meta.facet</code> → iot:facet
@@ -216,6 +216,14 @@ Note that since we accept Pythonic type trues, so we could also do
 The main issue with this one is if the lights are already on, or somewhere turns them on, they'll turn off because of this rule. There almost has to be some sort of "incrementing" system.		
 
 	
+## Select everything that is in the Interstitial State
+
+Interstitial meaning ostate has a value
+
+	SELECT
+		meta.name
+	WHERE
+		ostate.*
 		
 
 
