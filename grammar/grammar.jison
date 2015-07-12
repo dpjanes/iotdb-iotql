@@ -4,6 +4,7 @@
 %%  
 
 \s+                     {/* skip whitespace */}
+[-][-].*                   {/* skip comments */}
 [-]?[0-9]+"."[0-9]+\b   return 'NUMBER'
 [-]?[1-9][0-9]*\b       return 'INTEGER'
 \"(\\.|[^"])*\"         return 'STRING'
@@ -18,6 +19,8 @@
 "AS"                    return 'AS'
 "WHERE"                 return 'WHERE'
 "SET"                   return 'SET'
+"false"                 return 'BOOLEAN'
+"true"                  return 'BOOLEAN'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][*])   return 'SYMBOL-STAR'
 [_a-zA-Z][-_a-zA-Z0-9]+   return 'SYMBOL-SIMPLE'
@@ -28,9 +31,15 @@
 
 %%
 
-expressions
-    : EXPRESSION EOF
-        { return $1; }
+expressions: 
+    EXPRESSION EOF
+        {{ return $1; }}
+    |
+    EXPRESSION ";"
+        {{ return $1; }}
+    |
+    EOF
+        {{ return []; }}
     ;
 
 EXPRESSION:
@@ -103,6 +112,9 @@ D-SYMBOL:
     {{ $$ = { "value": Number.parseFloat($1) }; }}
     |
     STRING
+    {{ $$ = { "value": eval($1) }; }}
+    |
+    BOOLEAN
     {{ $$ = { "value": eval($1) }; }}
     ;
 

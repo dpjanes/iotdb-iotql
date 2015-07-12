@@ -1,4 +1,4 @@
 -- name a column
 SELECT
-    "hello" as column1
+    "hello" AS column1
 ;
