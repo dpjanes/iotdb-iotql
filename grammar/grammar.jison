@@ -5,6 +5,7 @@
 
 \s+                     {/* skip whitespace */}
 [-][-].*                   {/* skip comments */}
+0\b                     return 'NUMBER'
 [-]?[0-9]+"."[0-9]+\b   return 'NUMBER'
 [-]?[1-9][0-9]*\b       return 'INTEGER'
 \"(\\.|[^"])*\"         return 'STRING'
@@ -24,11 +25,16 @@
 "false"                 return 'BOOLEAN'
 "true"                  return 'BOOLEAN'
 "="                     return 'BI-OPERATOR'
-"<"                     return 'BI-OPERATOR'
-">"                     return 'BI-OPERATOR'
+"!="                    return 'BI-OPERATOR'
 "<="                    return 'BI-OPERATOR'
 ">="                    return 'BI-OPERATOR'
-[_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
+"<"                     return 'BI-OPERATOR'
+">"                     return 'BI-OPERATOR'
+"IN"                    return 'BI-OPERATOR'
+"&"                     return 'BI-OPERATOR'
+"|"                     return 'BI-OPERATOR'
+[_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]*[:][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
+[_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]*)+   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][*])   return 'SYMBOL-STAR'
 [_a-zA-Z][-_a-zA-Z0-9]+   return 'SYMBOL-SIMPLE'
 "*"                     return 'STAR';
@@ -80,14 +86,23 @@ SELECT-TERM:
     D-SYMBOL
     {{ $$ = $1 }}
     |
-    SYMBOL-SIMPLE "(" D-SYMBOL ")"
-    {{ $3.function = $1; $$ = $3; }}
-    |
     D-SYMBOL "AS" SYMBOL-SIMPLE
     {{ $1.column = $3; $$ = $1; }}
     |
-    SYMBOL-SIMPLE "(" D-SYMBOL ")" "AS" SYMBOL-SIMPLE
-    {{ $3.function = $1; $3.column = $6; $$ = $3; }}
+    SYMBOL-SIMPLE "(" STAR ")"
+    {{ $$ = {
+        "operator": $1,
+        "all": true,
+      }
+    }}
+    |
+    SYMBOL-SIMPLE "(" STAR ")" "AS" SYMBOL-SIMPLE
+    {{ $$ = {
+        "operator": $1,
+        "all": true,
+        "column": $6,
+      }
+    }}
     ;
 
 /*
@@ -104,22 +119,16 @@ D-SYMBOL:
     |
     ID
     {{ $$ = { "id": true }; }}
+    /*
     |
     STAR
     {{ $$ = { "all": true }; }}
+     */
     |
     VALUE
     ;
 
 VALUE:
-    LOGIC
-    |
-    LIST
-    |
-    ATOMIC
-    ;
-
-LOGIC:
     VALUE BI-OPERATOR VALUE
     {{ $$ = {  
             "compute": {
@@ -128,6 +137,19 @@ LOGIC:
             }
         };
     }}
+    |
+    SYMBOL-SIMPLE "(" VALUES ")"
+    {{ $$ = {  
+            "compute": {
+                "operation": $1,
+                "operands": $3,
+            }
+        };
+    }}
+    |
+    LIST
+    |
+    ATOMIC
     ;
 
 LIST:
