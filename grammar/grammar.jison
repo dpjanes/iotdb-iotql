@@ -14,6 +14,8 @@
 ","                     return ','
 "("                     return '('
 ")"                     return ')'
+"["                     return '['
+"]"                     return ']'
 "id"                    return 'ID'
 "SELECT"                return 'SELECT'
 "AS"                    return 'AS'
@@ -21,6 +23,11 @@
 "SET"                   return 'SET'
 "false"                 return 'BOOLEAN'
 "true"                  return 'BOOLEAN'
+"="                     return 'BI-OPERATOR'
+"<"                     return 'BI-OPERATOR'
+">"                     return 'BI-OPERATOR'
+"<="                    return 'BI-OPERATOR'
+">="                    return 'BI-OPERATOR'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][*])   return 'SYMBOL-STAR'
 [_a-zA-Z][-_a-zA-Z0-9]+   return 'SYMBOL-SIMPLE'
@@ -28,6 +35,8 @@
 
     
 /lex
+
+%left BI-OPERATOR
 
 %%
 
@@ -85,12 +94,6 @@ SELECT-TERM:
  *  "Dictionary" symbol - splitting up the symbol
  */
 D-SYMBOL:
-    SYMBOL
-    {{ $$ = {
-        "band": $1.replace(/[.].*$/, ""),  
-        "selector": $1.replace(/^[^.]*[.]/, ""),  
-        };
-    }}
     |
     SYMBOL-STAR
     {{ $$ = {
@@ -105,6 +108,56 @@ D-SYMBOL:
     STAR
     {{ $$ = { "all": true }; }}
     |
+    VALUE
+    ;
+
+VALUE:
+    LOGIC
+    |
+    LIST
+    |
+    ATOMIC
+    ;
+
+LOGIC:
+    VALUE BI-OPERATOR VALUE
+    {{ $$ = {  
+            "compute": {
+                "operation": $2,
+                "operands": [ $1, $3 ],
+            }
+        };
+    }}
+    ;
+
+LIST:
+    "[" VALUES "]"
+    {{
+        $$ = {
+            "value": $2
+        }
+    }}
+    ;
+
+VALUES:
+    {{ $$ = []; }}
+    |
+    VALUE
+    {{ $$ = [ $1 ]; }}
+    |
+    VALUE "," VALUES
+    {{ $3.splice(0, 0, $1); $$ = $3; }}
+    ;
+
+
+ATOMIC:
+    SYMBOL
+    {{ $$ = {
+        "band": $1.replace(/[.].*$/, ""),  
+        "selector": $1.replace(/^[^.]*[.]/, ""),  
+        };
+    }}
+    |
     INTEGER
     {{ $$ = { "value": Number.parseInt($1) }; }}
     |
@@ -116,10 +169,4 @@ D-SYMBOL:
     |
     BOOLEAN
     {{ $$ = { "value": eval($1) }; }}
-    ;
-
-ATOMIC:
-    INTEGER
-    |
-    NUMBER
     ;
