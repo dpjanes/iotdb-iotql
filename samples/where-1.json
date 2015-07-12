@@ -1,0 +1,22 @@
+[
+  {
+    "select": [
+      {
+        "id": true
+      }
+    ],
+    "where": {
+      "compute": {
+        "operation": "=",
+        "operands": [
+          {
+            "id": true
+          },
+          {
+            "value": "some-thing-id"
+          }
+        ]
+      }
+    }
+  }
+]

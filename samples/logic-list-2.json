@@ -1,0 +1,29 @@
+[
+  {
+    "select": [
+      {
+        "compute": {
+          "operation": "IN",
+          "operands": [
+            {
+              "value": 0
+            },
+            {
+              "value": [
+                {
+                  "value": 1
+                },
+                {
+                  "value": 2
+                },
+                {
+                  "value": 3
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

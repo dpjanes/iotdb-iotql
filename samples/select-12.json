@@ -1,0 +1,10 @@
+[
+  {
+    "select": [
+      {
+        "band": "meta",
+        "selector": "iot:model-id"
+      }
+    ]
+  }
+]
