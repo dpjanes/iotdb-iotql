@@ -1,0 +1,6 @@
+{
+    "thing-id": "thing-2",
+    "name": "Thing 2"
+    "facet": "iot-facet:climate.cooling",
+    "zone": [ "Second Floor", "Master Bedroom" ]
+}

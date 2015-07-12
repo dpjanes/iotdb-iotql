@@ -1,0 +1,6 @@
+{
+    "thing-id": "some-thing-id",
+    "name": "The Name",
+    "facet": "iot-facet:climate.heating",
+    "zone": "Basement"
+}
