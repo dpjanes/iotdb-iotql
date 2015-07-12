@@ -1,0 +1,29 @@
+[
+  {
+    "select": [
+      {
+        "compute": {
+          "operation": "&",
+          "operands": [
+            {
+              "value": "A"
+            },
+            {
+              "value": [
+                {
+                  "value": "A"
+                },
+                {
+                  "value": "B"
+                },
+                {
+                  "value": "C"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

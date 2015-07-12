@@ -1,0 +1,37 @@
+[
+  {
+    "select": [
+      {
+        "id": true
+      },
+      {
+        "band": "meta",
+        "selector": "name"
+      }
+    ],
+    "where": {
+      "compute": {
+        "operation": "IN",
+        "operands": [
+          {
+            "band": "state",
+            "selector": "sensor.temperature"
+          },
+          {
+            "value": [
+              {
+                "value": 18
+              },
+              {
+                "value": 19
+              },
+              {
+                "value": 20
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+]

@@ -33,6 +33,8 @@
 "IN"                    return 'BI-OPERATOR'
 "&"                     return 'BI-OPERATOR'
 "|"                     return 'BI-OPERATOR'
+"AND"                   return 'LOGIC-OPERATOR'
+"OR"                    return 'LOGIC-OPERATOR'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]*[:][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]*)+   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][*])   return 'SYMBOL-STAR'
@@ -42,6 +44,7 @@
     
 /lex
 
+%left LOGIC-OPERATOR
 %left BI-OPERATOR
 
 %%
@@ -58,16 +61,11 @@ expressions:
     ;
 
 EXPRESSION:
-    /*
-    EXPRESSION ";" ATOMIC
-    { $1.push($3); $$ = $1; }
-    |
-    ATOMIC
-    { $$ =  [ $1 ]; }
-    |
-    */
     "SELECT" SELECT-TERMS
     { $$ = [ { "select": $2 } ]; }
+    |
+    "SELECT" SELECT-TERMS "WHERE" VALUE
+    { $$ = [ { "select": $2, "where": $4 } ]; }
     ;
 
 SELECT-TERMS:
@@ -116,20 +114,26 @@ D-SYMBOL:
         "all": true,
         };
     }}
+    /*
     |
     ID
     {{ $$ = { "id": true }; }}
-    /*
-    |
-    STAR
-    {{ $$ = { "all": true }; }}
-     */
+    */
     |
     VALUE
     ;
 
 VALUE:
     VALUE BI-OPERATOR VALUE
+    {{ $$ = {  
+            "compute": {
+                "operation": $2,
+                "operands": [ $1, $3 ],
+            }
+        };
+    }}
+    |
+    VALUE LOGIC-OPERATOR VALUE
     {{ $$ = {  
             "compute": {
                 "operation": $2,
@@ -146,6 +150,9 @@ VALUE:
             }
         };
     }}
+    |
+    "(" VALUE ")"
+    {{ $$ = $2; }}
     |
     LIST
     |
@@ -191,4 +198,7 @@ ATOMIC:
     |
     BOOLEAN
     {{ $$ = { "value": eval($1) }; }}
+    |
+    ID
+    {{ $$ = { "id": true }; }}
     ;

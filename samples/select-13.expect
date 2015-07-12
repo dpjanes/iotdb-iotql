@@ -1,0 +1,16 @@
+[
+  {
+    "select": [
+      {
+        "compute": {
+          "operation": "UPPER",
+          "operands": [
+            {
+              "value": "hi there"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

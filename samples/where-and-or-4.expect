@@ -1,0 +1,64 @@
+[
+  {
+    "select": [
+      {
+        "id": true
+      }
+    ],
+    "where": {
+      "compute": {
+        "operation": "AND",
+        "operands": [
+          {
+            "compute": {
+              "operation": "=",
+              "operands": [
+                {
+                  "id": true
+                },
+                {
+                  "value": "some-thing-id"
+                }
+              ]
+            }
+          },
+          {
+            "compute": {
+              "operation": "OR",
+              "operands": [
+                {
+                  "compute": {
+                    "operation": "=",
+                    "operands": [
+                      {
+                        "band": "meta",
+                        "selector": "name"
+                      },
+                      {
+                        "value": "Not The Name"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "compute": {
+                    "operation": "=",
+                    "operands": [
+                      {
+                        "band": "meta",
+                        "selector": "name"
+                      },
+                      {
+                        "value": "The Name"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+]

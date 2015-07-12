@@ -1,0 +1,10 @@
+[
+  {
+    "select": [
+      {
+        "band": "meta",
+        "selector": "schema:name"
+      }
+    ]
+  }
+]

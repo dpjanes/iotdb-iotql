@@ -1,0 +1,15 @@
+[
+  {
+    "select": [
+      {
+        "id": true,
+        "column": "the_id"
+      },
+      {
+        "band": "meta",
+        "selector": "name",
+        "column": "the_name"
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "select": [
+      {
+        "band": "facets",
+        "selector": "climate.heating"
+      }
+    ]
+  }
+]

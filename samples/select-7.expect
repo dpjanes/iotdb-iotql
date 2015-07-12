@@ -1,0 +1,21 @@
+[
+  {
+    "select": [
+      {
+        "value": "abc"
+      },
+      {
+        "value": 123
+      },
+      {
+        "value": 999.123
+      },
+      {
+        "value": true
+      },
+      {
+        "value": false
+      }
+    ]
+  }
+]
