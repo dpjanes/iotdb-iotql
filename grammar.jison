@@ -1,5 +1,3 @@
-/* description: Basic grammar that contains a nullable A nonterminal. */
-
 %lex
 %%  
 
@@ -114,11 +112,6 @@ D-SYMBOL:
         "all": true,
         };
     }}
-    /*
-    |
-    ID
-    {{ $$ = { "id": true }; }}
-    */
     |
     VALUE
     ;
