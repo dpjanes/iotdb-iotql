@@ -1,7 +1,7 @@
 {
     "iot:thing-id": "thing-02",
     "iot:model-id": "model-02",
-    "schema:name": "Thing 2"
+    "schema:name": "Thing 2",
     "iot:facet": "iot-facet:climate.cooling",
     "iot:zone": [ "Second Floor", "Master Bedroom" ]
 }
