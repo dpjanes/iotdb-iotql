@@ -497,7 +497,7 @@ var run_statement = function(transporter, statement, callback) {
                 console.log("WHERE", statement.where);
                 console.log("ROWD", rowd);
                  */
-                if (evaluate(statement.where, rowd)) {
+                if (!statement.where || evaluate(statement.where, rowd)) {
                     do_select(statement, rowd, _wrap_callback);
                 } else {
                     _wrap_callback(null, null);
@@ -568,10 +568,12 @@ var run_path = function(transporter, iotql_path) {
 
     iotql_compiled.map(function(statement) {
         run_statement(transporter, statement, function(error, resultds) {
-            console.log("RESULT", error, resultds);
-            
-            if (!resultds) {
+            if (error) {
+                console.log("RESULT-ERROR", error, resultds);
+            } else if (!resultds) {
                 return;
+            } else {
+                // console.log("RESULT", resultds);
             }
 
             var results = [ iotql_script.replace(/[ \n\t]*$/mg, ""), "------------", "-- RESULT --", "------------" ];

@@ -1,0 +1,8 @@
+-- selecting some dotted value
+SELECT
+    meta.name
+;
+------------
+-- RESULT --
+------------
+-- The Name

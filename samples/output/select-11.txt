@@ -1,0 +1,8 @@
+-- selecting some dotted value, with a colon-name
+SELECT
+    meta.schema:name
+;
+------------
+-- RESULT --
+------------
+-- The Name

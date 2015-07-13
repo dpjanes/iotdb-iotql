@@ -1,0 +1,9 @@
+-- name multiple columns
+SELECT
+    id AS the_id, meta.name AS the_name
+;
+------------
+-- RESULT --
+------------
+-- thing-01
+-- The Name

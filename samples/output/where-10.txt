@@ -1,0 +1,12 @@
+-- select a thing by value (NOT IN)
+SELECT
+    id, meta.name, state.sensor.temperature
+WHERE
+    state.sensor.temperature NOT IN [ 18, 19, 20 ]
+;
+------------
+-- RESULT --
+------------
+-- thing-02
+-- Thing 2
+-- 16

@@ -1,0 +1,8 @@
+-- selecting an id
+SELECT
+    id
+;
+------------
+-- RESULT --
+------------
+-- thing-01
