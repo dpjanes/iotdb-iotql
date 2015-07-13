@@ -197,7 +197,7 @@ var operatord = {
  *  This goes though a SELECT column definitions
  *  and figures out things about it.
  */
-var prevaluate_column = function(v) {
+var prevaluate_column = function(v, paramd) {
     if (v.pre !== undefined) {
         return;
     } else {
@@ -209,7 +209,7 @@ var prevaluate_column = function(v) {
     }
 
     if (v.compute) {
-        prevaluate_column(v.compute);
+        prevaluate_column(v.compute, paramd);
         _update_pre(v.pre, v.compute);
     }
 
@@ -222,7 +222,7 @@ var prevaluate_column = function(v) {
 
     if (v.operands) {
         v.operands.map(function(operand) {
-            prevaluate_column(operand);
+            prevaluate_column(operand, paramd);
             _update_pre(v.pre, operand.pre);
         });
     } 
@@ -235,8 +235,8 @@ var prevaluate_column = function(v) {
     } 
     
     if (v.band) {
-        if (v.band === "state") {
-            v.band = "istate";
+        if ((v.band === "state") && paramd.state) {
+            v.band = paramd.state;
         }
 
         if ([ "state", "istate", "ostate", "meta", "model" ].indexOf(v.band) !== -1) {
@@ -326,23 +326,32 @@ var evaluate = function(v, rowd) {
     }
 }
 
-var do_select_column = function(column, rowd) {
-    return evaluate(column, rowd);
-}
+/**
+ *  This does the select part for the particular row.
+ *  The 'callback' function is called with (error, row-results)
+ */
+var do_select = function(statement, rowd, callback) {
+    var resultds = [];
 
-var do_select = function(statement, rowd) {
     var columns = _.ld.list(statement, "select");
-    // console.log("HERE:XXX", rowd);
-
-    var count = 0;
-    columns.map(function(column) {
-        ++count;
-        var result = do_select_column(column, rowd);
-        console.log("C" + count, result);
+    columns.map(function(column, index) {
+        resultds.push({
+            index: index,
+            column: column,
+            result: evaluate(column, rowd),
+        });
     });
+
+    callback(null, resultds)
 };
 
-var run_query = function(transporter, statement) {
+/**
+ *  This executes a complete statement. The callback
+ *  is called with (null, row-results) for each
+ *  row, and then (null, null) when finished. If 
+ *  an error is ever reported, we are finished
+ */
+var run_statement = function(transporter, statement, callback) {
     var pre = {
         query: false,
         bands: [],
@@ -354,17 +363,26 @@ var run_query = function(transporter, statement) {
 
     var columns = _.ld.list(statement, "select");
     columns.map(function(column) {
-        prevaluate_column(column);
+        prevaluate_column(column, {
+            "state": "istate",
+        });
 
         pre.query |= column.pre.query;
         _.ld.extend(pre, "bands", column.pre.bands);
     });
 
     if (pre.query) {
+        var pending = 1;
         transporter.list(function(d) {
             if (d.end) {
+                if (--pending === 0) {
+                    callback(null, null);
+                }
+
                 return;
             }
+
+            pending++;
 
             var rowd = {
                 id: d.id,
@@ -375,13 +393,32 @@ var run_query = function(transporter, statement) {
                 facets: {},
             };
 
+            var _callback = function(error, resultds) {
+                if (!callback) {
+                    return;
+                } else if (error) {
+                    callback(error, null);
+                    callback = null;
+                } else {
+                    callback(error, resultds);
+
+                    if (--pending === 0) {
+                        callback(null, null);
+                    }
+                }
+            };
+
+            var _select = function() {
+                do_select(statement, rowd, _callback);
+            };
+
             var count = pre.bands.length;
             if (count === 0) {
-                do_select(statement, rowd);
+                _select();
             } else {
                 var _decrement = function() {
                     if (--count === 0) {
-                        do_select(statement, rowd);
+                        _select();
                     }
                 };
                 pre.bands.map(function(band) {
@@ -406,19 +443,35 @@ var run_query = function(transporter, statement) {
             meta: {},
             units: {},
             facets: {},
+        }, function(error, resultds) {
+            if (error) {
+                callback(error, resultds);
+            } else {
+                callback(error, resultds);
+                callback(null, null);
+            }
         });
     }
 };
 
-var run_queries = function(transporter, iotql_compiled) {
+/**
+ *  Run the IoTQL program at the path
+ */
+var run_path = function(transporter, iotql_path) {
+    try {
+        var iotql_script = fs.readFileSync(iotql_path, 'utf-8');
+        var iotql_compiled = parser.parse(iotql_script);
+    }
+    catch (x) {
+        console.log("%s: failed: %s", iotql_path, x);
+        return;
+    }
+
     iotql_compiled.map(function(statement) {
-        run_query(transporter, statement);
+        run_statement(transporter, statement, function(error, resultds) {
+            console.log("RESULT", error, resultds);
+        });
     });
-    /*
-    transporter.list(function(d) {
-        console.log(d);
-    });
-    */
 };
 
 if (ad.all) {
@@ -430,31 +483,11 @@ if (ad.all) {
             return;
         }
 
-        var iotql_path = path.join("samples", name);
-
-        try {
-            var iotql_script = fs.readFileSync(iotql_path, 'utf-8');
-            var iotql_compiled = parser.parse(iotql_script);
-        }
-        catch (x) {
-            console.log("%s: failed: %s", name, ( "" + x ).replace(/\n.*$/gm, ''));
-            return;
-        }
-
-        run_queries(transporter, iotql_compiled);
+        run_path(transporter, path.join("samples", name));
     });
 } else if (ad._.length) {
     ad._.map(function(iotql_path) {
-        try {
-            var iotql_script = fs.readFileSync(iotql_path, 'utf-8');
-            var iotql_compiled = parser.parse(iotql_script);
-        }
-        catch (x) {
-            console.log("%s: failed: %s", iotql_path, x);
-            return;
-        }
-
-        run_queries(transporter, iotql_compiled);
+        run_path(transporter, iotql_path);
     });
 }
 
