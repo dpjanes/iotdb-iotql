@@ -153,7 +153,7 @@ break;
 case 21:
 
         this.$ = {
-            "value": $$[$0-1]
+            "list": $$[$0-1]
         }
     
 break;
@@ -171,13 +171,13 @@ case 25:
     
 break;
 case 26:
- this.$ = { "value": Number.parseInt($$[$0]) }; 
+ this.$ = { "actual": Number.parseInt($$[$0]) }; 
 break;
 case 27:
- this.$ = { "value": Number.parseFloat($$[$0]) }; 
+ this.$ = { "actual": Number.parseFloat($$[$0]) }; 
 break;
 case 28: case 29:
- this.$ = { "value": eval($$[$0]) }; 
+ this.$ = { "actual": eval($$[$0]) }; 
 break;
 case 30:
  this.$ = { "id": true }; 

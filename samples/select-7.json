@@ -2,19 +2,19 @@
   {
     "select": [
       {
-        "value": "abc"
+        "actual": "abc"
       },
       {
-        "value": 123
+        "actual": 123
       },
       {
-        "value": 999.123
+        "actual": 999.123
       },
       {
-        "value": true
+        "actual": true
       },
       {
-        "value": false
+        "actual": false
       }
     ]
   }

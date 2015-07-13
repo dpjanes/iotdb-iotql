@@ -156,7 +156,7 @@ LIST:
     "[" VALUES "]"
     {{
         $$ = {
-            "value": $2
+            "list": $2
         }
     }}
     ;
@@ -181,16 +181,16 @@ ATOMIC:
     }}
     |
     INTEGER
-    {{ $$ = { "value": Number.parseInt($1) }; }}
+    {{ $$ = { "actual": Number.parseInt($1) }; }}
     |
     NUMBER
-    {{ $$ = { "value": Number.parseFloat($1) }; }}
+    {{ $$ = { "actual": Number.parseFloat($1) }; }}
     |
     STRING
-    {{ $$ = { "value": eval($1) }; }}
+    {{ $$ = { "actual": eval($1) }; }}
     |
     BOOLEAN
-    {{ $$ = { "value": eval($1) }; }}
+    {{ $$ = { "actual": eval($1) }; }}
     |
     ID
     {{ $$ = { "id": true }; }}

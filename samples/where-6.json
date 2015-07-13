@@ -18,7 +18,7 @@
             "selector": "sensor.temperature"
           },
           {
-            "value": 20
+            "actual": 20
           }
         ]
       }

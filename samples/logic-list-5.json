@@ -8,23 +8,23 @@
             {
               "value": [
                 {
-                  "value": "A"
+                  "actual": "A"
                 },
                 {
-                  "value": "C"
+                  "actual": "C"
                 }
               ]
             },
             {
               "value": [
                 {
-                  "value": "A"
+                  "actual": "A"
                 },
                 {
-                  "value": "B"
+                  "actual": "B"
                 },
                 {
-                  "value": "C"
+                  "actual": "C"
                 }
               ]
             }

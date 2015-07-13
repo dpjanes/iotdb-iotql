@@ -6,18 +6,18 @@
           "operation": "&",
           "operands": [
             {
-              "value": "A"
+              "actual": "A"
             },
             {
               "value": [
                 {
-                  "value": "A"
+                  "actual": "A"
                 },
                 {
-                  "value": "B"
+                  "actual": "B"
                 },
                 {
-                  "value": "C"
+                  "actual": "C"
                 }
               ]
             }

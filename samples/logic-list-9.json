@@ -8,26 +8,26 @@
             {
               "value": [
                 {
-                  "value": "C"
+                  "actual": "C"
                 },
                 {
-                  "value": "D"
+                  "actual": "D"
                 },
                 {
-                  "value": "E"
+                  "actual": "E"
                 }
               ]
             },
             {
               "value": [
                 {
-                  "value": "A"
+                  "actual": "A"
                 },
                 {
-                  "value": "B"
+                  "actual": "B"
                 },
                 {
-                  "value": "C"
+                  "actual": "C"
                 }
               ]
             }

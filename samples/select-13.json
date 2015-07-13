@@ -6,7 +6,7 @@
           "operation": "UPPER",
           "operands": [
             {
-              "value": "hi there"
+              "actual": "hi there"
             }
           ]
         }

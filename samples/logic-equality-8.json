@@ -6,10 +6,10 @@
           "operation": "<",
           "operands": [
             {
-              "value": 1
+              "actual": 1
             },
             {
-              "value": 0
+              "actual": 0
             }
           ]
         }
