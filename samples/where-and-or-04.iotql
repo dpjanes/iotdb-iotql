@@ -1,9 +1,9 @@
 -- select a thing by ID and Name
 -- this should return a Thing
 SELECT
-    id
+    id, meta.name
 WHERE
-    id = "some-thing-id"
+    id = "thing-01"
 AND
 (
     meta.name = "Not The Name"

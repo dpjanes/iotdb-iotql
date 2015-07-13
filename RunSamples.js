@@ -126,101 +126,120 @@ var operatord = {
         }
     },
     "=": function(first, operands) {
-        if (operands.length === 2) {
-            return _.is.Equal(operands[0], operands[1]);
-        } else {
+        if (operands.length !== 2) {
             return false;
         }
+        return _.is.Equal(operands[0], operands[1]);
     },
     "!=": function(first, operands) {
-        if (operands.length === 2) {
-            return !_.is.Equal(operands[0], operands[1]);
-        } else {
+        if (operands.length !== 2) {
             return false;
         }
+        return !_.is.Equal(operands[0], operands[1]);
     },
     "<": function(first, operands) {
-        if (operands.length === 2) {
-            console.log("OPERANDS", operands);
-            return operands[0] < operands[1];
-        } else {
+        if (operands.length !== 2) {
             return false;
         }
+        return operands[0] < operands[1];
     },
     ">": function(first, operands) {
-        if (operands.length === 2) {
-            return operands[0] > operands[1];
-        } else {
+        if (operands.length !== 2) {
             return false;
         }
+        return operands[0] > operands[1];
     },
     "<=": function(first, operands) {
-        if (operands.length === 2) {
-            return operands[0] <= operands[1];
-        } else {
+        if (operands.length !== 2) {
             return false;
         }
+        return operands[0] <= operands[1];
     },
     ">=": function(first, operands) {
-        if (operands.length === 2) {
-            return operands[0] >= operands[1];
-        } else {
+        if (operands.length !== 2) {
             return false;
         }
+        return operands[0] >= operands[1];
     },
     "in": function(first, operands) {
-        if (operands.length === 2) {
-            return _list(operands[1]).indexOf(operands[0]) > -1;
-        } else {
+        if (operands.length !== 2) {
             return false;
         }
+        return _list(operands[1]).indexOf(operands[0]) > -1;
     },
     "not in": function(first, operands) {
-        if (operands.length === 2) {
-            return _list(operands[1]).indexOf(operands[0]) === -1;
-        } else {
+        if (operands.length !== 2) {
             return false;
         }
+        return _list(operands[1]).indexOf(operands[0]) === -1;
     },
     "&": function(first, operands) {
-        if (operands.length === 2) {
-            var as = _list(operands[0]);
-            var bs = _list(operands[1]);
-            var cs = [];
-
-            as.map(function(v) {
-                if ((cs.indexOf(v) === -1) && (bs.indexOf(v) !== -1)) {
-                    cs.push(v);
-                }
-            });
-
-            return cs;
-        } else {
+        if (operands.length !== 2) {
             return false;
         }
+
+        var as = _list(operands[0]);
+        var bs = _list(operands[1]);
+        var cs = [];
+
+        as.map(function(v) {
+            if ((cs.indexOf(v) === -1) && (bs.indexOf(v) !== -1)) {
+                cs.push(v);
+            }
+        });
+
+        return cs;
     },
     "|": function(first, operands) {
-        if (operands.length === 2) {
-            var as = _list(operands[0]);
-            var bs = _list(operands[1]);
-
-            var cs = [];
-            var handle = function(v) {
-                if (cs.indexOf(v) === -1) {
-                    cs.push(v);
-                }
-            };
-
-            as.map(handle);
-            bs.map(handle);
-
-            return cs;
-        } else {
+        if (operands.length !== 2) {
             return false;
         }
+
+        var as = _list(operands[0]);
+        var bs = _list(operands[1]);
+
+        var cs = [];
+        var handle = function(v) {
+            if (cs.indexOf(v) === -1) {
+                cs.push(v);
+            }
+        };
+
+        as.map(handle);
+        bs.map(handle);
+
+        return cs;
     },
     "!": function(first, operands) {
         return !_true(first);
+    },
+    "and": function(first, operands) {
+        if (operands.length !== 2) {
+            return false;
+        }
+
+        if (!_true(operands[0])) {
+            return false;
+        }
+        if (!_true(operands[1])) {
+            return false;
+        }
+
+        return true;
+    },
+    "or": function(first, operands) {
+        if (operands.length !== 2) {
+            return false;
+        }
+
+        if (_true(operands[0])) {
+            return true;
+        }
+        if (_true(operands[1])) {
+            return true;
+        }
+
+        return false;
     },
 }
 
