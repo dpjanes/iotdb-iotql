@@ -29,6 +29,7 @@
 ">="                    return 'BI-OPERATOR'
 "<"                     return 'BI-OPERATOR'
 ">"                     return 'BI-OPERATOR'
+"NOT IN"                return 'BI-OPERATOR'
 "IN"                    return 'BI-OPERATOR'
 "&"                     return 'BI-OPERATOR'
 "|"                     return 'BI-OPERATOR'

@@ -155,6 +155,13 @@ var operatord = {
             return false;
         }
     },
+    "not in": function(first, operands) {
+        if (operands.length === 2) {
+            return _list(operands[1]).indexOf(operands[0]) === -1;
+        } else {
+            return false;
+        }
+    },
     "&": function(first, operands) {
         if (operands.length === 2) {
             var as = _list(operands[0]);
