@@ -16,6 +16,7 @@
 "["                     return '['
 "]"                     return ']'
 "id"                    return 'ID'
+"NULL"                  return 'NULL'
 "SELECT"                return 'SELECT'
 "AS"                    return 'AS'
 "WHERE"                 return 'WHERE'
@@ -191,6 +192,9 @@ ATOMIC:
     |
     BOOLEAN
     {{ $$ = { "actual": eval($1) }; }}
+    |
+    NULL
+    {{ $$ = { "actual": null }; }}
     |
     ID
     {{ $$ = { "id": true }; }}

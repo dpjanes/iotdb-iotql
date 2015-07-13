@@ -3,13 +3,20 @@
     "select": [
       {
         "compute": {
-          "operation": "|",
+          "operation": "&",
           "operands": [
             {
-              "actual": "A"
+              "list": [
+                {
+                  "actual": "A"
+                },
+                {
+                  "actual": "C"
+                }
+              ]
             },
             {
-              "value": [
+              "list": [
                 {
                   "actual": "A"
                 },

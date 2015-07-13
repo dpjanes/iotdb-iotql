@@ -6,14 +6,20 @@
           "operation": "|",
           "operands": [
             {
-              "value": [
+              "list": [
                 {
-                  "actual": "A"
+                  "actual": "C"
+                },
+                {
+                  "actual": "D"
+                },
+                {
+                  "actual": "E"
                 }
               ]
             },
             {
-              "value": [
+              "list": [
                 {
                   "actual": "A"
                 },

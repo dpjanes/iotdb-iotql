@@ -1,6 +1,6 @@
 -- select a thing by value (IN)
 SELECT
-    id, meta.name
+    id, meta.name, state.sensor.temperature
 WHERE
     state.sensor.temperature IN [ 18, 19, 20 ]
 ;

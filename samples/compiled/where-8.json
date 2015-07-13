@@ -7,6 +7,10 @@
       {
         "band": "meta",
         "selector": "name"
+      },
+      {
+        "band": "state",
+        "selector": "sensor.temperature"
       }
     ],
     "where": {

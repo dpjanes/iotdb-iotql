@@ -1,0 +1,4 @@
+-- select null
+SELECT
+    NULL
+;

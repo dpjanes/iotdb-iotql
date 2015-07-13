@@ -7,18 +7,32 @@
       {
         "band": "meta",
         "selector": "name"
+      },
+      {
+        "band": "state",
+        "selector": "sensor.temperature"
       }
     ],
     "where": {
       "compute": {
-        "operation": "<",
+        "operation": "IN",
         "operands": [
           {
             "band": "state",
             "selector": "sensor.temperature"
           },
           {
-            "actual": 20
+            "list": [
+              {
+                "actual": 18
+              },
+              {
+                "actual": 19
+              },
+              {
+                "actual": 20
+              }
+            ]
           }
         ]
       }

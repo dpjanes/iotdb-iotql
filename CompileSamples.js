@@ -45,7 +45,7 @@ names.map(function(name) {
     }
 
     var iotql_path = path.join("samples", name);
-    var json_path = path.join("samples", name.replace(/[.]iotql/, ".json"));
+    var json_path = path.join("samples", "compiled", name.replace(/[.]iotql/, ".json"));
     var contents = fs.readFileSync(iotql_path, 'utf-8');
 
     try {

@@ -285,7 +285,27 @@ var evaluate = function(v, rowd) {
         }
 
         if (v.selector) {
-            var result = d[v.selector];
+            var code = null;
+
+            // selectors on state need to be looked up in the model
+            if ((v.band === "istate") || (v.band === "ostate")) {
+                var attributes = _.ld.list(rowd.model, "iot:attribute", []);
+                attributes.map(function(attribute) {
+                    if (code) {
+                    } else if (_.ld.contains(attribute, "iot:purpose", v.selector)) {
+                        code = _.ld.first(attribute, "@id", "");
+                        code = code.replace(/^.*?#/, '');
+                    }
+                });
+
+                if (code === null) {
+                    return null;
+                }
+            } else {
+                code = v.selector;
+            }
+
+            var result = d[code];
             if (result === undefined) {
                 return null;
             } else {
@@ -376,6 +396,11 @@ var run_statement = function(transporter, statement, callback) {
         _update_pre(pre, column.pre);
     });
 
+    // if there's state involved, we need the model too
+    if ((pre.bands.indexOf('istate') > -1) || (pre.bands.indexOf('ostate') > -1)) {
+        _.ld.add(pre, "bands", "model");
+    }
+
     if (pre.query) {
         var pending = 1;
         transporter.list(function(d) {
@@ -399,7 +424,7 @@ var run_statement = function(transporter, statement, callback) {
                 facets: {},
             };
 
-            var _callback = function(error, resultds) {
+            var _wrap_callback = function(error, resultds) {
                 if (!callback) {
                     return;
                 } else if (error) {
@@ -417,40 +442,45 @@ var run_statement = function(transporter, statement, callback) {
                 }
             };
 
-            var _select = function() {
+            var _do_if_match = function() {
+                /*
+                console.log("------");
+                console.log("WHERE", statement.where);
+                console.log("ROWD", rowd);
+                 */
                 if (evaluate(statement.where, rowd)) {
-                    do_select(statement, rowd, _callback);
+                    do_select(statement, rowd, _wrap_callback);
                 } else {
-                    _callback(null, null);
+                    _wrap_callback(null, null);
                 }
             };
 
             // fetch all bands, then do the select
-            var count = 1;
-            var _decrement = function() {
-                // console.log("HERE:BAND.1", count);
-                if (--count === 0) {
-                    _select();
+            var band_count = 1;
+            var _decrement_for_band = function() {
+                // console.log("HERE:BAND.1", band_count);
+                if (--band_count === 0) {
+                    _do_if_match();
                 }
             };
 
             pre.bands.map(function(band) {
-                count++;
-                // console.log("HERE:BAND.2", count, d.id, band);
+                band_count++;
+                // console.log("HERE:BAND.2", band_count, d.id, band);
                 transporter.get({
                     id: d.id,
                     band: band,
                 }, function(gd) {
-                    // console.log("HERE:BAND.3", count, d.id, band);
+                    // console.log("HERE:BAND.3", band_count, d.id, band);
                     if (gd.value) {
                         rowd[band] = gd.value
                     }
 
-                    _decrement();
+                    _decrement_for_band();
                 });
             });
 
-            _decrement();
+            _decrement_for_band();
         });
     } else {
         do_select(statement, {
