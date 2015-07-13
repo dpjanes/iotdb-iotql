@@ -1,0 +1,8 @@
+-- name a column
+SELECT
+    "hello" AS column1
+;
+------------
+-- RESULT --
+------------
+-- hello

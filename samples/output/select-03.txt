@@ -1,0 +1,8 @@
+-- selecting a number, results in the same
+SELECT
+    -134.4445
+;
+------------
+-- RESULT --
+------------
+-- -134.4445

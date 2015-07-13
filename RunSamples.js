@@ -563,9 +563,44 @@ var run_path = function(transporter, iotql_path) {
         return;
     }
 
+    var name = path.basename(iotql_path);
+    var text_path = path.join("samples", "output", name.replace(/[.]iotql/, ".txt"));
+
     iotql_compiled.map(function(statement) {
         run_statement(transporter, statement, function(error, resultds) {
             console.log("RESULT", error, resultds);
+            
+            if (!resultds) {
+                return;
+            }
+
+            var results = [ iotql_script.replace(/[ \n\t]*$/mg, ""), "------------", "-- RESULT --", "------------" ];
+            resultds.map(function(resultd) {
+                results.push("-- " + resultd.result);
+            });
+
+            var text = results.join("\n") + "\n";
+
+            if (ad.write) {
+                fs.writeFileSync(text_path, text);
+                console.log("%s: ok: wrote", name, text_path);
+            } else if (ad.test) {
+                var want = text;
+                var got = null;
+                try {
+                    got = fs.readFileSync(text_path, 'utf-8');
+                }
+                catch (x) {
+                }
+                if (want !== got) {
+                    console.log(got, want);
+                    console.log("%s: changed", name);
+                } else {
+                    console.log("%s: ok", name);
+                }
+            } else {
+                console.log("%s: ok", name);
+            }
         });
     });
 };
@@ -593,19 +628,19 @@ if (ad.all) {
 
     var iotql_path = path.join("samples", name);
     var iotql_script = fs.readFileSync(iotql_path, 'utf-8');
-    var json_path = path.join("samples", name.replace(/[.]iotql/, ".json"));
+    var text_path = path.join("samples", name.replace(/[.]iotql/, ".json"));
 
     try {
         var parsed = parser.parse(iotql_script);
 
         if (ad.write) {
-            fs.writeFileSync(json_path, JSON.stringify(parsed, null, 2));
-            console.log("%s: ok: wrote", name, json_path);
+            fs.writeFileSync(text_path, JSON.stringify(parsed, null, 2));
+            console.log("%s: ok: wrote", name, text_path);
         } else if (ad.test) {
             var want = JSON.stringify(parsed, null, 2);
             var got = null;
             try {
-                got = fs.readFileSync(json_path, 'utf-8');
+                got = fs.readFileSync(text_path, 'utf-8');
             }
             catch (x) {
             }

@@ -1,0 +1,8 @@
+-- negation
+SELECT
+    !true
+;
+------------
+-- RESULT --
+------------
+-- false
