@@ -33,18 +33,13 @@ var minimist = require('minimist');
 var parser = require("./grammar").parser;
 
 var ad = require('minimist')(process.argv.slice(2), {
-    boolean: [ "write", "test" ],
+    boolean: [ "all", "write", "test" ],
 });
 
 var samples_dir = "samples";
 
-var names = fs.readdirSync(samples_dir);
-names.map(function(name) {
-    if (!name.match(/[.]iotql$/)) {
-        return;
-    }
-
-    var iotql_path = path.join("samples", name);
+var doit = function(iotql_path) {
+    var name = path.basename(iotql_path);
     var json_path = path.join("samples", "compiled", name.replace(/[.]iotql/, ".json"));
     var contents = fs.readFileSync(iotql_path, 'utf-8');
 
@@ -75,4 +70,17 @@ names.map(function(name) {
     catch (x) {
         console.log("%s: failed: %s", name, ( "" + x ).replace(/\n.*$/gm, ''));
     }
-});
+};
+
+if (ad.all) {
+    var names = fs.readdirSync(samples_dir);
+    names.map(function(name) {
+        if (!name.match(/[.]iotql$/)) {
+            return;
+        }
+
+        doit(path.join("samples", name));
+    });
+} else {
+    ad._.map(doit);
+}
