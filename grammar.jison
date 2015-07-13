@@ -35,6 +35,7 @@
 "|"                     return 'BI-OPERATOR'
 "AND"                   return 'LOGIC-OPERATOR'
 "OR"                    return 'LOGIC-OPERATOR'
+"!"                     return 'LEFT-OPERATOR'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]*[:][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]*)+   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][*])   return 'SYMBOL-STAR'
@@ -46,6 +47,7 @@
 
 %left LOGIC-OPERATOR
 %left BI-OPERATOR
+%left LEFT-OPERATOR
 
 %%
 
@@ -119,6 +121,15 @@ D-SYMBOL:
     ;
 
 VALUE:
+    LEFT-OPERATOR VALUE
+    {{ $$ = {  
+            "compute": {
+                "operation": $1,
+                "operands": [ $2, ],
+            }
+        };
+    }}
+    |
     VALUE BI-OPERATOR VALUE
     {{ $$ = {  
             "compute": {

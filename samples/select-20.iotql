@@ -1,0 +1,4 @@
+-- DOUBLE negation of false things
+SELECT
+    !!0, !!"", !!'', !![], !!NULL
+;

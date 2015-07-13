@@ -1,0 +1,4 @@
+-- negation
+SELECT
+    !true
+;

@@ -1,0 +1,4 @@
+-- negation of true things
+SELECT
+    !1, !true, ![ 1 ], !"hi there"
+;

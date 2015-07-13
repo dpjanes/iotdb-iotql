@@ -53,6 +53,26 @@ var _list = function(a) {
     }
 }
 
+var _true = function(a) {
+    if (_.is.Equal(a, undefined)) {
+        return false;
+    } else if (_.is.Equal(a, null)) {
+        return false;
+    } else if (_.is.Equal(a, [])) {
+        return false;
+    } else if (_.is.Equal(a, {})) {
+        return false;
+    } else if (a === 0) {
+        return false;
+    } else if (a === false) {
+        return false;
+    } else if (a === "") {
+        return false;
+    } else {
+        return true;
+    }
+};
+
 /**
  *  These are functions that run over all items
  *  in the result set
@@ -198,6 +218,9 @@ var operatord = {
         } else {
             return false;
         }
+    },
+    "!": function(first, operands) {
+        return !_true(first);
     },
 }
 
