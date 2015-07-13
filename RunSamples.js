@@ -45,6 +45,14 @@ var _update_pre = function(a, b) {
     _.ld.extend(a, "bands", b.bands);
 };
 
+var _list = function(a) {
+    if (_.is.Array(a)) {
+        return a;
+    } else {
+        return [ a ];
+    }
+}
+
 /**
  *  These are functions that run over all items
  *  in the result set
@@ -135,6 +143,50 @@ var operatord = {
     ">=": function(first, operands) {
         if (operands.length === 2) {
             return operands[0] >= operands[1];
+        } else {
+            return false;
+        }
+    },
+    "in": function(first, operands) {
+        if (operands.length === 2) {
+            return _list(operands[1]).indexOf(operands[0]) > -1;
+        } else {
+            return false;
+        }
+    },
+    "&": function(first, operands) {
+        if (operands.length === 2) {
+            var as = _list(operands[0]);
+            var bs = _list(operands[1]);
+            var cs = [];
+
+            as.map(function(v) {
+                if ((cs.indexOf(v) === -1) && (bs.indexOf(v) !== -1)) {
+                    cs.push(v);
+                }
+            });
+
+            return cs;
+        } else {
+            return false;
+        }
+    },
+    "|": function(first, operands) {
+        if (operands.length === 2) {
+            var as = _list(operands[0]);
+            var bs = _list(operands[1]);
+
+            var cs = [];
+            var handle = function(v) {
+                if (cs.indexOf(v) === -1) {
+                    cs.push(v);
+                }
+            };
+
+            as.map(handle);
+            bs.map(handle);
+
+            return cs;
         } else {
             return false;
         }
