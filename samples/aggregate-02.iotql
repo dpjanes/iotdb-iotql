@@ -1,0 +1,5 @@
+-- aggregates on values
+SELECT
+    COUNT(state.sensor.temperature), SUM(state.sensor.temperature), 
+    MIN(state.sensor.temperature), MAX(state.sensor.temperature), AVG(state.sensor.temperature)
+;

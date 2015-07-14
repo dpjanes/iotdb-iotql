@@ -136,7 +136,8 @@ var aggregated = {
         if (when === WHEN_START) {
             column.a_min = null
         } else if (when === WHEN_ITEM) {
-            if (column.a_min === null) {
+            if (item === null) {
+            } else if (column.a_min === null) {
                 column.a_min = item;
             } else if (_.is.Number(column.a_min) && _.is.Number(item)) {
                 column.a_min = Math.min(column.a_min, item);
@@ -144,23 +145,24 @@ var aggregated = {
                 column.a_min = column.a_min < item ? column.a_min : item;
             }
         } else if (when === WHEN_END) {
-            return column.a_min;
+            column.result = column.a_min;
         }
     },
 
     max: function(item, column, when) {
         if (when === WHEN_START) {
-            column.a_max = null
+            column.a_max = null;
         } else if (when === WHEN_ITEM) {
-            if (column.a_max === null) {
+            if (item === null) {
+            } else if (column.a_max === null) {
                 column.a_max = item;
             } else if (_.is.Number(column.a_max) && _.is.Number(item)) {
                 column.a_max = Math.max(column.a_max, item);
             } else if (_.is.String(column.a_max) && _.is.String(item)) {
-                column.a_max = column.a_max < item ? column.a_max : item;
+                column.a_max = column.a_max > item ? column.a_max : item;
             }
         } else if (when === WHEN_END) {
-            return column.a_max;
+            column.result = column.a_max;
         }
     },
 };
@@ -178,7 +180,7 @@ var operatord = {
             return first;
         }
     },
-    max: function(first, operands) {
+    maximum: function(first, operands) {
         if (_.is.Array(first)) {
             var max = null;
             first.map(function(value) {
@@ -323,25 +325,16 @@ var operatord = {
         }
     },
     "avg": function(first, operands) {
-        if (_true(first)) {
-            return 1;
-        } else {
-            return null;
-        }
+        return first;
     },
-    "XXX-max": function(first, operands) {
-        if (_true(first)) {
-            return 1;
-        } else {
-            return null;
-        }
+    "sum": function(first, operands) {
+        return first;
+    },
+    "max": function(first, operands) {
+        return first;
     },
     "min": function(first, operands) {
-        if (_true(first)) {
-            return 1;
-        } else {
-            return null;
-        }
+        return first;
     },
 }
 
