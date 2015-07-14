@@ -41,7 +41,7 @@ var transporter = new FSTransport({
 
 var _update_pre = function(a, b) {
     a.query |= b.query;
-    a.aggregate |= b.aggregate;
+    a.aggregate = a.aggregate || b.aggregate;
     _.ld.extend(a, "bands", b.bands);
 };
 
@@ -73,21 +73,95 @@ var _true = function(a) {
     }
 };
 
+var _compatible = function(a, b) {
+    if (a === null) {
+        return (b === null);
+    } else if (_.is.String(a)) {
+        return _.is.String(b);
+    } else if (_.is.Number(a)) {
+        return _.is.Number(b);
+    } else {
+        return false;
+    }
+}
+
+var WHEN_START = "start";
+var WHEN_ITEM = "item";
+var WHEN_END = "end";
+
 /**
  *  These are functions that run over all items
  *  in the result set
  */
 var aggregated = {
-    count: function(item, scratch) {
+    count: function(item, column, when) {
+        if (when === WHEN_START) {
+            column.a_count = 0;
+        } else if (when === WHEN_ITEM) {
+            if (_.is.Number(item)) {
+                column.a_count += 1;
+            }
+        } else if (when === WHEN_END) {
+            column.result = column.a_count;
+        }
     },
 
-    avg: function(item, scratch) {
+    sum: function(item, column, when) {
+        if (when === WHEN_START) {
+            column.a_sum = 0;
+        } else if (when === WHEN_ITEM) {
+            if (_.is.Number(item)) {
+                column.a_sum += item;
+            }
+        } else if (when === WHEN_END) {
+            column.result = column.a_sum;
+        }
     },
 
-    min: function(item, scratch) {
+    avg: function(item, column, when) {
+        if (when === WHEN_START) {
+            column.a_sum = 0;
+            column.a_count = 0;
+        } else if (when === WHEN_ITEM) {
+            if (_.is.Number(item)) {
+                column.a_count += 1;
+                column.a_sum += item;
+            }
+        } else if (when === WHEN_END) {
+            column.result = column.a_sum / column.a_count;
+        }
     },
 
-    max: function(item, scratch) {
+    min: function(item, column, when) {
+        if (when === WHEN_START) {
+            column.a_min = null
+        } else if (when === WHEN_ITEM) {
+            if (column.a_min === null) {
+                column.a_min = item;
+            } else if (_.is.Number(column.a_min) && _.is.Number(item)) {
+                column.a_min = Math.min(column.a_min, item);
+            } else if (_.is.String(column.a_min) && _.is.String(item)) {
+                column.a_min = column.a_min < item ? column.a_min : item;
+            }
+        } else if (when === WHEN_END) {
+            return column.a_min;
+        }
+    },
+
+    max: function(item, column, when) {
+        if (when === WHEN_START) {
+            column.a_max = null
+        } else if (when === WHEN_ITEM) {
+            if (column.a_max === null) {
+                column.a_max = item;
+            } else if (_.is.Number(column.a_max) && _.is.Number(item)) {
+                column.a_max = Math.max(column.a_max, item);
+            } else if (_.is.String(column.a_max) && _.is.String(item)) {
+                column.a_max = column.a_max < item ? column.a_max : item;
+            }
+        } else if (when === WHEN_END) {
+            return column.a_max;
+        }
     },
 };
 
@@ -241,6 +315,34 @@ var operatord = {
 
         return false;
     },
+    "count": function(first, operands) {
+        if (_true(first)) {
+            return 1;
+        } else {
+            return null;
+        }
+    },
+    "avg": function(first, operands) {
+        if (_true(first)) {
+            return 1;
+        } else {
+            return null;
+        }
+    },
+    "XXX-max": function(first, operands) {
+        if (_true(first)) {
+            return 1;
+        } else {
+            return null;
+        }
+    },
+    "min": function(first, operands) {
+        if (_true(first)) {
+            return 1;
+        } else {
+            return null;
+        }
+    },
 }
 
 /**
@@ -252,7 +354,7 @@ var prevaluate = function(v, paramd) {
         return;
     } else {
         v.pre = {
-            aggregate: false,
+            aggregate: null,
             query: false,
             bands: [],
         };
@@ -265,8 +367,11 @@ var prevaluate = function(v, paramd) {
 
     if (v.operation) {
         v.operation = v.operation.toLowerCase();
-        if ([ "count", "max", "min", "avg" ].indexOf(v.operation) > -1) {
-            v.aggregate = true;
+
+        var aggregate = aggregated[v.operation];
+        if (aggregate) {
+            v.pre.aggregate = aggregate;
+            v.pre.query = true;
         }
     }
 
@@ -374,6 +479,10 @@ var evaluate = function(v, rowd) {
             throw new Error("operator not found: " + operation);
         }
 
+        if (v.compute.star) {
+            return operator(true, []);
+        }
+
         var operands = [];
         v.compute.operands.map(function(operand) {
             operands.push(evaluate(operand, rowd));
@@ -423,6 +532,7 @@ var do_select = function(statement, rowd, callback) {
  */
 var run_statement = function(transporter, statement, callback) {
     var pre = {
+        aggregate: null,
         query: false,
         bands: [],
     }
@@ -443,6 +553,10 @@ var run_statement = function(transporter, statement, callback) {
         });
 
         _update_pre(pre, column.pre);
+
+        if (column.pre.aggregate) {
+            column.pre.aggregate(null, column, WHEN_START);
+        }
     });
 
     // if there's state involved, we need the model too
@@ -452,13 +566,57 @@ var run_statement = function(transporter, statement, callback) {
 
     if (pre.query) {
         var pending = 1;
-        transporter.list(function(d) {
-            if (d.end) {
-                // console.log("HERE:DEC.1", pending);
+
+        var _wrap_callback = function(error, resultds) {
+            if (!callback) {
+                return;
+            } else if (error) {
+                callback(error, null);
+                callback = null;
+            } else if (pre.aggregate)  {
+                if (resultds !== null) {
+                    resultds.map(function(resultd) {
+                        var column = resultd.column;
+                        column.result = resultd.result;
+
+                        if (column.pre.aggregate) {
+                            column.pre.aggregate(resultd.result, column, WHEN_ITEM);
+                        }
+                    });
+                }
+
+
+                if (--pending === 0) {
+                    resultds = [];
+                    columns.map(function(column, index) {
+                        if (column.pre.aggregate) {
+                            column.pre.aggregate(null, column, WHEN_END);
+                        }
+
+                        resultds.push({
+                            index: index,
+                            result: column.result,
+                            column: column,
+                        });
+                    });
+
+                    callback(null, resultds);
+                    callback(null, null);
+                }
+            } else {
+                if (resultds !== null) {
+                    callback(error, resultds);
+                }
+
                 if (--pending === 0) {
                     callback(null, null);
                 }
+            }
+        };
 
+        transporter.list(function(d) {
+            if (d.end) {
+                _wrap_callback(null, null);
                 return;
             }
 
@@ -471,24 +629,6 @@ var run_statement = function(transporter, statement, callback) {
                 meta: {},
                 units: {},
                 facets: {},
-            };
-
-            var _wrap_callback = function(error, resultds) {
-                if (!callback) {
-                    return;
-                } else if (error) {
-                    callback(error, null);
-                    callback = null;
-                } else {
-                    if (resultds !== null) {
-                        callback(error, resultds);
-                    }
-
-                    // console.log("HERE:DEC.2", pending);
-                    if (--pending === 0) {
-                        callback(null, null);
-                    }
-                }
             };
 
             var _do_if_match = function() {
@@ -601,7 +741,10 @@ var run_path = function(transporter, iotql_path) {
                     console.log("%s: ok", name);
                 }
             } else {
-                console.log("%s: ok", name);
+                console.log("-- %s: ok", name);
+                resultds.map(function(resultd, index) {
+                    console.log("%s: %s", index, resultd.result);
+                });
             }
         });
     });
@@ -623,41 +766,3 @@ if (ad.all) {
         run_path(transporter, iotql_path);
     });
 }
-
-
-/*
-
-
-    var iotql_path = path.join("samples", name);
-    var iotql_script = fs.readFileSync(iotql_path, 'utf-8');
-    var text_path = path.join("samples", name.replace(/[.]iotql/, ".json"));
-
-    try {
-        var parsed = parser.parse(iotql_script);
-
-        if (ad.write) {
-            fs.writeFileSync(text_path, JSON.stringify(parsed, null, 2));
-            console.log("%s: ok: wrote", name, text_path);
-        } else if (ad.test) {
-            var want = JSON.stringify(parsed, null, 2);
-            var got = null;
-            try {
-                got = fs.readFileSync(text_path, 'utf-8');
-            }
-            catch (x) {
-            }
-            if (want !== got) {
-                console.log(got, want);
-                console.log("%s: changed", name);
-            } else {
-                console.log("%s: ok", name);
-            }
-        } else {
-            console.log("%s: ok", name);
-        }
-    }
-    catch (x) {
-        console.log("%s: failed: %s", name, ( "" + x ).replace(/\n.*$/gm, ''));
-    }
-});
-*/

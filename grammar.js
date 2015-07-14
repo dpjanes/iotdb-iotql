@@ -109,15 +109,19 @@ case 9:
 break;
 case 10:
  this.$ = {
-        "operator": $$[$0-3],
-        "all": true,
+        "compute": {
+            "operation": $$[$0-3],
+            "star": true,
+        }
       }
     
 break;
 case 11:
  this.$ = {
-        "operator": $$[$0-5],
-        "all": true,
+        "compute": {
+            "operation": $$[$0-5],
+            "star": true,
+        },
         "column": $$[$0],
       }
     

@@ -91,15 +91,19 @@ SELECT-TERM:
     |
     SYMBOL-SIMPLE "(" STAR ")"
     {{ $$ = {
-        "operator": $1,
-        "all": true,
+        "compute": {
+            "operation": $1,
+            "star": true,
+        }
       }
     }}
     |
     SYMBOL-SIMPLE "(" STAR ")" "AS" SYMBOL-SIMPLE
     {{ $$ = {
-        "operator": $1,
-        "all": true,
+        "compute": {
+            "operation": $1,
+            "star": true,
+        },
         "column": $6,
       }
     }}
