@@ -75,6 +75,7 @@ When the front door is opened, the code in the BEGIN / END clause is run.
 	
 Note: 
 
+* the main issue with this one is if the lights are already on, or somewhere turns them on, they'll turn off because of this rule. There almost has to be some sort of "incrementing" system.		
 * what happens if it is triggered again? we need modes, to allow multiple to run at a time, cancel the one running, cancel the one being triggered.
 * these rules have to apply per-thing, right?
 * note the pythonic named arguments (minutes=10) to a function
@@ -110,6 +111,20 @@ Ideas:
 			meta.facet & facet.lighting
 		AND
 			meta.zone & "Outdoors"
+	END
+	
+### Sequences
+
+This may be a hack - allow multiple WHENs in a row?
+
+	CREATE TRIGGER
+		something
+	WHEN
+		state.on = true
+	WHEN
+		state.on = falde
+	BEGIN
+		-- the lights were turned on and off
 	END
 	
 ## Views & Timeseries
@@ -163,3 +178,7 @@ This is where it gets fun.
 Notes:
 
 * note the functions with "." in them
+* it would be nice to tie this into data stores for super-long queries, e.g. highest temperature this month.
+
+
+

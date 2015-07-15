@@ -159,62 +159,6 @@ Note that since we accept Pythonic type trues, so we could also do
 	WHERE
 		state.on
 					
-### Create a scene with multiple actions
-
-	CREATE SCENE
-		goodnight
-	BEGIN
-	    SET
-		    state.temperature = UNITS(18,units.temperature.metric.celsius)
-	    AND 
-		    meta.facet & facets.climate.heating
-		;
-		SET
-			state.on = false
-	    WHERE
-		    meta.zone & [ "Basement", "Main Floor" ]
-	    AND
-		    meta.facet & lighting
-	END
-	
-### Create a scene with one action and an argument
-
-	CREATE SCENE
-		lights(value)
-	SET
-		state.on = :value
-	WHERE
-		meta.facet & lighting
-		
-### Run a scene
-
-	DO goodnight
-	
-### Create a trigger
-
-	CREATE TRIGGER
-		front_door_light
-	SELECT
-		state.open = true
-	WHERE
-		meta.name = "Front Door Contact Switch"
-	BEGIN
-		SET
-			state.on = true
-		WHERE
-			meta.name = "Front Door Light"
-			;
-		DELAY
-			MINUTES(10)
-		SET
-			state.on = false
-		WHERE
-			meta.name = "Front Door Light"
-			;
-	END
-	
-The main issue with this one is if the lights are already on, or somewhere turns them on, they'll turn off because of this rule. There almost has to be some sort of "incrementing" system.		
-
 	
 ## Select everything that is in the Interstitial State
 
