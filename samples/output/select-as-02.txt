@@ -1,3 +1,6 @@
+-- thing-03
+-- Lights (03)
+--
 -- thing-02
 -- Thing 2
 --
