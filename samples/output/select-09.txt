@@ -1,8 +1,4 @@
--- selecting an id
-SELECT
-    id
-;
-------------
--- RESULT --
-------------
+-- thing-02
+--
 -- thing-01
+--

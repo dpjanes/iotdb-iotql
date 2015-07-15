@@ -1,10 +1,2 @@
--- select a thing by ID
-SELECT
-    id
-WHERE
-    id = "thing-01"
-;
-------------
--- RESULT --
-------------
 -- thing-01
+--

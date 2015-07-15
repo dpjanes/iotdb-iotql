@@ -1,8 +1,2 @@
--- selecting a string, results in the string
-SELECT
-    "hello"
-;
-------------
--- RESULT --
-------------
 -- hello
+--

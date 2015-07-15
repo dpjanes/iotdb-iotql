@@ -1,12 +1,6 @@
--- DOUBLE negation of false things
-SELECT
-    !!0, !!"", !!'', !![], !!NULL
-;
-------------
--- RESULT --
-------------
 -- false
 -- false
 -- false
 -- false
 -- false
+--

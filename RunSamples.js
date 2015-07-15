@@ -698,18 +698,23 @@ var run_path = function(transporter, iotql_path) {
     var text_path = path.join("samples", "output", name.replace(/[.]iotql/, ".txt"));
 
     iotql_compiled.map(function(statement) {
+        var resultdss = [];
         run_statement(transporter, statement, function(error, resultds) {
             if (error) {
                 console.log("RESULT-ERROR", error, resultds);
-            } else if (!resultds) {
                 return;
-            } else {
-                // console.log("RESULT", resultds);
+            } else if (resultds) {
+                resultdss.push(resultds);
+                return;
             }
 
-            var results = [ iotql_script.replace(/[ \n\t]*$/mg, ""), "------------", "-- RESULT --", "------------" ];
-            resultds.map(function(resultd) {
-                results.push("-- " + resultd.result);
+            var script = [ iotql_script.replace(/[ \n\t]*$/mg, ""), "------------", "-- RESULT --", "------------" ];
+            var results = [];
+            resultdss.map(function(resultds) {
+                resultds.map(function(resultd) {
+                    results.push("-- " + resultd.result);
+                });
+                results.push("--");
             });
 
             var text = results.join("\n") + "\n";
@@ -726,15 +731,27 @@ var run_path = function(transporter, iotql_path) {
                 catch (x) {
                 }
                 if (want !== got) {
-                    console.log(got, want);
+                    console.log("-----");
                     console.log("%s: changed", name);
+                    console.log("------");
+                    console.log("-- WANT");
+                    console.log("------");
+                    console.log("%s", want);
+                    console.log("------");
+                    console.log("-- GOT");
+                    console.log("------");
+                    console.log("%s", got);
+                    console.log("------");
                 } else {
                     console.log("%s: ok", name);
                 }
             } else {
                 console.log("-- %s: ok", name);
-                resultds.map(function(resultd, index) {
-                    console.log("%s: %s", index, resultd.result);
+                resultdss.map(function(resultds) {
+                    console.log("--");
+                    resultds.map(function(resultd, index) {
+                        console.log("%s: %s", index, resultd.result);
+                    });
                 });
             }
         });

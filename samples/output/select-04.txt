@@ -1,8 +1,2 @@
--- selecting true, results in the same
-SELECT
-    true
-;
-------------
--- RESULT --
-------------
 -- true
+--

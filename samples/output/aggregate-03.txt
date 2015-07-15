@@ -1,10 +1,4 @@
--- aggregates on strings (MIN & MAX only)
-SELECT
-    COUNT(state.sensor.temperature), MIN(meta.name), MAX(meta.name)
-;
-------------
--- RESULT --
-------------
 -- 2
 -- The Name
 -- Thing 2
+--

@@ -1,11 +1,3 @@
--- select a thing by name
-SELECT
-    id, meta.name
-WHERE
-    meta.name = "The Name"
-;
-------------
--- RESULT --
-------------
 -- thing-01
 -- The Name
+--

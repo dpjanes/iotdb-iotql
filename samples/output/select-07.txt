@@ -1,12 +1,6 @@
--- selecting a bunch of things
-SELECT
-    "abc", 123, 999.123, true, false
-;
-------------
--- RESULT --
-------------
 -- abc
 -- 123
 -- 999.123
 -- true
 -- false
+--

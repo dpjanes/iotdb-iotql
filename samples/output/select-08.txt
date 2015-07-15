@@ -1,8 +1,2 @@
--- select null
-SELECT
-    NULL
-;
-------------
--- RESULT --
-------------
 -- null
+--

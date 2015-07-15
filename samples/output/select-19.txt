@@ -1,12 +1,6 @@
--- negation of false things
-SELECT
-    !0, !"", !'', ![], !NULL
-;
-------------
--- RESULT --
-------------
 -- true
 -- true
 -- true
 -- true
 -- true
+--

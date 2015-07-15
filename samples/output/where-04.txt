@@ -1,12 +1,8 @@
--- select a thing by value (<=)
-SELECT
-    id, meta.name, state.sensor.temperature
-WHERE
-    state.sensor.temperature <= 20;
-;
-------------
--- RESULT --
-------------
+-- thing-02
+-- Thing 2
+-- 16
+--
 -- thing-01
 -- The Name
 -- 20
+--

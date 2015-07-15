@@ -1,8 +1,2 @@
--- selecting an integer, results in the same
-SELECT
-    121
-;
-------------
--- RESULT --
-------------
 -- 121
+--

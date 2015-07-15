@@ -1,8 +1,2 @@
--- another dot-list
-SELECT
-    facets.climate.heating
-;
-------------
--- RESULT --
-------------
 -- iot-facet:climate.heating
+--
