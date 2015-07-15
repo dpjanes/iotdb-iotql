@@ -356,6 +356,26 @@ var prevaluate = function(v, paramd) {
         };
     }
 
+    if (v.where) {
+        v.pre.query = true;
+        prevaluate(v.where);
+        _update_pre(v.pre, v.where.pre);
+    }
+
+    if (v.select) {
+        _.ld.list(v, "select", []).map(function(column) {
+            prevaluate(column, paramd);
+            _update_pre(v.pre, column.pre);
+        });
+    }
+
+    if (v.set) {
+        _.ld.list(v, "set", []).map(function(set) {
+            prevaluate(set, paramd);
+            _update_pre(v.pre, set.pre);
+        })
+    }
+
     if (v.compute) {
         prevaluate(v.compute, paramd);
         _update_pre(v.pre, v.compute.pre);
@@ -528,78 +548,6 @@ var evaluate = function(v, rowd) {
 }
 
 /**
- *  This does the select part for the particular row.
- *  The 'callback' function is called with (error, row-results)
- */
-var do_select = function(statement, rowd, callback) {
-    var resultds = [];
-
-    var columns = _.ld.list(statement, "select", []);
-    columns.map(function(column, index) {
-        resultds.push({
-            index: index,
-            column: column,
-            result: evaluate(column, rowd),
-        });
-    });
-
-    callback(null, resultds)
-};
-
-/**
- *  This does the 'SET' part
- */
-var do_set = function(statement, rowd, callback) {
-    var resultds = [];
-    var updated = {};
-
-    var sets = _.ld.list(statement, "set", []);
-    sets.map(function(setd, index) {
-        var value = evaluate(setd.rhs, rowd);
-        var band = setd.lhs.band;
-        var selector = setd.lhs.selector;
-
-        if (!band) {
-            return callback(new Error("no band?"));
-        } else if ([ "istate", "ostate", "meta", ].indexOf(band) === -1) {
-            return callback(new Error("bad band: " + band));
-        } else if (!selector) {
-            return callback(new Error("no band selector?"));
-        }
-
-        var bd = updated[band]
-        if (bd === undefined) {
-            bd = {};
-            updated[band] = bd;
-        }
-
-        var code = null;
-
-        // selectors on state need to be looked up in the model
-        if ((band === "istate") || (band === "ostate")) {
-            var attributes = _.ld.list(rowd.model, "iot:attribute", []);
-            attributes.map(function(attribute) {
-                if (code) {
-                } else if (_.ld.contains(attribute, "iot:purpose", selector)) {
-                    code = _.ld.first(attribute, "@id", "");
-                    code = code.replace(/^.*?#/, '');
-                }
-            });
-        } else {
-            code = selector;
-        }
-
-        if (code === null) {
-            return callback(new Error("code for attribute not found: " + selector));
-        }
-
-        bd[code] = value;
-    });
-
-    callback(null, updated)
-};
-
-/**
  *  This executes a complete statement. The callback
  *  is called with (null, row-results) for each
  *  row, and then (null, null) when finished. If 
@@ -662,35 +610,32 @@ var fetch_bands = function(transporter, id, bands, callback) {
 };
 
 /**
+ *  This does the select part for the particular row.
+ *  The 'callback' function is called with (error, row-results)
+ */
+var do_select = function(statement, rowd, callback) {
+    var resultds = [];
+
+    var columns = _.ld.list(statement, "select", []);
+    columns.map(function(column, index) {
+        resultds.push({
+            index: index,
+            column: column,
+            result: evaluate(column, rowd),
+        });
+    });
+
+    callback(null, resultds)
+};
+
+/**
  *  This does SELECT
  */
 var run_statement_select = function(transporter, statement, callback) {
-    var pre = {
-        aggregate: null,
-        query: false,
-        bands: [],
-    }
-
-    if (statement.where) {
-        pre.query = true;
-        prevaluate(statement.where);
-
-        _update_pre(pre, statement.where.pre);
-    }
-
-    var columns = _.ld.list(statement, "select", []);
-    columns.map(function(column) {
-        prevaluate(column);
-
-        _update_pre(pre, column.pre);
-
-        if (column.pre.aggregate) {
-            column.pre.aggregate(null, column, WHEN_START);
-        }
-    });
+    prevaluate(statement);
 
     // fast mode
-    if (!pre.query) {
+    if (!statement.pre.query) {
         do_select(statement, {
             id: null,
             istate: {},
@@ -708,6 +653,13 @@ var run_statement_select = function(transporter, statement, callback) {
     }
 
     // query mode
+    var columns = _.ld.list(statement, "select", []);
+    columns.map(function(column) {
+        if (column.pre.aggregate) {
+            column.pre.aggregate(null, column, WHEN_START);
+        }
+    });
+
     var pending = 1;
 
     var _wrap_callback = function(error, resultds) {
@@ -716,7 +668,7 @@ var run_statement_select = function(transporter, statement, callback) {
         } else if (error) {
             callback(error, null);
             callback = null;
-        } else if (pre.aggregate)  {
+        } else if (statement.pre.aggregate)  {
             if (resultds !== null) {
                 resultds.map(function(resultd) {
                     var column = resultd.column;
@@ -764,7 +716,7 @@ var run_statement_select = function(transporter, statement, callback) {
         } else {
             pending++;
 
-            fetch_bands(transporter, d.id, pre.bands, function(error, rowd) {
+            fetch_bands(transporter, d.id, statement.pre.bands, function(error, rowd) {
                 if (!statement.where || evaluate(statement.where, rowd)) {
                     do_select(statement, rowd, _wrap_callback);
                 } else {
@@ -776,47 +728,81 @@ var run_statement_select = function(transporter, statement, callback) {
 };
 
 /**
+ *  This does the 'SET' part
+ */
+var do_set = function(statement, rowd, callback) {
+    var resultds = [];
+    var updated = {};
+
+    var sets = _.ld.list(statement, "set", []);
+    sets.map(function(setd, index) {
+        var value = evaluate(setd.rhs, rowd);
+        var band = setd.lhs.band;
+        var selector = setd.lhs.selector;
+
+        if (!band) {
+            return callback(new Error("no band?"));
+        } else if ([ "istate", "ostate", "meta", ].indexOf(band) === -1) {
+            return callback(new Error("bad band: " + band));
+        } else if (!selector) {
+            return callback(new Error("no band selector?"));
+        }
+
+        var bd = updated[band]
+        if (bd === undefined) {
+            bd = {};
+            updated[band] = bd;
+        }
+
+        var code = null;
+
+        // selectors on state need to be looked up in the model
+        if ((band === "istate") || (band === "ostate")) {
+            var attributes = _.ld.list(rowd.model, "iot:attribute", []);
+            attributes.map(function(attribute) {
+                if (code) {
+                } else if (_.ld.contains(attribute, "iot:purpose", selector)) {
+                    code = _.ld.first(attribute, "@id", "");
+                    code = code.replace(/^.*?#/, '');
+                }
+            });
+        } else {
+            code = selector;
+        }
+
+        if (code === null) {
+            return callback(new Error("code for attribute not found: " + selector));
+        }
+
+        bd[code] = value;
+    });
+
+    callback(null, updated)
+};
+
+/**
  *  SET statement
  */
 var run_statement_set = function(transporter, statement, callback) {
-    var pre = {
-        aggregate: null,
-        query: false,
-        bands: [],
-    }
-
-    if (statement.where) {
-        pre.query = true;
-        prevaluate(statement.where);
-
-        _update_pre(pre, statement.where.pre);
-    }
+    prevaluate(statement);
 
     var sets = _.ld.list(statement, "set", []);
     sets.map(function(column) {
-        prevaluate(column);
-
         column.aggregate = null;
-        _update_pre(pre, column.pre);
     });
-
-    // if there's state involved, we need the model too
-    if ((pre.bands.indexOf('istate') > -1) || (pre.bands.indexOf('ostate') > -1)) {
-        _.ld.add(pre, "bands", "model");
-    }
 
     // run it
     var pending = 1;
 
-    var _wrap_callback = function(error, resultds) {
+    var _wrap_callback = function(error, updatedd) {
         if (!callback) {
             return;
         } else if (error) {
             callback(error, null);
             callback = null;
         } else {
-            if (resultds) {
-                console.log("HERE:XXX", resultds);
+            if (updatedd) {
+                console.log("RESULT!", updatedd);
             }
 
             if (--pending === 0) {
@@ -832,9 +818,10 @@ var run_statement_set = function(transporter, statement, callback) {
         } else if (d.error) {
             _wrap_callback(error, null);
         } else {
-            fetch_bands(transporter, d.id, pre.bands, function(error, rowd) {
+            ++pending;
+            fetch_bands(transporter, d.id, statement.pre.bands, function(error, rowd) {
                 if (!statement.where || evaluate(statement.where, rowd)) {
-                    do_select(statement, rowd, _wrap_callback);
+                    do_set(statement, rowd, _wrap_callback);
                 } else {
                     _wrap_callback(null, null);
                 }
