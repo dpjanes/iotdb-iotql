@@ -386,7 +386,11 @@ var prevaluate = function(v, paramd) {
     }
 
     if (v.lhs) {
+        var o = paramd.state;
+        paramd.state = "ostate";
         prevaluate(v.lhs, paramd);
+        paramd.state = o;
+
         _update_pre(v.pre, v.lhs.pre);
     }
 
@@ -543,6 +547,7 @@ var do_select = function(statement, rowd, callback) {
  */
 var do_set = function(statement, rowd, callback) {
     var resultds = [];
+    var updated = {};
 
     var sets = _.ld.list(statement, "set", []);
     sets.map(function(setd, index) {
@@ -558,25 +563,36 @@ var do_set = function(statement, rowd, callback) {
             return callback(new Error("no band selector?"));
         }
 
-        var bd = rowd.set[band]
+        var bd = updated[band]
         if (bd === undefined) {
             bd = {};
-            rowd.set[band] = bd;
+            updated[band] = bd;
         }
 
-        bd[selector] = value;
-        console.log("HERE:AAA", rowd)
-        /*
+        var code = null;
 
-        resultds.push({
-            index: index,
-            column: column,
-            result: evaluate(column, rowd),
-        });
-        */
+        // selectors on state need to be looked up in the model
+        if ((band === "istate") || (band === "ostate")) {
+            var attributes = _.ld.list(rowd.model, "iot:attribute", []);
+            attributes.map(function(attribute) {
+                if (code) {
+                } else if (_.ld.contains(attribute, "iot:purpose", selector)) {
+                    code = _.ld.first(attribute, "@id", "");
+                    code = code.replace(/^.*?#/, '');
+                }
+            });
+        } else {
+            code = selector;
+        }
+
+        if (code === null) {
+            return callback(new Error("code for attribute not found: " + selector));
+        }
+
+        bd[code] = value;
     });
 
-    callback(null, null)
+    callback(null, updated)
 };
 
 /**
@@ -584,6 +600,9 @@ var do_set = function(statement, rowd, callback) {
  *  is called with (null, row-results) for each
  *  row, and then (null, null) when finished. If 
  *  an error is ever reported, we are finished
+ *
+ *  This is a mess of spaghetti code and should be split into
+ *  separate functions for SET, SELECT, &c
  */
 var run_statement = function(transporter, statement, callback) {
     var pre = {
@@ -604,7 +623,7 @@ var run_statement = function(transporter, statement, callback) {
     var columns = _.ld.list(statement, "select", []);
     columns.map(function(column) {
         prevaluate(column, {
-            "state": "istate",
+            "state": "istate",  
         });
 
         _update_pre(pre, column.pre);
@@ -617,7 +636,7 @@ var run_statement = function(transporter, statement, callback) {
     var sets = _.ld.list(statement, "set", []);
     sets.map(function(column) {
         prevaluate(column, {
-            "state": "ostate",
+            "state": "istate",// it will be switch to istate for lhs
         });
 
         column.aggregate = null;
@@ -638,6 +657,15 @@ var run_statement = function(transporter, statement, callback) {
             } else if (error) {
                 callback(error, null);
                 callback = null;
+            } else if (sets.length) {
+                if (resultds) {
+                    console.log("HERE:XXX", resultds);
+                }
+
+                if (--pending === 0) {
+                    callback(null, null);
+                    callback = null;
+                }
             } else if (pre.aggregate)  {
                 if (resultds !== null) {
                     resultds.map(function(resultd) {
@@ -698,11 +726,6 @@ var run_statement = function(transporter, statement, callback) {
             };
 
             var _do_if_match = function() {
-                /*
-                console.log("------");
-                console.log("WHERE", statement.where);
-                console.log("ROWD", rowd);
-                 */
                 if (!statement.where || evaluate(statement.where, rowd)) {
                     if (columns.length) {
                         do_select(statement, rowd, _wrap_callback);
