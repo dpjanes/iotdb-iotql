@@ -336,12 +336,18 @@ var operatord = {
     },
 }
 
+var DB = function(transporter) {
+    this.transporter = transporter;
+};
+
 /**
  *  This goes though a definitions
  *  and figures out things about it. Safe
  *  to call multiple times.
  */
-var prevaluate = function(v, paramd) {
+DB.prototype.prevaluate = function(v, paramd) {
+    var self = this;
+
     paramd = _.defaults(paramd, {
         state: "istate",
     });
@@ -358,26 +364,26 @@ var prevaluate = function(v, paramd) {
 
     if (v.where) {
         v.pre.query = true;
-        prevaluate(v.where);
+        self.prevaluate(v.where);
         _update_pre(v.pre, v.where.pre);
     }
 
     if (v.select) {
         _.ld.list(v, "select", []).map(function(column) {
-            prevaluate(column, paramd);
+            self.prevaluate(column, paramd);
             _update_pre(v.pre, column.pre);
         });
     }
 
     if (v.set) {
         _.ld.list(v, "set", []).map(function(set) {
-            prevaluate(set, paramd);
+            self.prevaluate(set, paramd);
             _update_pre(v.pre, set.pre);
         })
     }
 
     if (v.compute) {
-        prevaluate(v.compute, paramd);
+        self.prevaluate(v.compute, paramd);
         _update_pre(v.pre, v.compute.pre);
     }
 
@@ -393,27 +399,27 @@ var prevaluate = function(v, paramd) {
 
     if (v.operands) {
         v.operands.map(function(operand) {
-            prevaluate(operand, paramd);
+            self.prevaluate(operand, paramd);
             _update_pre(v.pre, operand.pre);
         });
     } 
 
     if (v.list) {
         v.list.map(function(item) {
-            prevaluate(item, paramd);
+            self.prevaluate(item, paramd);
             _update_pre(v.pre, item.pre);
         });
     }
 
     if (v.rhs) {
-        prevaluate(v.rhs, paramd);
+        self.prevaluate(v.rhs, paramd);
         _update_pre(v.pre, v.rhs.pre);
     }
 
     if (v.lhs) {
         var o = paramd.state;
         paramd.state = "ostate";
-        prevaluate(v.lhs, paramd);
+        self.prevaluate(v.lhs, paramd);
         paramd.state = o;
 
         _update_pre(v.pre, v.lhs.pre);
@@ -464,7 +470,9 @@ var prevaluate = function(v, paramd) {
     } 
 }
 
-var evaluate = function(v, rowd) {
+DB.prototype.evaluate = function(v, rowd) {
+    var self = this;
+
     if (rowd === undefined) {
         console.trace();
         throw new Error("called wrong");
@@ -527,7 +535,7 @@ var evaluate = function(v, rowd) {
 
         var operands = [];
         v.compute.operands.map(function(operand) {
-            operands.push(evaluate(operand, rowd));
+            operands.push(self.evaluate(operand, rowd));
         });
 
         if (operands.length === 0) {
@@ -538,7 +546,7 @@ var evaluate = function(v, rowd) {
     } else if (v.list) {
         var rs = [];
         v.list.map(function(value) {
-            rs.push(evaluate(value, rowd));
+            rs.push(self.evaluate(value, rowd));
         });
         return rs;
     } else {
@@ -556,21 +564,25 @@ var evaluate = function(v, rowd) {
  *  This is a mess of spaghetti code and should be split into
  *  separate functions for SET, SELECT, &c
  */
-var run_statement = function(transporter, statement, callback) {
+DB.prototype.run_statement = function(statement, callback) {
+    var self = this;
+
     if (_.ld.list(statement, "select")) {
-        run_statement_select(transporter, statement, callback);
+        self.run_statement_select(statement, callback);
     } else if (_.ld.list(statement, "set")) {
-        run_statement_set(transporter, statement, callback);
+        self.run_statement_set(statement, callback);
     } else {
         throw new Error("expected SELECT or SET");
     }
 }
 
 /**
- *  This will get all the bands from the transporter,
+ *  This will get all the bands from the self.transporter,
  *  then when the data is in place, call the callback
  */
-var fetch_bands = function(transporter, id, bands, callback) {
+DB.prototype.fetch_bands = function(id, bands, callback) {
+    var self = this;
+
     var bands = _.clone(bands);
 
     if ((bands.indexOf('istate') > -1) || (bands.indexOf('ostate') > -1)) {
@@ -594,7 +606,7 @@ var fetch_bands = function(transporter, id, bands, callback) {
 
     bands.map(function(band) {
         band_count++;
-        transporter.get({
+        self.transporter.get({
             id: id,
             band: band,
         }, function(gd) {
@@ -613,7 +625,9 @@ var fetch_bands = function(transporter, id, bands, callback) {
  *  This does the select part for the particular row.
  *  The 'callback' function is called with (error, row-results)
  */
-var do_select = function(statement, rowd, callback) {
+DB.prototype.do_select = function(statement, rowd, callback) {
+    var self = this;
+
     var resultds = [];
 
     var columns = _.ld.list(statement, "select", []);
@@ -621,7 +635,7 @@ var do_select = function(statement, rowd, callback) {
         resultds.push({
             index: index,
             column: column,
-            result: evaluate(column, rowd),
+            result: self.evaluate(column, rowd),
         });
     });
 
@@ -631,12 +645,14 @@ var do_select = function(statement, rowd, callback) {
 /**
  *  This does SELECT
  */
-var run_statement_select = function(transporter, statement, callback) {
-    prevaluate(statement);
+DB.prototype.run_statement_select = function(statement, callback) {
+    var self = this;
+
+    self.prevaluate(statement);
 
     // fast mode
     if (!statement.pre.query) {
-        do_select(statement, {
+        self.do_select(statement, {
             id: null,
             istate: {},
             ostate: {},
@@ -708,7 +724,7 @@ var run_statement_select = function(transporter, statement, callback) {
         }
     };
 
-    transporter.list(function(d) {
+    self.transporter.list(function(d) {
         if (d.end) {
             _wrap_callback(null, null);
         } else if (d.error) {
@@ -716,9 +732,9 @@ var run_statement_select = function(transporter, statement, callback) {
         } else {
             pending++;
 
-            fetch_bands(transporter, d.id, statement.pre.bands, function(error, rowd) {
-                if (!statement.where || evaluate(statement.where, rowd)) {
-                    do_select(statement, rowd, _wrap_callback);
+            self.fetch_bands(d.id, statement.pre.bands, function(error, rowd) {
+                if (!statement.where || self.evaluate(statement.where, rowd)) {
+                    self.do_select(statement, rowd, _wrap_callback);
                 } else {
                     _wrap_callback(null, null);
                 }
@@ -730,13 +746,15 @@ var run_statement_select = function(transporter, statement, callback) {
 /**
  *  This does the 'SET' part
  */
-var do_set = function(statement, rowd, callback) {
+DB.prototype.do_set = function(statement, rowd, callback) {
+    var self = this;
+
     var resultds = [];
     var updated = {};
 
     var sets = _.ld.list(statement, "set", []);
     sets.map(function(setd, index) {
-        var value = evaluate(setd.rhs, rowd);
+        var value = self.evaluate(setd.rhs, rowd);
         var band = setd.lhs.band;
         var selector = setd.lhs.selector;
 
@@ -783,8 +801,10 @@ var do_set = function(statement, rowd, callback) {
 /**
  *  SET statement
  */
-var run_statement_set = function(transporter, statement, callback) {
-    prevaluate(statement);
+DB.prototype.run_statement_set = function(statement, callback) {
+    var self = this;
+
+    self.prevaluate(statement);
 
     var sets = _.ld.list(statement, "set", []);
     sets.map(function(column) {
@@ -812,16 +832,16 @@ var run_statement_set = function(transporter, statement, callback) {
         }
     };
 
-    transporter.list(function(d) {
+    self.transporter.list(function(d) {
         if (d.end) {
             _wrap_callback(null, null);
         } else if (d.error) {
             _wrap_callback(error, null);
         } else {
             ++pending;
-            fetch_bands(transporter, d.id, statement.pre.bands, function(error, rowd) {
-                if (!statement.where || evaluate(statement.where, rowd)) {
-                    do_set(statement, rowd, _wrap_callback);
+            self.fetch_bands(d.id, statement.pre.bands, function(error, rowd) {
+                if (!statement.where || self.evaluate(statement.where, rowd)) {
+                    self.do_set(statement, rowd, _wrap_callback);
                 } else {
                     _wrap_callback(null, null);
                 }
@@ -833,7 +853,9 @@ var run_statement_set = function(transporter, statement, callback) {
 /**
  *  Run the IoTQL program at the path
  */
-var run_path = function(transporter, iotql_path) {
+DB.prototype.run_path = function(iotql_path) {
+    var self = this;
+
     try {
         var iotql_script = fs.readFileSync(iotql_path, 'utf-8');
         var iotql_compiled = parser.parse(iotql_script);
@@ -848,7 +870,7 @@ var run_path = function(transporter, iotql_path) {
 
     iotql_compiled.map(function(statement) {
         var resultdss = [];
-        run_statement(transporter, statement, function(error, resultds) {
+        self.run_statement(statement, function(error, resultds) {
             if (error) {
                 console.log("RESULT-ERROR", error, resultds);
                 return;
@@ -914,6 +936,8 @@ child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
 var transporter = new FSTransport({
     prefix: "samples/.things",
 });
+var db = new DB(transporter);
+
 if (ad.all) {
     var samples_dir = "samples";
 
@@ -923,10 +947,10 @@ if (ad.all) {
             return;
         }
 
-        run_path(transporter, path.join("samples", name));
+        db.run_path(path.join("samples", name));
     });
 } else if (ad._.length) {
     ad._.map(function(iotql_path) {
-        run_path(transporter, iotql_path);
+        db.run_path(iotql_path);
     });
 }
