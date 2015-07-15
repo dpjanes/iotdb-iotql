@@ -1,0 +1,5 @@
+SET
+    meta.facet = [ facets.climate, facets.climate.heating, facets.sensor, facets.sensor.temperature ]
+WHERE
+    meta.name = "The Name"
+;

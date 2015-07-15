@@ -1,5 +1,5 @@
 SET
     meta.name = "Thing 01"
 WHERE
-    id = "thing-01"
+    meta.name = "The Name"
 ;
