@@ -372,7 +372,24 @@ var prevaluate = function(v, paramd) {
             _update_pre(v.pre, operand.pre);
         });
     } 
-    
+
+    if (v.list) {
+        v.list.map(function(item) {
+            prevaluate(item, paramd);
+            _update_pre(v.pre, item.pre);
+        });
+    }
+
+    if (v.rhs) {
+        prevaluate(v.rhs, paramd);
+        _update_pre(v.pre, v.rhs.pre);
+    }
+
+    if (v.lhs) {
+        prevaluate(v.lhs, paramd);
+        _update_pre(v.pre, v.lhs.pre);
+    }
+
     if (v.actual) {
     } 
     
@@ -419,6 +436,12 @@ var prevaluate = function(v, paramd) {
 }
 
 var evaluate = function(v, rowd) {
+    //
+    if (rowd === undefined) {
+        console.trace();
+        throw new Error("called wrong");
+    }
+
     if (v.actual !== undefined) {
         return v.actual;
     } else if (v.id) {
@@ -513,6 +536,47 @@ var do_select = function(statement, rowd, callback) {
     });
 
     callback(null, resultds)
+};
+
+/**
+ *  This does the 'SET' part
+ */
+var do_set = function(statement, rowd, callback) {
+    var resultds = [];
+
+    var sets = _.ld.list(statement, "set", []);
+    sets.map(function(setd, index) {
+        var value = evaluate(setd.rhs, rowd);
+        var band = setd.lhs.band;
+        var selector = setd.lhs.selector;
+
+        if (!band) {
+            return callback(new Error("no band?"));
+        } else if ([ "istate", "ostate", "meta", ].indexOf(band) === -1) {
+            return callback(new Error("bad band: " + band));
+        } else if (!selector) {
+            return callback(new Error("no band selector?"));
+        }
+
+        var bd = rowd.set[band]
+        if (bd === undefined) {
+            bd = {};
+            rowd.set[band] = bd;
+        }
+
+        bd[selector] = value;
+        console.log("HERE:AAA", rowd)
+        /*
+
+        resultds.push({
+            index: index,
+            column: column,
+            result: evaluate(column, rowd),
+        });
+        */
+    });
+
+    callback(null, null)
 };
 
 /**
@@ -630,6 +694,7 @@ var run_statement = function(transporter, statement, callback) {
                 meta: {},
                 units: {},
                 facets: {},
+                set: {},
             };
 
             var _do_if_match = function() {
@@ -639,7 +704,11 @@ var run_statement = function(transporter, statement, callback) {
                 console.log("ROWD", rowd);
                  */
                 if (!statement.where || evaluate(statement.where, rowd)) {
-                    do_select(statement, rowd, _wrap_callback);
+                    if (columns.length) {
+                        do_select(statement, rowd, _wrap_callback);
+                    } else if (sets.length) {
+                        do_set(statement, rowd, _wrap_callback);
+                    }
                 } else {
                     _wrap_callback(null, null);
                 }

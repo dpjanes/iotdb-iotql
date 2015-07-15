@@ -110,7 +110,10 @@ break;
 case 12:
 
         this.$ = {
-            lhs: $$[$0-2],
+            lhs: {
+                "band": $$[$0-2].replace(/[.].*$/, ""),  
+                "selector": $$[$0-2].replace(/^[^.]*[.]/, ""),  
+            },
             rhs: $$[$0],
         };
     

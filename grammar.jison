@@ -97,7 +97,10 @@ SET-TERM:
     SYMBOL "=" VALUE
     {{
         $$ = {
-            lhs: $1,
+            lhs: {
+                "band": $1.replace(/[.].*$/, ""),  
+                "selector": $1.replace(/^[^.]*[.]/, ""),  
+            },
             rhs: $3,
         };
     }}
