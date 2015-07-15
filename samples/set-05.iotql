@@ -1,0 +1,6 @@
+-- flip the 'on' state
+SET
+    state.on = !state.on
+WHERE
+    id = "thing-03"
+;

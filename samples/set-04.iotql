@@ -1,0 +1,5 @@
+SET
+    state.on = true
+WHERE
+    id = "thing-03"
+;
