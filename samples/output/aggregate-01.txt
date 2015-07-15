@@ -1,0 +1,9 @@
+-- count the number of things
+SELECT
+    id, COUNT(*)
+;
+------------
+-- RESULT --
+------------
+-- thing-01
+-- 2

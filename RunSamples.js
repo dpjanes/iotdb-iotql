@@ -28,16 +28,14 @@ var _ = iotdb._;
 var fs = require('fs')
 var path = require('path')
 var minimist = require('minimist');
+var child_process = require('child_process');
 var parser = require("./grammar").parser;
+var FSTransport = require('iotdb-transport-fs').Transport
 
 var ad = require('minimist')(process.argv.slice(2), {
     boolean: [ "write", "test", "all" ],
 });
 
-var FSTransport = require('iotdb-transport-fs').Transport
-var transporter = new FSTransport({
-    prefix: "samples/things",
-});
 
 var _update_pre = function(a, b) {
     a.query |= b.query;
@@ -743,6 +741,13 @@ var run_path = function(transporter, iotql_path) {
     });
 };
 
+// --- main ---
+child_process.spawnSync("rm", [ "-rf", "samples/.things" ]);
+child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
+
+var transporter = new FSTransport({
+    prefix: "samples/.things",
+});
 if (ad.all) {
     var samples_dir = "samples";
 
