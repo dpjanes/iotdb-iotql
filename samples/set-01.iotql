@@ -1,0 +1,5 @@
+SET
+    name = "Thing 01"
+WHERE
+    id = "thing-01"
+;
