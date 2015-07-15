@@ -23,7 +23,7 @@
 "SET"                   return 'SET'
 "false"                 return 'BOOLEAN'
 "true"                  return 'BOOLEAN'
-"="                     return 'BI-OPERATOR'
+"="                     return '='
 "!="                    return 'BI-OPERATOR'
 "<="                    return 'BI-OPERATOR'
 ">="                    return 'BI-OPERATOR'
@@ -47,6 +47,7 @@
 
 %left LOGIC-OPERATOR
 %left BI-OPERATOR
+%left "="
 %left LEFT-OPERATOR
 
 %%
@@ -68,6 +69,12 @@ EXPRESSION:
     |
     "SELECT" SELECT-TERMS "WHERE" VALUE
     { $$ = [ { "select": $2, "where": $4 } ]; }
+    |
+    "SET" SET-TERMS
+    { $$ = [ { "set": $2 } ]; }
+    |
+    "SET" SET-TERMS "WHERE" VALUE
+    { $$ = [ { "set": $2, "where": $4 } ]; }
     ;
 
 SELECT-TERMS:
@@ -76,6 +83,24 @@ SELECT-TERMS:
     |
     SELECT-TERM
     {{ $$ = [ $1 ]; }}
+    ;
+
+SET-TERMS:
+    SET-TERMS "," SET-TERM
+    { $1.push($3); $$ = $1; }
+    |
+    SET-TERM
+    {{ $$ = [ $1 ]; }}
+    ;
+
+SET-TERM:
+    SYMBOL "=" VALUE
+    {{
+        $$ = {
+            lhs: $1,
+            rhs: $3,
+        };
+    }}
     ;
 
 /*
@@ -135,6 +160,15 @@ VALUE:
     }}
     |
     VALUE BI-OPERATOR VALUE
+    {{ $$ = {  
+            "compute": {
+                "operation": $2,
+                "operands": [ $1, $3 ],
+            }
+        };
+    }}
+    |
+    VALUE "=" VALUE
     {{ $$ = {  
             "compute": {
                 "operation": $2,
