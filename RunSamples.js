@@ -503,7 +503,7 @@ var evaluate = function(v, rowd) {
 var do_select = function(statement, rowd, callback) {
     var resultds = [];
 
-    var columns = _.ld.list(statement, "select");
+    var columns = _.ld.list(statement, "select", []);
     columns.map(function(column, index) {
         resultds.push({
             index: index,
@@ -537,7 +537,7 @@ var run_statement = function(transporter, statement, callback) {
         _update_pre(pre, statement.where.pre);
     }
 
-    var columns = _.ld.list(statement, "select");
+    var columns = _.ld.list(statement, "select", []);
     columns.map(function(column) {
         prevaluate(column, {
             "state": "istate",
@@ -548,6 +548,16 @@ var run_statement = function(transporter, statement, callback) {
         if (column.pre.aggregate) {
             column.pre.aggregate(null, column, WHEN_START);
         }
+    });
+
+    var sets = _.ld.list(statement, "set", []);
+    sets.map(function(column) {
+        prevaluate(column, {
+            "state": "ostate",
+        });
+
+        column.aggregate = null;
+        _update_pre(pre, column.pre);
     });
 
     // if there's state involved, we need the model too
