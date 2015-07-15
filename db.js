@@ -839,3 +839,8 @@ DB.prototype.run_statement_set = function(statement, callback) {
         }
     });
 };
+
+/**
+ *  API
+ */
+exports.DB = DB;
