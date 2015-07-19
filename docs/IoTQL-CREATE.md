@@ -84,6 +84,7 @@ Ideas:
 
 	LOCK()
 	LOCK(id, cancel=true)
+	MONITOR(id,state.on)
 
 ### Time based
 
@@ -126,6 +127,11 @@ This may be a hack - allow multiple WHENs in a row?
 	BEGIN
 		-- the lights were turned on and off
 	END
+	
+Notes:
+
+* timd: I'm not fond of the double WHEN clause in Sequences seems confusing.
+
 	
 ## Views & Timeseries
 

@@ -198,6 +198,16 @@ VALUE:
         };
     }}
     |
+    SYMBOL "(" VALUES ")"
+    {{ $$ = {  
+            "compute": {
+                "module": $1.replace(/[.].*$/, ""),  
+                "operation": $1.replace(/^[^.]*[.]/, ""),  
+                "operands": $3,
+            }
+        };
+    }}
+    |
     "(" VALUE ")"
     {{ $$ = $2; }}
     |

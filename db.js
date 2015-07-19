@@ -26,6 +26,7 @@ var iotdb = require('iotdb')
 var _ = iotdb._;
 
 var parser = require("./grammar").parser;
+var string = require("./string");
 
 var _update_pre = function(a, b) {
     a.query |= b.query;
@@ -161,13 +162,8 @@ var aggregated = {
  *  overlap with 'aggregated'
  */
 var operatord = {
-    upper: function(first, operands) {
-        if (_.is.String(first)) {
-            return first.toUpperCase();
-        } else {
-            return first;
-        }
-    },
+    string: string.d,
+
     maximum: function(first, operands) {
         if (_.is.Array(first)) {
             var max = null;
@@ -514,9 +510,24 @@ DB.prototype.evaluate = function(v, rowd) {
             throw new Error("missing operator");
         }
 
-        var operator = operatord[operation];
+        var od = operatord;
+        var module = v.compute.module;
+        if (module) {
+            od = od[module];
+            if (!od) {
+                throw new Error("module not found: " + module);
+            } else if (!_.is.Dictionary(od)) {
+                throw new Error("not a module: " + module);
+            }
+        }
+
+        var operator = od[operation];
         if (!operator) {
             throw new Error("operator not found: " + operation);
+        }
+
+        if (_.is.Dictionary(operator)) {
+            throw new Error("not an operastor: " + operation);
         }
 
         if (v.compute.star) {

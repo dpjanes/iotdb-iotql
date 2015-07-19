@@ -1,0 +1,9 @@
+-- perform a function on a value, with named arguments
+SELECT
+    string.split("ABBBABA"),
+    string.split("ABBBABA", separator="A"),
+    string.split("ABBBABA", separator="AA"),
+    string.split("ABBBABA", separator="B"),
+    string.split("ABBBABA", separator="BB"),
+    string.split("ABBBABA", separator="B", maximum=1)
+;

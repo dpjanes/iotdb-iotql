@@ -1,4 +1,4 @@
 -- perform a function on a value
 SELECT
-    string.upper("hi there")
+    string.upper("Hi There")
 ;
