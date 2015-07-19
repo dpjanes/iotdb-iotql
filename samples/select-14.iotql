@@ -1,4 +1,4 @@
 -- perform a function on a list
 SELECT
-    maximum([ 1, 2, 3, 4, 5])
+    math.maximum([ 1, 2, 3, 4, 5])
 ;

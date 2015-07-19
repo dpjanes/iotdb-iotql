@@ -27,6 +27,7 @@ var _ = iotdb._;
 
 var parser = require("./grammar").parser;
 var string = require("./string");
+var math = require("./math");
 
 var _update_pre = function(a, b) {
     a.query |= b.query;
@@ -163,28 +164,8 @@ var aggregated = {
  */
 var operatord = {
     string: string.d,
+    math: math.d,
 
-    maximum: function(first, operands) {
-        if (_.is.Array(first)) {
-            var max = null;
-            first.map(function(value) {
-                if (!_.is.Number(value)) {
-                    return;
-                }
-
-                if (max === null) {
-                    max = value;
-                } else {
-                    max = Math.max(max, value);
-                }
-            });
-            return max;
-        } else if (_.is.Number(first)) {
-            return first;
-        } else {
-            return null;
-        }
-    },
     "=": function(first, operands) {
         if (operands.length !== 2) {
             return false;
