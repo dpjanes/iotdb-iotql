@@ -9,6 +9,7 @@
 \"(\\.|[^"])*\"         return 'STRING'
 \'(\\.|[^'])*\'         return 'STRING'
 <<EOF>>                 return 'EOF'
+":"                     return ':'
 ";"                     return ';'
 ","                     return ','
 "("                     return '('
@@ -189,6 +190,53 @@ VALUE:
         };
     }}
     |
+    SYMBOL-SIMPLE "(" PARAMETERS ")"
+    {{ $$ = {  
+            "compute": {
+                "operation": $1,
+                "operands": $3,
+            }
+        };
+    }}
+    |
+    SYMBOL "(" PARAMETERS ")"
+    {{ $$ = {  
+            "compute": {
+                "module": $1.replace(/[.].*$/, ""),  
+                "operation": $1.replace(/^[^.]*[.]/, ""),  
+                "operands": $3,
+            }
+        };
+    }}
+    |
+    "(" VALUE ")"
+    {{ $$ = $2; }}
+    |
+    LIST
+    |
+    ATOMIC
+    ;
+
+PARAMETERS:
+    {{ $$ = []; }}
+    |
+    PARAMETER
+    {{ $$ = [ $1 ]; }}
+    |
+    PARAMETER "," PARAMETERS
+    {{ $3.splice(0, 0, $1); $$ = $3; }}
+    ;
+
+PARAMETER:
+    SYMBOL-SIMPLE "=" PARAMETER
+    {{ $$ = {  
+            "named": {
+                "key": $1,
+                "value": $3,
+            }
+        };
+    }}
+    |
     SYMBOL-SIMPLE "(" VALUES ")"
     {{ $$ = {  
             "compute": {
@@ -216,6 +264,7 @@ VALUE:
     ATOMIC
     ;
 
+
 LIST:
     "[" VALUES "]"
     {{
@@ -224,6 +273,7 @@ LIST:
         }
     }}
     ;
+
 
 VALUES:
     {{ $$ = []; }}

@@ -1,0 +1,5 @@
+SELECT
+    string.join([ "A", "B", "C" ]),
+    string.join([ "A", "B", "C" ], separator=""),
+    string.join([ "A", "B", "C" ], separator="---")
+;

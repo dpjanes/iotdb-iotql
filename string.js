@@ -45,9 +45,33 @@ exports.d.lower = function(first, operands) {
     }
 };
 
-exports.d.split = function(first, operands) {
+exports.d.split = function(first, operands, ad) {
     if (_.is.String(first)) {
-        return first.split(" ");
+        var separator = ad.separator;
+        if (separator === undefined) {
+            separator = /\\s+/;
+        }
+
+        // not happy with this version - want something more python
+        var maximum = ad.maximum;
+        if (maximum === undefined) {
+            maximum = Number.MAX_SAFE_INTEGER;
+        }
+
+        return first.split(separator, maximum);
+    } else {
+        return first;
+    }
+};
+
+exports.d.join = function(first, operands, ad) {
+    if (_.is.Array(first)) {
+        var separator = ad.separator;
+        if (separator === undefined) {
+            separator = " ";
+        }
+
+        return first.join(separator);
     } else {
         return first;
     }

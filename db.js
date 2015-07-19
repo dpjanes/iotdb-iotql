@@ -368,6 +368,11 @@ DB.prototype.prevaluate = function(v, paramd) {
         })
     }
 
+    if (v.named && v.named.value) {
+        self.prevaluate(v.named.value, paramd);
+        _update_pre(v.pre, v.named.value.pre);
+    }
+
     if (v.compute) {
         self.prevaluate(v.compute, paramd);
         _update_pre(v.pre, v.compute.pre);
@@ -504,6 +509,7 @@ DB.prototype.evaluate = function(v, rowd) {
         } else {
             return null;
         }
+    } else if (v.named) {
     } else if (v.compute) {
         var operation = v.compute.operation;
         if (!operation) {
@@ -534,15 +540,20 @@ DB.prototype.evaluate = function(v, rowd) {
             return operator(true, []);
         }
 
+        var named = {};
         var operands = [];
         v.compute.operands.map(function(operand) {
-            operands.push(self.evaluate(operand, rowd));
+            if (operand.named) {
+                named[operand.named.key] = self.evaluate(operand.named.value, rowd);
+            } else {
+                operands.push(self.evaluate(operand, rowd));
+            }
         });
 
         if (operands.length === 0) {
-            return operator(null, operands);
+            return operator(null, operands, named);
         } else {
-            return operator(operands[0], operands);
+            return operator(operands[0], operands, named);
         }
     } else if (v.list) {
         var rs = [];

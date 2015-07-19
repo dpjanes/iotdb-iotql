@@ -4,6 +4,5 @@ SELECT
     string.split("ABBBABA", separator="A"),
     string.split("ABBBABA", separator="AA"),
     string.split("ABBBABA", separator="B"),
-    string.split("ABBBABA", separator="BB"),
-    string.split("ABBBABA", separator="B", maximum=1)
+    string.split("ABBBABA", separator="BB")
 ;
