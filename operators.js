@@ -35,7 +35,7 @@ var _list = function(a) {
 }
 
 var _true = function(a) {
-    a = typed.value(a);
+    a = typed.scalar(a);
     if (typed.is.Equal(a, undefined)) {
         return false;
     } else if (typed.is.Equal(a, null)) {
@@ -86,25 +86,25 @@ exports.d = {
             return false;
         }
 
-        return typed.value(paramd.av[0]) < typed.value(paramd.av[1]);
+        return scalar.value(paramd.av[0]) < scalar.value(paramd.av[1]);
     },
     ">": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
-        return typed.value(paramd.av[0]) > typed.value(paramd.av[1]);
+        return scalar.value(paramd.av[0]) > scalar.value(paramd.av[1]);
     },
     "<=": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
-        return typed.value(paramd.av[0]) <= typed.value(paramd.av[1]);
+        return scalar.value(paramd.av[0]) <= scalar.value(paramd.av[1]);
     },
     ">=": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
-        return typed.value(paramd.av[0]) >= typed.value(paramd.av[1]);
+        return scalar.value(paramd.av[0]) >= scalar.value(paramd.av[1]);
     },
     // XXX list functions are not properly dealing with typed values
     "in": function(paramd) {

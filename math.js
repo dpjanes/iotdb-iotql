@@ -38,12 +38,12 @@ exports.d.maximum = function(paramd) {
                 return;
             }
 
-            value = typed.value(value);
+            var scalar = typed.scalar(value);
 
             if (max === null) {
-                max = value;
+                max = scalar;
             } else {
-                max = Math.max(max, value);
+                max = Math.max(max, scalar);
             }
         });
         return max;
@@ -62,12 +62,12 @@ exports.d.minimum = function(paramd) {
                 return;
             }
 
-            value = typed.value(value);
+            var scalar = typed.scalar(value);
 
             if (max === null) {
-                max = value;
+                max = scalar;
             } else {
-                max = Math.max(max, value);
+                max = Math.max(max, scalar);
             }
         });
         return max;
@@ -104,9 +104,7 @@ exports.d.sum = function(paramd) {
                 return;
             }
 
-            value = typed.value(value);
-
-            sum += value;
+            sum += typed.scalar(value);
         });
         return sum;
     } else if (typed.is.Number(paramd.first)) {
@@ -125,9 +123,7 @@ exports.d.average = function(paramd) {
                 return;
             }
 
-            value = typed.value(value);
-
-            sum += value;
+            sum += typed.scalar(value);
             count += 1;
         });
         return sum / count;

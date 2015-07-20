@@ -476,7 +476,7 @@ DB.prototype.do_select = function(statement, rowd, callback) {
         resultds.push({
             index: index,
             column: column,
-            value: typed.value(result),
+            value: typed.scalar(result),
             units: typed.units(result),
         });
     });

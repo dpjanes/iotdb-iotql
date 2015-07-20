@@ -36,30 +36,30 @@ var units = function(paramd) {
 
     if (typed.is.Number(value)) {
         if (typed.is.Scalar(value)) {
-            return new typed.Typed(typed.value(value), value_units);
+            return new typed.Typed(typed.scalar(value), value_units);
         } else {
             var nscalar = _.convert.convert({
                 from: typed.units(value), 
                 to: value_units,
-                value: typed.value(value),
+                value: typed.scalar(value),
             });
             return new typed.Typed(nscalar, value_units);
         }
     } else if (typed.is.Array(value)) {
         if (typed.is.Scalar(value)) {
             var nscalars = [];
-            typed.value(value).map(function(v) {
+            typed.scalar(value).map(function(v) {
                 var nvalue = units({
                     first: v,
                     av: [ v, value_units ],
                     ad: {},
                 });
-                nscalars.push(nvalue.value);
+                nscalars.push(typed.scalar(nvalue));
             });
             return new typed.Typed(nscalars, value_units);
         } else {
             var nscalars = [];
-            typed.value(value).map(function(v) {
+            typed.scalar(value).map(function(v) {
                 var nscalar = _.convert.convert({
                     from: typed.units(value), 
                     to: value_units,

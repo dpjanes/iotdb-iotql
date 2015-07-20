@@ -27,19 +27,19 @@
 var iotdb = require('iotdb')
 var _ = iotdb._;
 
-var Typed = function(value, units) {
+var Typed = function(scalar, units) {
     var self = this;
 
-    this.value = value;
+    this.scalar = scalar;
     this.units = (units === undefined) ? null : units;
 };
 
 Typed.prototype._isTyped = true;
 
 
-var value = function(v) {
+var scalar = function(v) {
     if (v && v._isTyped) {
-        return v.value;
+        return v.scalar;
     } else {
         return v;
     }
@@ -69,7 +69,7 @@ var is = {
 };
 var _add_is = function(key, underlying) {
     is[key] = function(a, b) {
-        return underlying(value(a), value(b));
+        return underlying(scalar(a), scalar(b));
     };
 }
 
@@ -81,6 +81,6 @@ for (var key in _.is) {
  *  API
  */
 exports.Typed = Typed;
-exports.value = value;
+exports.scalar = scalar;
 exports.units = units;
 exports.is = is;
