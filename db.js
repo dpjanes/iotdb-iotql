@@ -293,6 +293,7 @@ DB.prototype.evaluate = function(v, rowd) {
 
         if (v.selector) {
             var code = null;
+            var unit = null;
 
             // selectors on state need to be looked up in the model
             if ((v.band === "istate") || (v.band === "ostate")) {
@@ -302,6 +303,8 @@ DB.prototype.evaluate = function(v, rowd) {
                     } else if (_.ld.contains(attribute, "iot:purpose", v.selector)) {
                         code = _.ld.first(attribute, "@id", "");
                         code = code.replace(/^.*?#/, '');
+
+                        unit = _.ld.first(attribute, "iot:unit", null);
                     }
                 });
 
@@ -315,6 +318,8 @@ DB.prototype.evaluate = function(v, rowd) {
             var result = d[code];
             if (result === undefined) {
                 return null;
+            } else if (unit) {
+                return new typed.Typed(result, unit);
             } else {
                 return result;
             }

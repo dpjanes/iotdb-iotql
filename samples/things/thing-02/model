@@ -3,6 +3,6 @@
         "@id": "#t",
         "iot:purpose": "iot-attribute:sensor.temperature",
         "iot:role": "iot:role-reading",
-        "iot:unit": "iot-unit:temperature.metric.celsius"
+        "iot:unit": "iot-unit:temperature.si.celsius"
     }
 }

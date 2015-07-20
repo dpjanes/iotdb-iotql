@@ -75,13 +75,13 @@ var conversions = [
  */
 var units = function(paramd) {
     var value = paramd.av[0];
-    var unit = paramd.av[1];
+    var value_units = paramd.av[1];
 
     if (typed.is.Number(value)) {
         if (typed.is.Scalar(value)) {
-            return new typed.Typed(typed.value(value), unit);
+            return new typed.Typed(typed.value(value), value_units);
         } else {
-            return new typed.Typed(convert(typed.unit(value), unit, typed.value(value)), unit);
+            return new typed.Typed(convert(typed.units(value), value_units, typed.value(value)), value_units);
         }
     } else if (typed.is.Array(value)) {
         if (typed.is.Scalar(value)) {
@@ -89,19 +89,19 @@ var units = function(paramd) {
             typed.value(value).map(function(v) {
                 var nvalue = units({
                     first: v,
-                    av: [ v, unit ],
+                    av: [ v, value_units ],
                     ad: {},
                 });
                 nvalues.push(nvalue.value);
             });
-            return new typed.Typed(nvalues, unit);
+            return new typed.Typed(nvalues, value_units);
         } else {
             var nvalues = [];
             typed.value(value).map(function(v) {
-                var nv = convert(typed.unit(value), unit, v);
+                var nv = convert(typed.units(value), value_units, v);
                 nvalues.push(nv);
             });
-            return new typed.Typed(nvalues, unit);
+            return new typed.Typed(nvalues, value_units);
         }
     } else {
         return value;
@@ -109,6 +109,10 @@ var units = function(paramd) {
 };
 
 var convert = function(from, to, value) {
+    if (from === to) {
+        return value;
+    }
+
     for (var ci in conversions) {
         var cd = conversions[ci];
         if ((cd.from !== from) || (cd.to !== to)) {
