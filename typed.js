@@ -7,7 +7,7 @@
  *
  *  Copyright [2013-2015] [David P. Janes]
  *
- *  This is for handling values that may have a unit and/or scale
+ *  This is for handling values that may have a units and/or scale
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -27,11 +27,11 @@
 var iotdb = require('iotdb')
 var _ = iotdb._;
 
-var Typed = function(value, unit) {
+var Typed = function(value, units) {
     var self = this;
 
     this.value = value;
-    this.unit = (unit === undefined) ? null : unit;
+    this.units = (units === undefined) ? null : units;
 };
 
 Typed.prototype._isTyped = true;
@@ -45,9 +45,9 @@ var value = function(v) {
     }
 };
 
-var unit = function(v) {
+var units = function(v) {
     if (v && v._isTyped) {
-        return v.unit;
+        return v.units;
     } else {
         return null;
     }
@@ -57,7 +57,7 @@ var unit = function(v) {
 var is = {
     Scalar: function(v) {
         if (v && v._isTyped) {
-            if (v.unit) {
+            if (v.units) {
                 return false;
             } else {
                 return true;
@@ -82,5 +82,5 @@ for (var key in _.is) {
  */
 exports.Typed = Typed;
 exports.value = value;
-exports.unit = unit;
+exports.units = units;
 exports.is = is;

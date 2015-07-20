@@ -472,7 +472,7 @@ DB.prototype.do_select = function(statement, rowd, callback) {
             index: index,
             column: column,
             value: typed.value(result),
-            unit: typed.unit(result),
+            units: typed.units(result),
         });
     });
 

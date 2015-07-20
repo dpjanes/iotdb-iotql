@@ -70,8 +70,8 @@ DB.prototype.run_path = function(iotql_path) {
             var results = [];
             resultdss.map(function(resultds) {
                 resultds.map(function(resultd) {
-                    if (resultd.unit) {
-                        results.push("-- " + resultd.value + " [" + resultd.unit + "]");
+                    if (resultd.units) {
+                        results.push("-- " + resultd.value + " [" + resultd.units + "]");
                     } else {
                         results.push("-- " + resultd.value);
                     }
@@ -118,8 +118,8 @@ DB.prototype.run_path = function(iotql_path) {
                         if (_.is.Array(v)) {
                             v = JSON.stringify(v);
                         }
-                        if (resultd.unit) {
-                            console.log("%s: %s [%s]", index, v, resultd.unit);
+                        if (resultd.units) {
+                            console.log("%s: %s [%s]", index, v, resultd.units);
                         } else {
                             console.log("%s: %s", index, v);
                         }
