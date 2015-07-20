@@ -1,3 +1,4 @@
+-- this will attach units to a scalar
 SELECT
     units(10, units.temperature.imperial.fahrenheit)
 ;

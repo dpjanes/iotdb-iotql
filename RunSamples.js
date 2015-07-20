@@ -114,10 +114,14 @@ DB.prototype.run_path = function(iotql_path) {
                 resultdss.map(function(resultds) {
                     console.log("--");
                     resultds.map(function(resultd, index) {
+                        var v = resultd.value;
+                        if (_.is.Array(v)) {
+                            v = JSON.stringify(v);
+                        }
                         if (resultd.unit) {
-                            console.log("%s: %s [%s]", index, resultd.value, resultd.unit);
+                            console.log("%s: %s [%s]", index, v, resultd.unit);
                         } else {
-                            console.log("%s: %s", index, resultd.value);
+                            console.log("%s: %s", index, v);
                         }
                     });
                 });

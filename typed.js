@@ -32,7 +32,6 @@ var Typed = function(value, unit) {
 
     this.value = value;
     this.unit = (unit === undefined) ? null : unit;
-    this.scale = 1;     // for future use
 };
 
 Typed.prototype._isTyped = true;
@@ -40,7 +39,7 @@ Typed.prototype._isTyped = true;
 
 var value = function(v) {
     if (v && v._isTyped) {
-        return v.value * v.scale;
+        return v.value;
     } else {
         return v;
     }
@@ -55,7 +54,19 @@ var unit = function(v) {
 };
 
 // "is" functions equivalent to _.is.*
-var is = {};
+var is = {
+    Scalar: function(v) {
+        if (v && v._isTyped) {
+            if (v.unit) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+};
 var _add_is = function(key, underlying) {
     is[key] = function(a, b) {
         return underlying(value(a), value(b));

@@ -3,7 +3,7 @@ CREATE SCENE
     goodnight
 BEGIN
     SET
-        state.temperature = UNITS(18,units.temperature.metric.celsius)
+        state.temperature = UNITS(18,units.temperature.si.celsius)
     AND 
         meta.facet & facets.climate.heating
     ;
