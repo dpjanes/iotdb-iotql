@@ -28,6 +28,7 @@ var _ = iotdb._;
 var parser = require("./grammar").parser;
 var string = require("./string");
 var math = require("./math");
+var units = require("./units");
 
 var _update_pre = function(a, b) {
     a.query |= b.query;
@@ -301,6 +302,7 @@ var operatord = {
     "min": function(first, operands) {
         return first;
     },
+    "units": units.units,
 }
 
 var DB = function(transporter) {
