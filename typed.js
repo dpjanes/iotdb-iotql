@@ -31,7 +31,7 @@ var Typed = function(value, unit) {
     var self = this;
 
     this.value = value;
-    this.unit = (unit === undefined) : null : unit;
+    this.unit = (unit === undefined) ? null : unit;
     this.scale = 1;     // for future use
 };
 
@@ -52,6 +52,18 @@ var unit = function(v) {
     } else {
         return null;
     }
+};
+
+// "is" functions equivalent to _.is.*
+var is = {};
+var _add_is = function(key, underlying) {
+    is[key] = function(a, b) {
+        return underlying(value(a), value(b));
+    };
+}
+
+for (var key in _.is) {
+    _add_is(key, _.is[key])
 }
 
 /**
@@ -60,3 +72,4 @@ var unit = function(v) {
 exports.Typed = Typed;
 exports.value = value;
 exports.unit = unit;
+exports.is = is;

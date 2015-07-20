@@ -24,9 +24,10 @@
 
 var iotdb = require('iotdb')
 var _ = iotdb._;
+var typed = require('./typed');
 
 var _list = function(a) {
-    if (_.is.Array(a)) {
+    if (typed.is.Array(a)) {
         return a;
     } else {
         return [ a ];
@@ -34,13 +35,13 @@ var _list = function(a) {
 }
 
 var _true = function(a) {
-    if (_.is.Equal(a, undefined)) {
+    if (typed.is.Equal(a, undefined)) {
         return false;
-    } else if (_.is.Equal(a, null)) {
+    } else if (typed.is.Equal(a, null)) {
         return false;
-    } else if (_.is.Equal(a, [])) {
+    } else if (typed.is.Equal(a, [])) {
         return false;
-    } else if (_.is.Equal(a, {})) {
+    } else if (typed.is.Equal(a, {})) {
         return false;
     } else if (a === 0) {
         return false;
@@ -56,10 +57,10 @@ var _true = function(a) {
 var _compatible = function(a, b) {
     if (a === null) {
         return (b === null);
-    } else if (_.is.String(a)) {
-        return _.is.String(b);
-    } else if (_.is.Number(a)) {
-        return _.is.Number(b);
+    } else if (typed.is.String(a)) {
+        return typed.is.String(b);
+    } else if (typed.is.Number(a)) {
+        return typed.is.Number(b);
     } else {
         return false;
     }
@@ -70,13 +71,13 @@ exports.d = {
         if (paramd.av.length !== 2) {
             return false;
         }
-        return _.is.Equal(paramd.av[0], paramd.av[1]);
+        return typed.is.Equal(paramd.av[0], paramd.av[1]);
     },
     "!=": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
-        return !_.is.Equal(paramd.av[0], paramd.av[1]);
+        return !typed.is.Equal(paramd.av[0], paramd.av[1]);
     },
     "<": function(paramd) {
         if (paramd.av.length !== 2) {

@@ -26,11 +26,12 @@
 
 var iotdb = require('iotdb')
 var _ = iotdb._;
+var typed = require('./typed');
 
 exports.d = {};
 
 exports.d.upper = function(paramd) {
-    if (_.is.String(paramd.first)) {
+    if (typed.is.String(paramd.first)) {
         return paramd.first.toUpperCase();
     } else {
         return paramd.first;
@@ -38,7 +39,7 @@ exports.d.upper = function(paramd) {
 };
 
 exports.d.lower = function(paramd) {
-    if (_.is.String(paramd.first)) {
+    if (typed.is.String(paramd.first)) {
         return paramd.first.toLowerCase();
     } else {
         return paramd.first;
@@ -46,7 +47,7 @@ exports.d.lower = function(paramd) {
 };
 
 exports.d.split = function(paramd) {
-    if (_.is.String(paramd.first)) {
+    if (typed.is.String(paramd.first)) {
         var separator = paramd.ad.separator;
         if (separator === undefined) {
             separator = /\\s+/;
@@ -65,7 +66,7 @@ exports.d.split = function(paramd) {
 };
 
 exports.d.join = function(paramd) {
-    if (_.is.Array(paramd.first)) {
+    if (typed.is.Array(paramd.first)) {
         var separator = paramd.ad.separator;
         if (separator === undefined) {
             separator = " ";

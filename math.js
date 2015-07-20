@@ -26,14 +26,15 @@
 
 var iotdb = require('iotdb')
 var _ = iotdb._;
+var typed = require('./typed');
 
 exports.d = {};
 
 exports.d.maximum = function(paramd) {
-    if (_.is.Array(paramd.first)) {
+    if (typed.is.Array(paramd.first)) {
         var max = null;
         paramd.first.map(function(value) {
-            if (!_.is.Number(value)) {
+            if (!typed.is.Number(value)) {
                 return;
             }
 
@@ -44,7 +45,7 @@ exports.d.maximum = function(paramd) {
             }
         });
         return max;
-    } else if (_.is.Number(paramd.first)) {
+    } else if (typed.is.Number(paramd.first)) {
         return paramd.first;
     } else {
         return null;
@@ -52,10 +53,10 @@ exports.d.maximum = function(paramd) {
 };
 
 exports.d.minimum = function(paramd) {
-    if (_.is.Array(paramd.first)) {
+    if (typed.is.Array(paramd.first)) {
         var max = null;
         paramd.first.map(function(value) {
-            if (!_.is.Number(value)) {
+            if (!typed.is.Number(value)) {
                 return;
             }
 
@@ -66,7 +67,7 @@ exports.d.minimum = function(paramd) {
             }
         });
         return max;
-    } else if (_.is.Number(paramd.first)) {
+    } else if (typed.is.Number(paramd.first)) {
         return paramd.first;
     } else {
         return null;
@@ -74,17 +75,17 @@ exports.d.minimum = function(paramd) {
 };
 
 exports.d.count = function(paramd) {
-    if (_.is.Array(paramd.first)) {
+    if (typed.is.Array(paramd.first)) {
         var count = 0;
         paramd.first.map(function(value) {
-            if (!_.is.Number(value)) {
+            if (!typed.is.Number(value)) {
                 return;
             }
 
             count++;
         });
         return count;
-    } else if (_.is.Number(paramd.first)) {
+    } else if (typed.is.Number(paramd.first)) {
         return 1;
     } else {
         return null;
@@ -92,17 +93,17 @@ exports.d.count = function(paramd) {
 };
 
 exports.d.sum = function(paramd) {
-    if (_.is.Array(paramd.first)) {
+    if (typed.is.Array(paramd.first)) {
         var sum = 0;
         paramd.first.map(function(value) {
-            if (!_.is.Number(value)) {
+            if (!typed.is.Number(value)) {
                 return;
             }
 
             sum += value;
         });
         return sum;
-    } else if (_.is.Number(paramd.first)) {
+    } else if (typed.is.Number(paramd.first)) {
         return paramd.first;
     } else {
         return null;
@@ -110,11 +111,11 @@ exports.d.sum = function(paramd) {
 };
 
 exports.d.average = function(paramd) {
-    if (_.is.Array(paramd.first)) {
+    if (typed.is.Array(paramd.first)) {
         var sum = 0;
         var count = 0;
         paramd.first.map(function(value) {
-            if (!_.is.Number(value)) {
+            if (!typed.is.Number(value)) {
                 return;
             }
 
@@ -122,7 +123,7 @@ exports.d.average = function(paramd) {
             count += 1;
         });
         return sum / count;
-    } else if (_.is.Number(paramd.first)) {
+    } else if (typed.is.Number(paramd.first)) {
         return paramd.first;
     } else {
         return null;
