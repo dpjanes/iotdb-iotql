@@ -27,7 +27,7 @@
 var iotdb = require('iotdb')
 var _ = iotdb._;
 
-exports.units = function(first, operands, named) {
-    console.log("UNITS", first, operands, named);
+exports.units = function(paramd) {
+    console.log("UNITS", paramd.first, paramd.av, paramd.ad);
     return null;
 }

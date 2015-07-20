@@ -357,9 +357,16 @@ DB.prototype.evaluate = function(v, rowd) {
         });
 
         if (operands.length === 0) {
-            return operator(null, operands, named);
+            return operator({
+                av: operands, 
+                ad: named,
+            });
         } else {
-            return operator(operands[0], operands, named);
+            return operator({
+                first: operands[0], 
+                av: operands, 
+                ad: named,
+            });
         }
     } else if (v.list) {
         var rs = [];

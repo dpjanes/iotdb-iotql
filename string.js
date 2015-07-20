@@ -29,50 +29,50 @@ var _ = iotdb._;
 
 exports.d = {};
 
-exports.d.upper = function(first, operands) {
-    if (_.is.String(first)) {
-        return first.toUpperCase();
+exports.d.upper = function(paramd) {
+    if (_.is.String(paramd.first)) {
+        return paramd.first.toUpperCase();
     } else {
-        return first;
+        return paramd.first;
     }
 };
 
-exports.d.lower = function(first, operands) {
-    if (_.is.String(first)) {
-        return first.toLowerCase();
+exports.d.lower = function(paramd) {
+    if (_.is.String(paramd.first)) {
+        return paramd.first.toLowerCase();
     } else {
-        return first;
+        return paramd.first;
     }
 };
 
-exports.d.split = function(first, operands, ad) {
-    if (_.is.String(first)) {
-        var separator = ad.separator;
+exports.d.split = function(paramd) {
+    if (_.is.String(paramd.first)) {
+        var separator = paramd.ad.separator;
         if (separator === undefined) {
             separator = /\\s+/;
         }
 
         // not happy with this version - want something more python
-        var maximum = ad.maximum;
+        var maximum = paramd.ad.maximum;
         if (maximum === undefined) {
             maximum = Number.MAX_SAFE_INTEGER;
         }
 
-        return first.split(separator, maximum);
+        return paramd.first.split(separator, maximum);
     } else {
-        return first;
+        return paramd.first;
     }
 };
 
-exports.d.join = function(first, operands, ad) {
-    if (_.is.Array(first)) {
-        var separator = ad.separator;
+exports.d.join = function(paramd) {
+    if (_.is.Array(paramd.first)) {
+        var separator = paramd.ad.separator;
         if (separator === undefined) {
             separator = " ";
         }
 
-        return first.join(separator);
+        return paramd.first.join(separator);
     } else {
-        return first;
+        return paramd.first;
     }
 };

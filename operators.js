@@ -66,61 +66,61 @@ var _compatible = function(a, b) {
 }
 
 exports.d = {
-    "=": function(first, operands) {
-        if (operands.length !== 2) {
+    "=": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
-        return _.is.Equal(operands[0], operands[1]);
+        return _.is.Equal(paramd.av[0], paramd.av[1]);
     },
-    "!=": function(first, operands) {
-        if (operands.length !== 2) {
+    "!=": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
-        return !_.is.Equal(operands[0], operands[1]);
+        return !_.is.Equal(paramd.av[0], paramd.av[1]);
     },
-    "<": function(first, operands) {
-        if (operands.length !== 2) {
+    "<": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
-        return operands[0] < operands[1];
+        return paramd.av[0] < paramd.av[1];
     },
-    ">": function(first, operands) {
-        if (operands.length !== 2) {
+    ">": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
-        return operands[0] > operands[1];
+        return paramd.av[0] > paramd.av[1];
     },
-    "<=": function(first, operands) {
-        if (operands.length !== 2) {
+    "<=": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
-        return operands[0] <= operands[1];
+        return paramd.av[0] <= paramd.av[1];
     },
-    ">=": function(first, operands) {
-        if (operands.length !== 2) {
+    ">=": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
-        return operands[0] >= operands[1];
+        return paramd.av[0] >= paramd.av[1];
     },
-    "in": function(first, operands) {
-        if (operands.length !== 2) {
+    "in": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
-        return _list(operands[1]).indexOf(operands[0]) > -1;
+        return _list(paramd.av[1]).indexOf(paramd.av[0]) > -1;
     },
-    "not in": function(first, operands) {
-        if (operands.length !== 2) {
+    "not in": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
-        return _list(operands[1]).indexOf(operands[0]) === -1;
+        return _list(paramd.av[1]).indexOf(paramd.av[0]) === -1;
     },
-    "&": function(first, operands) {
-        if (operands.length !== 2) {
+    "&": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
 
-        var as = _list(operands[0]);
-        var bs = _list(operands[1]);
+        var as = _list(paramd.av[0]);
+        var bs = _list(paramd.av[1]);
         var cs = [];
 
         as.map(function(v) {
@@ -131,13 +131,13 @@ exports.d = {
 
         return cs;
     },
-    "|": function(first, operands) {
-        if (operands.length !== 2) {
+    "|": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
 
-        var as = _list(operands[0]);
-        var bs = _list(operands[1]);
+        var as = _list(paramd.av[0]);
+        var bs = _list(paramd.av[1]);
 
         var cs = [];
         var handle = function(v) {
@@ -151,54 +151,54 @@ exports.d = {
 
         return cs;
     },
-    "!": function(first, operands) {
-        return !_true(first);
+    "!": function(paramd) {
+        return !_true(paramd.first);
     },
-    "and": function(first, operands) {
-        if (operands.length !== 2) {
+    "and": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
 
-        if (!_true(operands[0])) {
+        if (!_true(paramd.av[0])) {
             return false;
         }
-        if (!_true(operands[1])) {
+        if (!_true(paramd.av[1])) {
             return false;
         }
 
         return true;
     },
-    "or": function(first, operands) {
-        if (operands.length !== 2) {
+    "or": function(paramd) {
+        if (paramd.av.length !== 2) {
             return false;
         }
 
-        if (_true(operands[0])) {
+        if (_true(paramd.av[0])) {
             return true;
         }
-        if (_true(operands[1])) {
+        if (_true(paramd.av[1])) {
             return true;
         }
 
         return false;
     },
-    "count": function(first, operands) {
-        if (_true(first)) {
+    "count": function(paramd) {
+        if (_true(paramd.first)) {
             return 1;
         } else {
             return null;
         }
     },
-    "avg": function(first, operands) {
-        return first;
+    "avg": function(paramd) {
+        return paramd.first;
     },
-    "sum": function(first, operands) {
-        return first;
+    "sum": function(paramd) {
+        return paramd.first;
     },
-    "max": function(first, operands) {
-        return first;
+    "max": function(paramd) {
+        return paramd.first;
     },
-    "min": function(first, operands) {
-        return first;
+    "min": function(paramd) {
+        return paramd.first;
     },
 };
