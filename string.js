@@ -32,7 +32,7 @@ exports.d = {};
 
 exports.d.upper = function(paramd) {
     if (typed.is.String(paramd.first)) {
-        return paramd.first.toUpperCase();
+        return typed.value(paramd.first).toUpperCase();
     } else {
         return paramd.first;
     }
@@ -40,7 +40,7 @@ exports.d.upper = function(paramd) {
 
 exports.d.lower = function(paramd) {
     if (typed.is.String(paramd.first)) {
-        return paramd.first.toLowerCase();
+        return typed.value(paramd.first).toLowerCase();
     } else {
         return paramd.first;
     }
@@ -59,7 +59,7 @@ exports.d.split = function(paramd) {
             maximum = Number.MAX_SAFE_INTEGER;
         }
 
-        return paramd.first.split(separator, maximum);
+        return typed.value(paramd.first).split(separator, maximum);
     } else {
         return paramd.first;
     }
@@ -72,7 +72,7 @@ exports.d.join = function(paramd) {
             separator = " ";
         }
 
-        return paramd.first.join(separator);
+        return typed.value(paramd.first).join(separator);
     } else {
         return paramd.first;
     }

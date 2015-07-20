@@ -38,6 +38,8 @@ exports.d.maximum = function(paramd) {
                 return;
             }
 
+            value = typed.value(value);
+
             if (max === null) {
                 max = value;
             } else {
@@ -59,6 +61,8 @@ exports.d.minimum = function(paramd) {
             if (!typed.is.Number(value)) {
                 return;
             }
+
+            value = typed.value(value);
 
             if (max === null) {
                 max = value;
@@ -100,6 +104,8 @@ exports.d.sum = function(paramd) {
                 return;
             }
 
+            value = typed.value(value);
+
             sum += value;
         });
         return sum;
@@ -118,6 +124,8 @@ exports.d.average = function(paramd) {
             if (!typed.is.Number(value)) {
                 return;
             }
+
+            value = typed.value(value);
 
             sum += value;
             count += 1;
