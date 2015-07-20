@@ -1,0 +1,6 @@
+-- thing-01
+-- The Name
+-- 999 [iot-unit:temperature.metric.celsius]
+-- 999 [iot-unit:temperature.metric.celsius]
+-- 999 [iot-unit:temperature.metric.celsius]
+--

@@ -1,0 +1,6 @@
+-- ABBBABA
+-- ,BBB,B,
+-- ABBBABA
+-- A,,,A,A
+-- A,BABA
+--

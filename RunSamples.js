@@ -70,7 +70,11 @@ DB.prototype.run_path = function(iotql_path) {
             var results = [];
             resultdss.map(function(resultds) {
                 resultds.map(function(resultd) {
-                    results.push("-- " + resultd.value);
+                    if (resultd.unit) {
+                        results.push("-- " + resultd.value + " [" + resultd.unit + "]");
+                    } else {
+                        results.push("-- " + resultd.value);
+                    }
                 });
                 results.push("--");
             });
@@ -110,7 +114,11 @@ DB.prototype.run_path = function(iotql_path) {
                 resultdss.map(function(resultds) {
                     console.log("--");
                     resultds.map(function(resultd, index) {
-                        console.log("%s: %s", index, resultd.value);
+                        if (resultd.unit) {
+                            console.log("%s: %s [%s]", index, resultd.value, resultd.unit);
+                        } else {
+                            console.log("%s: %s", index, resultd.value);
+                        }
                     });
                 });
             }
