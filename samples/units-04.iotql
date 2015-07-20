@@ -1,0 +1,6 @@
+-- this will attach units to a array of scalar 
+-- this converts each individual value to the type, and 
+-- attaches the type to the array as a whole
+SELECT
+    units(units([ -40, 0, 32, 100, 212 ], units.temperature.imperial.fahrenheit), units.temperature.si.celsius)
+;
