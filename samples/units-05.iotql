@@ -1,0 +1,13 @@
+-- convert and convert back
+SELECT
+    units(
+        units(
+            units(
+                [ -40, 0, 32, 100, 212 ], 
+                units.temperature.imperial.fahrenheit
+            ), 
+            units.temperature.si.celsius
+        ), 
+        units.temperature.imperial.fahrenheit
+    )
+;

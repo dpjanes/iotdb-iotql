@@ -1,2 +1,2 @@
--- 999 [iot-unit:temperature.metric.celsius]
+-- 10 [iot-unit:temperature.imperial.fahrenheit]
 --

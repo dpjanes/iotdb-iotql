@@ -4,5 +4,5 @@
 --
 -- thing-02
 -- Thing 2
--- 16
+-- 16 [iot-unit:temperature.si.celsius]
 --

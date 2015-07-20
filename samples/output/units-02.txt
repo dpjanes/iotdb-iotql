@@ -1,0 +1,2 @@
+-- -40,0,32,100,212 [iot-unit:temperature.imperial.fahrenheit]
+--

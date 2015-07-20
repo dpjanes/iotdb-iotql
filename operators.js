@@ -86,25 +86,25 @@ exports.d = {
             return false;
         }
 
-        return scalar.value(paramd.av[0]) < scalar.value(paramd.av[1]);
+        return typed.scalar(paramd.av[0]) < typed.scalar(paramd.av[1]);
     },
     ">": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
-        return scalar.value(paramd.av[0]) > scalar.value(paramd.av[1]);
+        return typed.scalar(paramd.av[0]) > typed.scalar(paramd.av[1]);
     },
     "<=": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
-        return scalar.value(paramd.av[0]) <= scalar.value(paramd.av[1]);
+        return typed.scalar(paramd.av[0]) <= typed.scalar(paramd.av[1]);
     },
     ">=": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
-        return scalar.value(paramd.av[0]) >= scalar.value(paramd.av[1]);
+        return typed.scalar(paramd.av[0]) >= typed.scalar(paramd.av[1]);
     },
     // XXX list functions are not properly dealing with typed values
     "in": function(paramd) {

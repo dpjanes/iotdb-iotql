@@ -1,6 +1,5 @@
 -- thing-01
 -- The Name
--- 999 [iot-unit:temperature.metric.celsius]
--- 999 [iot-unit:temperature.metric.celsius]
--- 999 [iot-unit:temperature.metric.celsius]
+-- 68 [iot-unit:temperature.imperial.fahrenheit]
+-- 20 [iot-unit:temperature.si.celsius]
 --
