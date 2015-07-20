@@ -88,7 +88,9 @@ DB.prototype.run_path = function(iotql_path) {
                 }
                 catch (x) {
                 }
-                if (want !== got) {
+                if (got === null) {
+                    console.log("%s: missing", name);
+                } else if (want !== got) {
                     console.log("-----");
                     console.log("%s: changed", name);
                     console.log("------");
