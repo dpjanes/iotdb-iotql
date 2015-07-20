@@ -7,7 +7,7 @@
  *
  *  Copyright [2013-2015] [David P. Janes]
  *
- *  Number functions
+ *  Unit conversion
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -30,5 +30,9 @@ var typed = require('./typed');
 
 exports.units = function(paramd) {
     console.log("UNITS", paramd.first, paramd.av, paramd.ad);
-    return null;
+    if (typed.is.Number(paramd.first)) {
+        return new typed.Typed(999, "iot-unit:temperature.metric.celsius");
+    } else {
+        return paramd.first;
+    }
 }

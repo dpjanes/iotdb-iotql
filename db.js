@@ -30,6 +30,7 @@ var string = require("./string");
 var math = require("./math");
 var units = require("./units");
 var operators = require("./operators");
+var typed = require("./typed");
 
 var _update_pre = function(a, b) {
     a.query |= b.query;
@@ -54,7 +55,8 @@ var aggregated = {
                 column.a_count += 1;
             }
         } else if (when === WHEN_END) {
-            column.result = column.a_count;
+            column.value = column.a_count;
+            column.units = null;
         }
     },
 
@@ -66,7 +68,8 @@ var aggregated = {
                 column.a_sum += item;
             }
         } else if (when === WHEN_END) {
-            column.result = column.a_sum;
+            column.value = column.a_sum;
+            column.units = null;
         }
     },
 
@@ -80,7 +83,8 @@ var aggregated = {
                 column.a_sum += item;
             }
         } else if (when === WHEN_END) {
-            column.result = column.a_sum / column.a_count;
+            column.value = column.a_sum / column.a_count;
+            column.units = null;
         }
     },
 
@@ -97,7 +101,8 @@ var aggregated = {
                 column.a_min = column.a_min < item ? column.a_min : item;
             }
         } else if (when === WHEN_END) {
-            column.result = column.a_min;
+            column.value = column.a_min;
+            column.units = null;
         }
     },
 
@@ -114,7 +119,8 @@ var aggregated = {
                 column.a_max = column.a_max > item ? column.a_max : item;
             }
         } else if (when === WHEN_END) {
-            column.result = column.a_max;
+            column.value = column.a_max;
+            column.units = null;
         }
     },
 };
@@ -343,7 +349,11 @@ DB.prototype.evaluate = function(v, rowd) {
         }
 
         if (v.compute.star) {
-            return operator(true, []);
+            return operator({
+                first: true, 
+                av: [],
+                ad: {},
+            });
         }
 
         var named = {};
@@ -457,10 +467,12 @@ DB.prototype.do_select = function(statement, rowd, callback) {
 
     var columns = _.ld.list(statement, "select", []);
     columns.map(function(column, index) {
+        var result = self.evaluate(column, rowd);
         resultds.push({
             index: index,
             column: column,
-            result: self.evaluate(column, rowd),
+            value: typed.value(result),
+            unit: typed.unit(result),
         });
     });
 
@@ -513,10 +525,10 @@ DB.prototype.run_statement_select = function(statement, callback) {
             if (resultds !== null) {
                 resultds.map(function(resultd) {
                     var column = resultd.column;
-                    column.result = resultd.result;
+                    column.value = resultd.value;
 
                     if (column.pre.aggregate) {
-                        column.pre.aggregate(resultd.result, column, WHEN_ITEM);
+                        column.pre.aggregate(resultd.value, column, WHEN_ITEM);
                     }
                 });
             }
@@ -530,7 +542,7 @@ DB.prototype.run_statement_select = function(statement, callback) {
 
                     resultds.push({
                         index: index,
-                        result: column.result,
+                        value: column.value,
                         column: column,
                     });
                 });

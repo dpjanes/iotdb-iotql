@@ -70,7 +70,7 @@ DB.prototype.run_path = function(iotql_path) {
             var results = [];
             resultdss.map(function(resultds) {
                 resultds.map(function(resultd) {
-                    results.push("-- " + resultd.result);
+                    results.push("-- " + resultd.value);
                 });
                 results.push("--");
             });
@@ -110,7 +110,7 @@ DB.prototype.run_path = function(iotql_path) {
                 resultdss.map(function(resultds) {
                     console.log("--");
                     resultds.map(function(resultd, index) {
-                        console.log("%s: %s", index, resultd.result);
+                        console.log("%s: %s", index, resultd.value);
                     });
                 });
             }
