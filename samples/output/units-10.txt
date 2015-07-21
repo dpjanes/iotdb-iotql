@@ -2,4 +2,5 @@
 -- The Name
 -- 68 [iot-unit:temperature.imperial.fahrenheit]
 -- 20 [iot-unit:temperature.si.celsius]
+-- 293.15 [iot-unit:temperature.si.kelvin]
 --

@@ -1,7 +1,8 @@
 SELECT
     id, meta.name,
         units(state.sensor.temperature, units.temperature.imperial.fahrenheit) AS fahrenheit,
-        units(state.sensor.temperature, units.temperature.si.celsius) AS celsius
+        units(state.sensor.temperature, units.temperature.si.celsius) AS celsius,
+        units(state.sensor.temperature, units.temperature.si.kelvin) AS kelvin
 WHERE
     state.sensor.temperature = 20;
 ;

@@ -39,6 +39,7 @@ var ad = require('minimist')(process.argv.slice(2), {
 
 /**
  *  Run the IoTQL program at the path
+ *  Horrible callback spaghetti in here
  */
 DB.prototype.run_path = function(iotql_path) {
     var self = this;
@@ -52,65 +53,95 @@ DB.prototype.run_path = function(iotql_path) {
         return;
     }
 
+    // console.log(iotql_compiled);
+
+
     var name = path.basename(iotql_path);
     var text_path = path.join("samples", "output", name.replace(/[.]iotql/, ".txt"));
+    var count = 0;
+    var resultdss = [];
 
-    iotql_compiled.map(function(statement) {
-        var resultdss = [];
+    var _increment = function() {
+        count++;
+    };
+
+    var _decrement = function() {
+        if (--count !== 0) {
+            return;
+        }
+        if (!ad.write && !ad.test) {
+            return;
+        }
+
+        var results = [];
+        resultdss.map(function(resultds) {
+            resultds.map(function(resultd) {
+                if (resultd.units) {
+                    results.push("-- " + resultd.value + " [" + resultd.units + "]");
+                } else {
+                    results.push("-- " + resultd.value);
+                }
+            });
+            results.push("--");
+        });
+
+        var text = results.join("\n") + "\n";
+        if (ad.write) {
+            fs.writeFileSync(text_path, text);
+            console.log("%s: ok: wrote", name, text_path);
+        } else if (ad.test) {
+            var want = text;
+            var got = null;
+            try {
+                got = fs.readFileSync(text_path, 'utf-8');
+            }
+            catch (x) {
+            }
+
+            if (got === null) {
+                console.log("%s: missing", name);
+            } else if (want !== got) {
+                console.log("-----");
+                console.log("%s: changed", name);
+                console.log("------");
+                console.log("-- WANT");
+                console.log("------");
+                console.log("%s", want);
+                console.log("------");
+                console.log("-- GOT");
+                console.log("------");
+                console.log("%s", got);
+                console.log("------");
+            } else {
+                console.log("%s: ok", name);
+            }
+        }
+    };
+
+    _increment();
+    iotql_compiled.map(function(statement, index) {
+        _increment();
+
         self.run_statement(statement, function(error, resultds) {
+            if (resultds) {
+                resultdss.push(resultds);
+            }
+
+            _decrement();
+            
             if (error) {
                 console.log("RESULT-ERROR", error, resultds);
                 return;
-            } else if (resultds) {
-                resultdss.push(resultds);
+            }
+
+            if (ad.write || ad.test) {
                 return;
             }
 
-            var script = [ iotql_script.replace(/[ \n\t]*$/mg, ""), "------------", "-- RESULT --", "------------" ];
-            var results = [];
-            resultdss.map(function(resultds) {
-                resultds.map(function(resultd) {
-                    if (resultd.units) {
-                        results.push("-- " + resultd.value + " [" + resultd.units + "]");
-                    } else {
-                        results.push("-- " + resultd.value);
-                    }
-                });
-                results.push("--");
-            });
-
-            var text = results.join("\n") + "\n";
-
-            if (ad.write) {
-                fs.writeFileSync(text_path, text);
-                console.log("%s: ok: wrote", name, text_path);
-            } else if (ad.test) {
-                var want = text;
-                var got = null;
-                try {
-                    got = fs.readFileSync(text_path, 'utf-8');
-                }
-                catch (x) {
-                }
-                if (got === null) {
-                    console.log("%s: missing", name);
-                } else if (want !== got) {
-                    console.log("-----");
-                    console.log("%s: changed", name);
-                    console.log("------");
-                    console.log("-- WANT");
-                    console.log("------");
-                    console.log("%s", want);
-                    console.log("------");
-                    console.log("-- GOT");
-                    console.log("------");
-                    console.log("%s", got);
-                    console.log("------");
-                } else {
-                    console.log("%s: ok", name);
-                }
-            } else {
-                console.log("-- %s: ok", name);
+            if (!resultds) {
+                console.log("=============");
+                console.log("== %s[%s]: ok", name, index);
+                console.log("=============");
                 resultdss.map(function(resultds) {
                     console.log("--");
                     resultds.map(function(resultd, index) {
@@ -127,7 +158,10 @@ DB.prototype.run_path = function(iotql_path) {
                 });
             }
         });
+
     });
+
+    _decrement();
 };
 
 // --- main ---

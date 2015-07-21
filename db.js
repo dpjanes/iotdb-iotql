@@ -592,7 +592,9 @@ DB.prototype.do_set = function(statement, rowd, callback) {
     var self = this;
 
     var resultds = [];
-    var updated = {};
+    var updated = {
+        id: rowd.id,
+    };
 
     var sets = _.ld.list(statement, "set", []);
     sets.map(function(setd, index) {
@@ -615,6 +617,7 @@ DB.prototype.do_set = function(statement, rowd, callback) {
         }
 
         var code = null;
+        var unit = null;
 
         // selectors on state need to be looked up in the model
         if ((band === "istate") || (band === "ostate")) {
@@ -624,6 +627,8 @@ DB.prototype.do_set = function(statement, rowd, callback) {
                 } else if (_.ld.contains(attribute, "iot:purpose", selector)) {
                     code = _.ld.first(attribute, "@id", "");
                     code = code.replace(/^.*?#/, '');
+
+                    unit = _.ld.first(attribute, "iot:unit", null);
                 }
             });
         } else {
@@ -664,8 +669,25 @@ DB.prototype.run_statement_set = function(statement, callback) {
             callback = null;
         } else {
             if (updatedd) {
-                // -- XXX: do the work of actually updating --
                 console.log("RESULT!", updatedd);
+
+                for (var band in updatedd) {
+                    if (band === "id") {
+                        continue;
+                    }
+
+                    ++pending;
+
+                    var updated = updatedd[band];
+                    self.transporter.update({
+                        id: updatedd.id,
+                        band: band, 
+                        value: updated, 
+                    }, function(ud) {
+                        --pending;
+                        console.log(ud);
+                    });
+                }
             }
 
             if (--pending === 0) {

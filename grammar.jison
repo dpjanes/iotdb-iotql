@@ -54,15 +54,24 @@
 %%
 
 expressions: 
-    EXPRESSION EOF
-        {{ return $1; }}
+    EXPRESSION-LIST EOF
+        {{
+            return $$;
+        }}
+;
+
+EXPRESSION-LIST:
+    EXPRESSION ";" EXPRESSION-LIST
+        {{ 
+            $$ = $1.concat($3);
+        }}
     |
-    EXPRESSION ";"
-        {{ return $1; }}
-    |
-    EOF
-        {{ return []; }}
+    EXPRESSION 
+        {{ 
+            $$ = $1; 
+        }}
     ;
+
 
 EXPRESSION:
     "SELECT" SELECT-TERMS
@@ -76,6 +85,8 @@ EXPRESSION:
     |
     "SET" SET-TERMS "WHERE" VALUE
     { $$ = [ { "set": $2, "where": $4 } ]; }
+    |
+    { $$ = []; }
     ;
 
 SELECT-TERMS:
