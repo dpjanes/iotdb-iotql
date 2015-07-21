@@ -1,6 +1,9 @@
--- thing-01
--- The Name
--- 68 [iot-unit:temperature.imperial.fahrenheit]
--- 20 [iot-unit:temperature.si.celsius]
--- 293.15 [iot-unit:temperature.si.kelvin]
+=============
+== units-10.iotql[0]
+=============
+0: thing-01
+1: The Name
+2: 68 [iot-unit:temperature.imperial.fahrenheit]
+3: 20 [iot-unit:temperature.si.celsius]
+4: 293.15 [iot-unit:temperature.si.kelvin]
 --

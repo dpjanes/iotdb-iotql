@@ -27,6 +27,7 @@ var _ = iotdb._;
 
 var fs = require('fs')
 var path = require('path')
+var util = require('util')
 var minimist = require('minimist');
 var child_process = require('child_process');
 var parser = require("./grammar").parser;
@@ -37,132 +38,171 @@ var ad = require('minimist')(process.argv.slice(2), {
     boolean: [ "write", "test", "all" ],
 });
 
+/*
+ *  Execute the compiled statements. The next statement
+ *  won't execute until the previous one is completed.
+ */
+DB.prototype.execute = function(statements, callback) {
+    var self = this;
+
+    var statement_index = -1;
+
+    var next = function() {
+        if (++statement_index === statements.length) {
+            callback({
+                end: true,
+            });
+            return;
+        }
+
+        callback({
+            start: true,
+            index: statement_index,
+        });
+
+        var statement = statements[statement_index];
+
+        self.run_statement(statement, function(error, columns) {
+            callback({
+                index: statement_index,
+                error: error,
+                columns: columns,
+            });
+
+            if (!columns) {
+                next();
+            }
+        });
+    };
+
+    next();
+};
+
 /**
  *  Run the IoTQL program at the path
- *  Horrible callback spaghetti in here
  */
 DB.prototype.run_path = function(iotql_path) {
     var self = this;
 
     try {
         var iotql_script = fs.readFileSync(iotql_path, 'utf-8');
-        var iotql_compiled = parser.parse(iotql_script);
+        var statements = parser.parse(iotql_script);
     }
     catch (x) {
         console.log("%s: failed: %s", iotql_path, x);
         return;
     }
 
-    // console.log(iotql_compiled);
+    if (ad.test || ad.write) {
+        self.run_path_test(iotql_path, statements);
+    } else {
+        self.run_path_user(iotql_path, statements);
+    }
+};
 
+DB.prototype.run_path_test = function(iotql_path, statements) {
+    var self = this;
 
     var name = path.basename(iotql_path);
     var text_path = path.join("samples", "output", name.replace(/[.]iotql/, ".txt"));
-    var count = 0;
-    var resultdss = [];
 
-    var _increment = function() {
-        count++;
-    };
+    // get the previous result if we need it
+    var previous = null;
 
-    var _decrement = function() {
-        if (--count !== 0) {
-            return;
+    if (ad.test) {
+        try {
+            previous = fs.readFileSync(text_path, 'utf-8');
         }
-        if (!ad.write && !ad.test) {
-            return;
+        catch (x) {
         }
 
-        var results = [];
-        resultdss.map(function(resultds) {
-            resultds.map(function(resultd) {
-                if (resultd.units) {
-                    results.push("-- " + resultd.value + " [" + resultd.units + "]");
+        if (previous === null) {
+            console.log("%s: missing", name);
+            return;
+        }
+    }
+
+    var lines = [];
+
+    self.execute(statements, function(cd) {
+        if (cd.end) {
+            var text = lines.join("\n") + "\n";
+
+            if (ad.write) {
+                fs.writeFileSync(text_path, text);
+                console.log("%s: ok: wrote", name, text_path);
+            } else if (ad.test) {
+                if (text !== previous) {
+                    console.log("-----");
+                    console.log("%s: changed", name);
+                    console.log("------");
+                    console.log("-- CURRENT");
+                    console.log("------");
+                    console.log("%s", text);
+                    console.log("------");
+                    console.log("-- PREVIOUS");
+                    console.log("------");
+                    console.log("%s", previous);
+                    console.log("------");
                 } else {
-                    results.push("-- " + resultd.value);
+                    console.log("%s: ok", name);
+                }
+            }
+        } else if (cd.start) {
+            lines.push(util.format("============="));
+            lines.push(util.format("== %s[%s]", name, cd.index));
+            lines.push(util.format("============="));
+        } else if (cd.error) {
+            lines.push(util.format("-- ERROR: %s", cd.error));
+        } else if (cd.columns) {
+            cd.columns.map(function(column, column_index) {
+                var v = column.value;
+                if (_.is.Array(v)) {
+                    v = JSON.stringify(v);
+                }
+
+                if (column.units) {
+                    lines.push(util.format("%s: %s [%s]", column_index, v, column.units));
+                } else {
+                    lines.push(util.format("%s: %s", column_index, v));
                 }
             });
-            results.push("--");
-        });
-
-        var text = results.join("\n") + "\n";
-        if (ad.write) {
-            fs.writeFileSync(text_path, text);
-            console.log("%s: ok: wrote", name, text_path);
-        } else if (ad.test) {
-            var want = text;
-            var got = null;
-            try {
-                got = fs.readFileSync(text_path, 'utf-8');
-            }
-            catch (x) {
-            }
-
-            if (got === null) {
-                console.log("%s: missing", name);
-            } else if (want !== got) {
-                console.log("-----");
-                console.log("%s: changed", name);
-                console.log("------");
-                console.log("-- WANT");
-                console.log("------");
-                console.log("%s", want);
-                console.log("------");
-                console.log("-- GOT");
-                console.log("------");
-                console.log("%s", got);
-                console.log("------");
-            } else {
-                console.log("%s: ok", name);
-            }
+            lines.push(util.format("--"));
         }
-    };
-
-    _increment();
-    iotql_compiled.map(function(statement, index) {
-        _increment();
-
-        self.run_statement(statement, function(error, resultds) {
-            if (resultds) {
-                resultdss.push(resultds);
-            }
-
-            _decrement();
-            
-            if (error) {
-                console.log("RESULT-ERROR", error, resultds);
-                return;
-            }
-
-            if (ad.write || ad.test) {
-                return;
-            }
-
-            if (!resultds) {
-                console.log("=============");
-                console.log("== %s[%s]: ok", name, index);
-                console.log("=============");
-                resultdss.map(function(resultds) {
-                    console.log("--");
-                    resultds.map(function(resultd, index) {
-                        var v = resultd.value;
-                        if (_.is.Array(v)) {
-                            v = JSON.stringify(v);
-                        }
-                        if (resultd.units) {
-                            console.log("%s: %s [%s]", index, v, resultd.units);
-                        } else {
-                            console.log("%s: %s", index, v);
-                        }
-                    });
-                });
-                resultdss = [];
-            }
-        });
-
     });
+};
 
-    _decrement();
+/**
+ *  This executes the command and prints out the result to stdout
+ */
+DB.prototype.run_path_user = function(iotql_path, statements) {
+    var self = this;
+    var name = path.basename(iotql_path);
+
+    self.execute(statements, function(cd) {
+        if (cd.end) {
+        } else if (cd.start) {
+            console.log("=============");
+            console.log("== %s[%s]", name, cd.index);
+            console.log("=============");
+        } else if (cd.error) {
+            console.log("-- ERROR: %s", cd.error);
+        } else if (cd.columns) {
+            cd.columns.map(function(column, column_index) {
+                var v = column.value;
+                if (_.is.Array(v)) {
+                    v = JSON.stringify(v);
+                }
+
+                if (column.units) {
+                    console.log("%s: %s [%s]", column_index, v, column.units);
+                } else {
+                    console.log("%s: %s", column_index, v);
+                }
+            });
+            console.log("--");
+        }
+    });
 };
 
 // --- main ---

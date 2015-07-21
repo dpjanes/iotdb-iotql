@@ -661,6 +661,18 @@ DB.prototype.run_statement_set = function(statement, callback) {
     // run it
     var pending = 1;
 
+    var _decrement = function() {
+        if (--pending !== 0) {
+            return;
+        }
+
+        if (callback) {
+            callback(null, null);
+        }
+
+        callback = null;
+    };
+
     var _wrap_callback = function(error, updatedd) {
         if (!callback) {
             return;
@@ -684,16 +696,12 @@ DB.prototype.run_statement_set = function(statement, callback) {
                         band: band, 
                         value: updated, 
                     }, function(ud) {
-                        --pending;
-                        console.log(ud);
+                        _decrement();
                     });
                 }
             }
 
-            if (--pending === 0) {
-                callback(null, null);
-                callback = null;
-            }
+            _decrement();
         }
     };
 

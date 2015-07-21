@@ -1,4 +1,11 @@
--- thing-03
--- Lights (03)
--- null
+=============
+== where-08.iotql[0]
+=============
+0: thing-03
+1: Lights (03)
+2: null
+--
+0: thing-02
+1: Thing 2
+2: 16 [iot-unit:temperature.si.celsius]
 --

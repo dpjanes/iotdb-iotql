@@ -1,3 +1,6 @@
--- thing-01
--- The Name
+=============
+== where-and-or-01.iotql[0]
+=============
+0: thing-01
+1: The Name
 --

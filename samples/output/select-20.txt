@@ -1,6 +1,9 @@
--- false
--- false
--- false
--- false
--- false
+=============
+== select-20.iotql[0]
+=============
+0: false
+1: false
+2: false
+3: false
+4: false
 --

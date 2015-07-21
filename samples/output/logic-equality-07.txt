@@ -1,2 +1,5 @@
--- false
+=============
+== logic-equality-07.iotql[0]
+=============
+0: false
 --

@@ -1,6 +1,9 @@
--- ABBBABA
--- ,BBB,B,
--- ABBBABA
--- A,,,A,A
--- A,BABA
+=============
+== function-05.iotql[0]
+=============
+0: ["ABBBABA"]
+1: ["","BBB","B",""]
+2: ["ABBBABA"]
+3: ["A","","","A","A"]
+4: ["A","BABA"]
 --

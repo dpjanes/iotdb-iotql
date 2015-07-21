@@ -1,4 +1,7 @@
--- 0 [iot-unit:temperature.si.kelvin]
--- -273.15 [iot-unit:temperature.si.celsius]
--- -459.67 [iot-unit:temperature.imperial.fahrenheit]
+=============
+== units-06.iotql[0]
+=============
+0: 0 [iot-unit:temperature.si.kelvin]
+1: -273.15 [iot-unit:temperature.si.celsius]
+2: -459.67 [iot-unit:temperature.imperial.fahrenheit]
 --
