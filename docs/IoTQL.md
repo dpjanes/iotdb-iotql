@@ -14,7 +14,7 @@ There are multiple sets of data associated with any one Thing.
 * meta: the metadata
 * ostate: the "output state" - what we want a Thing to do, what we want it to transition to
 * istate: the "input state" - the actual state of a Thing
-* state: when reading, the istate; when writing, the ostate. This is usually, except for certain edge cases, the right thing to do.
+* state: when reading, the istate; when writing, the ostate: This is usually, except for certain edge cases, the right thing to do.
 
 ### Facets
 
@@ -43,26 +43,26 @@ JSONish. Not sure what this means yet.
 ### Turn on everything
 
 	SET
-		state.on = true
+		state:on = true
 		
 That's probably a little extreme for most people!
 
 Mappings:
 
-* <code>state.on</code> → OSTATE(iot-attribute:on)
+* <code>state:on</code> → OSTATE(iot-attribute:on)
 
 
 ### Turn on "Desktop Lamp"
 
 	SET
-		state.on = true
+		state:on = true
 	WHERE
-		meta.name = "Desktop Lamp"
+		meta:name = "Desktop Lamp"
 
 Mappings:
 
-* <code>state.on</code> → OSTATE(iot-attribute:on) 
-* <code>meta.name</code> → META(schema:name)
+* <code>state:on</code> → OSTATE(iot-attribute:on) 
+* <code>meta:name</code> → META(schema:name)
 
 The IOTQL knows that certain words gets mapped into different namespaces.
 
@@ -70,31 +70,31 @@ The IOTQL knows that certain words gets mapped into different namespaces.
 ### Set all lights in the basement to half-bright
 
 	SET
-		state.brightness = 50%
+		state:brightness = 50%
 	WHERE
-		meta.zone & "Basement"
+		meta:zone & "Basement"
 	AND
-		meta.facet & facets.lighting
+		meta:facet & facets:lighting
 		
 Originally we had "=" instead of "&", but it's not really the operator we want to do. Theoretically there's a list on both sides. The "&" operator is to test for intersection of lists. Items that are not lists are cast to lists. 
 		
 Mappings:
 
-* <code>state.brightness</code> → OSTATE(iot-attribute:brightness)
-* <code>meta.zone</code> → META(iot:zone)
-* <code>meta.facet</code> → META(iot:facet)
-* <code>facets.lighting</code> → iot-facet:lighting
+* <code>state:brightness</code> → OSTATE(iot-attribute:brightness)
+* <code>meta:zone</code> → META(iot:zone)
+* <code>meta:facet</code> → META(iot:facet)
+* <code>facets:lighting</code> → iot-facet:lighting
 * % → a value between 0 and 100, equivalent to UNITS(#,iot-unit:math.fraction.percent)
 
 ### Get the temperature
 
 	SELECT
-		state.sensor.temperature
+		state:sensor.temperature
 	
 as a variant
 
 	SELECT
-		state.sensor.temperature AS temperature
+		state:sensor.temperature AS temperature
 		
 Mappings:
 
@@ -105,25 +105,25 @@ Note - what do we do with Things that don't have the attribute <code>sensor.temp
 ### Get the temperature in Celsius, only from HVAC equipment
 
 	SELECT
-		UNITS(state.sensor.temperature,units.temperature.metric.celsius)
+		UNITS(state:sensor.temperature,units:temperature.metric.celsius)
 	WHERE
-		meta.facet & facets.climate
+		meta:facet & facets:climate
 		
 Mappings:
 
-* <code>state.sensor.temperature</code> → OSTATE(iot-attribute:sensor.temperature)
-* <code>units.temperature.metric.celsius</code> → iot-attribute:temperature.metric.celsius
-* <code>facets.climate</code> → iot-facet:climate
-* <code>meta.facet</code> → iot:facet
+* <code>state:sensor.temperature</code> → OSTATE(iot-attribute:sensor.temperature)
+* <code>units:temperature.metric.celsius</code> → iot-attribute:temperature.metric.celsius
+* <code>facets:climate</code> → iot-facet:climate
+* <code>meta:facet</code> → iot:facet
 
 ### Set the temperature in the basement to 68F
 
 	SET
-		state.temperature = UNITS(68,units.temperature.imperial.fahrenheit)
+		state:temperature = UNITS(68,units:temperature.imperial.fahrenheit)
 	WHERE
-		meta.zone & "Basement"
+		meta:zone & "Basement"
 	AND 
-		meta.facet & [ climate.heating, climate.cooling ]
+		meta:facet & [ climate.heating, climate.cooling ]
 		
 * <code>sensor.temperature</code> → ISTATE(iot-attribute:sensor.temperature)
 * <code>zone</code> → META(iot:zone)
@@ -136,28 +136,28 @@ Note JSON list structure!
 ### Get the name of everything
 
 	SELECT
-		id, meta.name
+		id, meta:name
 		
 ### Change the name of something
 
 	SET
-		meta.name = "Desktop Lamp"
+		meta:name = "Desktop Lamp"
 	WHERE
-		meta.name = "Downstairs Lamp"
+		meta:name = "Downstairs Lamp"
 		
 ### Get everything that is on
 
 	SELECT
-		id, meta.name
+		id, meta:name
 	WHERE
-		state.on = true
+		state:on = true
 		
 Note that since we accept Pythonic type trues, so we could also do
 
 	SELECT
-		id, meta.name
+		id, meta:name
 	WHERE
-		state.on
+		state:on
 					
 	
 ## Select everything that is in the Interstitial State
@@ -165,9 +165,9 @@ Note that since we accept Pythonic type trues, so we could also do
 Interstitial meaning ostate has a value
 
 	SELECT
-		meta.name
+		meta:name
 	WHERE
-		ostate.*
+		ostate:*
 		
 
 

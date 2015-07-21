@@ -51,7 +51,7 @@ var aggregated = {
         if (when === WHEN_START) {
             column.a_count = 0;
         } else if (when === WHEN_ITEM) {
-            if (_.is.Number(item)) {
+            if ((item !== null) && (item !== undefined)) {
                 column.a_count += 1;
             }
         } else if (when === WHEN_END) {
@@ -309,7 +309,7 @@ DB.prototype.evaluate = function(v, rowd) {
                 });
 
                 if (code === null) {
-                    return null;
+                    return undefined;   // e.g. this selector does not exist
                 }
             } else {
                 code = v.selector;
@@ -377,6 +377,10 @@ DB.prototype.evaluate = function(v, rowd) {
                 ad: named,
             });
         } else {
+            if (operands[0] === undefined) {
+                return undefined;
+            }
+
             return operator({
                 first: operands[0], 
                 av: operands, 
@@ -560,6 +564,12 @@ DB.prototype.run_statement_select = function(statement, callback) {
             }
         } else {
             if (resultds !== null) {
+                resultds.map(function(resultd) {
+                    // don't let undefined leak out from here
+                    if (resultd.value === undefined) {
+                        resultd.value = null;
+                    }
+                });
                 callback(error, resultds);
             }
 

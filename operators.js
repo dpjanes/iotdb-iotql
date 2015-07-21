@@ -84,6 +84,10 @@ exports.d = {
     "<": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
+        } else if (typed.is.Null(paramd.av[0])) {
+            return false;
+        } else if (typed.is.Null(paramd.av[1])) {
+            return false;
         }
 
         return typed.scalar(paramd.av[0]) < typed.scalar(paramd.av[1]);
@@ -91,17 +95,29 @@ exports.d = {
     ">": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
+        } else if (typed.is.Null(paramd.av[0])) {
+            return false;
+        } else if (typed.is.Null(paramd.av[1])) {
+            return false;
         }
         return typed.scalar(paramd.av[0]) > typed.scalar(paramd.av[1]);
     },
     "<=": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
+        } else if (typed.is.Null(paramd.av[0])) {
+            return false;
+        } else if (typed.is.Null(paramd.av[1])) {
+            return false;
         }
         return typed.scalar(paramd.av[0]) <= typed.scalar(paramd.av[1]);
     },
     ">=": function(paramd) {
         if (paramd.av.length !== 2) {
+            return false;
+        } else if (typed.is.Null(paramd.av[0])) {
+            return false;
+        } else if (typed.is.Null(paramd.av[1])) {
             return false;
         }
         return typed.scalar(paramd.av[0]) >= typed.scalar(paramd.av[1]);
@@ -111,13 +127,14 @@ exports.d = {
         if (paramd.av.length !== 2) {
             return false;
         }
-        return _list(paramd.av[1]).indexOf(paramd.av[0]) > -1;
+
+        return _list(paramd.av[1]).indexOf(typed.scalar(paramd.av[0])) > -1;
     },
     "not in": function(paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
-        return _list(paramd.av[1]).indexOf(paramd.av[0]) === -1;
+        return _list(paramd.av[1]).indexOf(typed.scalar(paramd.av[0])) === -1;
     },
     "&": function(paramd) {
         if (paramd.av.length !== 2) {
