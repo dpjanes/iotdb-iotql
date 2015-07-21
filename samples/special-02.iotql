@@ -1,0 +1,4 @@
+-- percent sign
+SELECT
+    units(5%, units.math.fraction.unit)
+;

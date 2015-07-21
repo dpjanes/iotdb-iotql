@@ -1,0 +1,4 @@
+-- percent sign
+SELECT
+    5%
+;

@@ -1,0 +1,7 @@
+=============
+== special-03.iotql[0]
+=============
+0: 20 [iot-unit:temperature.si.celsius]
+1: 68 [iot-unit:temperature.imperial.fahrenheit]
+2: 293.15 [iot-unit:temperature.si.kelvin]
+--

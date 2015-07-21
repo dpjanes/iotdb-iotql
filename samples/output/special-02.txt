@@ -1,0 +1,5 @@
+=============
+== special-02.iotql[0]
+=============
+0: 0.05 [iot-unit:math.fraction.unit]
+--

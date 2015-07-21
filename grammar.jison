@@ -25,6 +25,10 @@
 "false"                 return 'BOOLEAN'
 "true"                  return 'BOOLEAN'
 "="                     return '='
+"%"                     return 'DECORATOR'
+"°C"                    return 'DECORATOR'
+"°F"                    return 'DECORATOR'
+"°K"                    return 'DECORATOR'
 "&="                    return 'ASSIGN-OPERATOR'
 "|="                    return 'ASSIGN-OPERATOR'
 "!="                    return 'BI-OPERATOR'
@@ -317,6 +321,64 @@ ATOMIC:
     {{ $$ = {
         "band": $1.replace(/[.].*$/, ""),  
         "selector": $1.replace(/^[^.]*[.]/, ""),  
+        };
+    }}
+    |
+    INTEGER DECORATOR
+    {{ 
+        var selector = null;
+        if ($2 === "%") {
+            selector = 'math.fraction.percent';
+        } else if ($2 === "°C") {
+            selector = 'temperature.si.celsius';
+        } else if ($2 === "°F") {
+            selector = 'temperature.imperial.fahrenheit';
+        } else if ($2 === "°K") {
+            selector = 'temperature.si.kelvin';
+        }
+
+        $$ = {
+            "compute": {
+                "operation": "units",
+                "operands": [
+                    {
+                        actual: Number.parseInt($1)
+                    },
+                    {
+                        band: "units",
+                        selector: selector,
+                    },
+                ]
+            },
+        };
+    }}
+    |
+    NUMBER DECORATOR
+    {{ 
+        var selector = null;
+        if ($2 === "%") {
+            selector = 'math.fraction.percent';
+        } else if ($2 === "°C") {
+            selector = 'temperature.si.celsius';
+        } else if ($2 === "°F") {
+            selector = 'temperature.imperial.fahrenheit';
+        } else if ($2 === "°K") {
+            selector = 'temperature.si.kelvin';
+        }
+
+        $$ = {
+            "compute": {
+                "operation": "units",
+                "operands": [
+                    {
+                        actual: Number.parseFloat($1)
+                    },
+                    {
+                        band: "units",
+                        selector: selector,
+                    },
+                ]
+            },
         };
     }}
     |

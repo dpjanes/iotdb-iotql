@@ -1,0 +1,4 @@
+-- temperature
+SELECT
+    20°C, 68°F, 293.15°K
+;
