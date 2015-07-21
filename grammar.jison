@@ -25,6 +25,8 @@
 "false"                 return 'BOOLEAN'
 "true"                  return 'BOOLEAN'
 "="                     return '='
+"&="                    return 'ASSIGN-OPERATOR'
+"|="                    return 'ASSIGN-OPERATOR'
 "!="                    return 'BI-OPERATOR'
 "<="                    return 'BI-OPERATOR'
 ">="                    return 'BI-OPERATOR'
@@ -112,6 +114,19 @@ SET-TERM:
             lhs: {
                 "band": $1.replace(/[.].*$/, ""),  
                 "selector": $1.replace(/^[^.]*[.]/, ""),  
+                "assign": $2,
+            },
+            rhs: $3,
+        };
+    }}
+    |
+    SYMBOL ASSIGN-OPERATOR VALUE
+    {{
+        $$ = {
+            lhs: {
+                "band": $1.replace(/[.].*$/, ""),  
+                "selector": $1.replace(/^[^.]*[.]/, ""),  
+                "assign": $2,
             },
             rhs: $3,
         };
