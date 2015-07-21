@@ -92,22 +92,23 @@ var iotql_eval = function(cmd, context, filename, callback) {
         } else if (cd.error) {
             console.log("-- ERROR: %s", cd.error);
         } else if (cd.columns) {
-            var rowds = [];
+            var rowdd = {};
 
             cd.columns.map(function(column, column_index) {
+                if (column.value === null) {
+                    return;
+                }
                 var rowd = {
                     value: column.value,
                 };
-                rowds.push(rowd);
                 if (column.units) {
                     rowd.units = column.units;
                 }
+
+                rowdd[column.name] = rowd
             });
 
-            resultds.push({
-                index: cd.index,
-                row: rowds,
-            });
+            resultds.push(rowdd);
         }
     });
 

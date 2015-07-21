@@ -296,6 +296,7 @@ DB.prototype.evaluate = function(v, rowd) {
         if (v.selector) {
             var code = null;
             var unit = null;
+            var purpose = null;
 
             // selectors on state need to be looked up in the model
             if ((v.band === "istate") || (v.band === "ostate")) {
@@ -307,6 +308,7 @@ DB.prototype.evaluate = function(v, rowd) {
                         code = code.replace(/^.*?#/, '');
 
                         unit = _.ld.first(attribute, "iot:unit", null);
+                        purpose = _.ld.first(attribute, "iot:purpose", null);
                     }
                 });
 
@@ -320,10 +322,11 @@ DB.prototype.evaluate = function(v, rowd) {
             var result = d[code];
             if (result === undefined) {
                 return null;
-            } else if (unit) {
-                return new typed.Typed(result, unit);
             } else {
-                return result;
+                var r = new typed.Typed(result, unit);
+                r.purpose = purpose;
+                r.as = v.column;
+                return r;
             }
         } else {
             return null;
@@ -482,7 +485,28 @@ DB.prototype.do_select = function(statement, rowd, callback) {
     var columns = _.ld.list(statement, "select", []);
     columns.map(function(column, index) {
         var result = self.evaluate(column, rowd);
+
+        // console.log("COLUMN", column);
+
+        var name;
+        if (result && result.as) {
+            name = result.as;
+        } else if (column.id) {
+            name = "id";
+        } else if (result && result.purpose) {
+            name = result.purpose.replace(/^iot.*:/, '');
+        } else if (column.selector) {
+            name = column.selector.replace(/^iot.*:/, '');
+        } else if (index === 0) {
+            name = "c00";
+        } else if (index < 10) {
+            name = "c0" + index; 
+        } else {
+            name = "c" + index;
+        }
+
         resultds.push({
+            name: name,
             index: index,
             column: column,
             value: typed.scalar(result),
