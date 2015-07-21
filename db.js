@@ -593,7 +593,6 @@ DB.prototype.do_set = function(statement, rowd, callback) {
 
     var resultds = [];
     var updated = {
-        id: rowd.id,
     };
 
     var sets = _.ld.list(statement, "set", []);
@@ -642,7 +641,7 @@ DB.prototype.do_set = function(statement, rowd, callback) {
         bd[code] = value;
     });
 
-    callback(null, updated)
+    callback(null, updated, rowd)
 };
 
 /**
@@ -673,7 +672,7 @@ DB.prototype.run_statement_set = function(statement, callback) {
         callback = null;
     };
 
-    var _wrap_callback = function(error, updatedd) {
+    var _wrap_callback = function(error, updatedd, rowd) {
         if (!callback) {
             return;
         } else if (error) {
@@ -681,18 +680,16 @@ DB.prototype.run_statement_set = function(statement, callback) {
             callback = null;
         } else {
             if (updatedd) {
-                console.log("RESULT!", updatedd);
+                // console.log("RESULT!", updatedd, rowd);
 
                 for (var band in updatedd) {
-                    if (band === "id") {
-                        continue;
-                    }
-
                     ++pending;
 
-                    var updated = updatedd[band];
+                    var updated = _.defaults(updatedd[band], rowd[band]);
+                    // console.log("UPDATED", rowd.id, updated);
+
                     self.transporter.update({
-                        id: updatedd.id,
+                        id: rowd.id,
                         band: band, 
                         value: updated, 
                     }, function(ud) {
@@ -713,14 +710,57 @@ DB.prototype.run_statement_set = function(statement, callback) {
         } else {
             ++pending;
             self.fetch_bands(d.id, statement.pre.bands, function(error, rowd) {
+                // console.log("ROWD", rowd);
                 if (!statement.where || self.evaluate(statement.where, rowd)) {
                     self.do_set(statement, rowd, _wrap_callback);
                 } else {
-                    _wrap_callback(null, null);
+                    _wrap_callback(null, null, null);
                 }
             });
         }
     });
+};
+
+/*
+ *  Execute the compiled statements. The next statement
+ *  won't execute until the previous one is completed.
+ */
+DB.prototype.execute = function(statements, callback) {
+    var self = this;
+
+    var statement_index = -1;
+
+    var next = function() {
+        if (++statement_index === statements.length) {
+            callback({
+                end: true,
+            });
+            return;
+        }
+
+        callback({
+            start: true,
+            index: statement_index,
+            statement: statement,
+        });
+
+        var statement = statements[statement_index];
+
+        self.run_statement(statement, function(error, columns) {
+            callback({
+                statement: statement,
+                index: statement_index,
+                error: error,
+                columns: columns,
+            });
+
+            if (!columns) {
+                next();
+            }
+        });
+    };
+
+    next();
 };
 
 /**

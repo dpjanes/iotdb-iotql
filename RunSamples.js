@@ -38,46 +38,6 @@ var ad = require('minimist')(process.argv.slice(2), {
     boolean: [ "write", "test", "all" ],
 });
 
-/*
- *  Execute the compiled statements. The next statement
- *  won't execute until the previous one is completed.
- */
-DB.prototype.execute = function(statements, callback) {
-    var self = this;
-
-    var statement_index = -1;
-
-    var next = function() {
-        if (++statement_index === statements.length) {
-            callback({
-                end: true,
-            });
-            return;
-        }
-
-        callback({
-            start: true,
-            index: statement_index,
-        });
-
-        var statement = statements[statement_index];
-
-        self.run_statement(statement, function(error, columns) {
-            callback({
-                index: statement_index,
-                error: error,
-                columns: columns,
-            });
-
-            if (!columns) {
-                next();
-            }
-        });
-    };
-
-    next();
-};
-
 /**
  *  Run the IoTQL program at the path
  */
@@ -180,6 +140,7 @@ DB.prototype.run_path_user = function(iotql_path, statements) {
     var name = path.basename(iotql_path);
 
     self.execute(statements, function(cd) {
+        // console.log("HERE:AAA", cd);
         if (cd.end) {
         } else if (cd.start) {
             console.log("=============");

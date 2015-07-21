@@ -1,10 +1,15 @@
+SELECT
+    id, meta.name, meta.facet
+WHERE
+    meta.name = "The Name"
+;
 SET
     meta.facet = [ facets.climate, facets.climate.heating, facets.sensor, facets.sensor.temperature ]
 WHERE
     meta.name = "The Name"
 ;
 SELECT
-    id, meta.name, meta.facets
+    id, meta.name, meta.facet
 WHERE
     meta.name = "The Name"
 ;
