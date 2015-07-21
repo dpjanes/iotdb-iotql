@@ -1,0 +1,13 @@
+-- thing-01 uses celsius, we expect to get that
+-- note that we have to read "ostate" to get the value
+-- as "state" when reading gets "istate"
+SET
+    state:sensor.temperature = 200°F
+WHERE
+    id = "thing-01"
+;
+SELECT
+    id, meta:name, ostate:sensor.temperature
+WHERE
+    id = "thing-01"
+;

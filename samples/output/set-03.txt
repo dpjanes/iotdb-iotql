@@ -13,5 +13,5 @@
 =============
 0: thing-01
 1: The Name
-2: ["iot-facet:climate","iot-facet:climate.heating"]
+2: ["iot-facet:climate","iot-facet:climate.heating","iot-facet:sensor","iot-facet:sensor.temperature"]
 --

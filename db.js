@@ -764,7 +764,7 @@ DB.prototype.run_statement_set = function(statement, callback) {
             callback = null;
         } else {
             if (updatedd) {
-                console.log("RESULT!", updatedd, rowd);
+                // console.log("RESULT!", updatedd, rowd);
 
                 for (var band in updatedd) {
                     ++pending;
