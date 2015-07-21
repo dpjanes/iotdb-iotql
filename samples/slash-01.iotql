@@ -1,0 +1,5 @@
+-- "/" just looks in the dictionary, it never
+-- does type conversions or any other model
+-- oriented actions
+SELECT
+    id, state/t, state/temperature, meta/iot:name

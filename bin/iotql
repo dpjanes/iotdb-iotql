@@ -1,0 +1,132 @@
+#!/usr/bin/env node
+// vi:syntax=javascript
+
+/*
+ *  iotql
+ *
+ *  David Janes
+ *  IOTDB.org
+ *  2015-07-21
+ *
+ *  Interactive IoTQL 
+ *
+ *  Copyright [2013-2014] [David P. Janes]
+ *  
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *  
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *  
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+"use strict";
+
+var iotdb = require('iotdb');
+var _ = iotdb.helpers;
+var cfg = iotdb.cfg;
+
+var repl = require('repl');
+var path = require('path');
+var util = require('util');
+
+var minimist = require('minimist');
+var FSTransport = require('iotdb-transport-fs').Transport
+
+var bunyan = require('bunyan');
+var logger = bunyan.createLogger({
+    name: 'iotql',
+    module: 'iotql',
+});
+
+var parser = require("../grammar").parser;
+var DB = require('../db').DB;
+
+/* for minimist */
+var boolean = [
+];
+var defaults = {};
+
+
+var help = function() {
+    console.log("usage: iotql");
+    console.log("");
+};
+
+var iotdb_initd = {
+    envd: {
+        IOTDB_PROJECT: process.cwd()
+    },
+    discover: false,
+    load_drivers: false,
+    load_models: false,
+    load_things: false,
+    iotdb_thing_get: false,
+    iotdb_thing_create: false
+};
+
+var iotql_eval = function(cmd, context, filename, callback) {
+    var statements = parser.parse(cmd);
+
+    var transporter = new FSTransport({
+        prefix: path.join(__dirname, "..", "samples", ".things"),
+    });
+    var db = new DB(transporter);
+    var name = "";
+    var resultds = [];
+    db.execute(statements, function(cd) {
+        if (cd.end) {
+            callback(null, resultds);
+        } else if (cd.start) {
+            /*
+            if (cd.index === 0) {
+                child_process.spawnSync("rm", [ "-rf", "samples/.things" ]);
+                child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
+            }
+            */
+        } else if (cd.error) {
+            console.log("-- ERROR: %s", cd.error);
+        } else if (cd.columns) {
+            var rowds = [];
+
+            cd.columns.map(function(column, column_index) {
+                var rowd = {
+                    value: column.value,
+                };
+                rowds.push(rowd);
+                if (column.units) {
+                    rowd.units = column.units;
+                }
+            });
+
+            resultds.push({
+                index: cd.index,
+                row: rowds,
+            });
+        }
+    });
+
+};
+
+var run_cli = function()  {
+    var ad = require('minimist')(process.argv.slice(2), {
+        boolean: boolean,
+        default: defaults,
+    });
+
+    repl.start({
+        prompt: "iotql> ",
+        eval: iotql_eval,
+        writer: function(o) {
+            return util.inspect(o, {showHidden: false, depth: null});
+        },
+    });
+
+};
+
+run_cli();
