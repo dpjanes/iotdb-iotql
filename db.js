@@ -450,6 +450,9 @@ DB.prototype.fetch_bands = function(id, bands, callback) {
             id: id,
             band: band,
         }, function(gd) {
+            if (gd.error) {
+                throw new Error(gd.error);
+            }
             if (gd.value) {
                 rowd[band] = gd.value
             }
