@@ -156,6 +156,7 @@ DB.prototype.run_path = function(iotql_path) {
                         }
                     });
                 });
+                resultdss = [];
             }
         });
 
