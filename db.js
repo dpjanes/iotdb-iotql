@@ -93,6 +93,7 @@ var aggregated = {
             column.a_min = null
         } else if (when === WHEN_ITEM) {
             if (item === null) {
+            } else if (item === undefined) {
             } else if (column.a_min === null) {
                 column.a_min = item;
             } else if (_.is.Number(column.a_min) && _.is.Number(item)) {
@@ -111,6 +112,7 @@ var aggregated = {
             column.a_max = null;
         } else if (when === WHEN_ITEM) {
             if (item === null) {
+            } else if (item === undefined) {
             } else if (column.a_max === null) {
                 column.a_max = item;
             } else if (_.is.Number(column.a_max) && _.is.Number(item)) {
@@ -754,7 +756,6 @@ DB.prototype.run_statement_set = function(statement, callback) {
                     ++pending;
 
                     var updated = _.defaults(updatedd[band], rowd[band]);
-                    // console.log("UPDATED", rowd.id, updated);
 
                     self.transporter.update({
                         id: rowd.id,

@@ -1,0 +1,10 @@
+SET
+    state:status.temperature = 20°C;
+WHERE
+    HAS(state:status.temperature 
+;
+SELECT
+    id, meta:name, state:status.temperature
+WHERE
+    meta:name = "The Name"
+;
