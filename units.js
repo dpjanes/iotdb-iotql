@@ -29,6 +29,11 @@ var _ = iotdb._;
 var typed = require('./typed');
 
 /**
+ *  paramd.av[0] - value
+ *  the value we have, may be a typed
+ *
+ *  paramd.av[1] - value unis
+ *  the units it is supposed to be
  */
 var units = function(paramd) {
     var value = paramd.av[0];

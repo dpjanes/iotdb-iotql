@@ -11,9 +11,9 @@ Basically, these are just macros
 	CREATE SCENE
 		lights_on_1
 	SET
-		state.on = true
+		state:on = true
 	WHERE
-		meta.facet & facets.lighting
+		meta:facet & facets:lighting
 	;
 	DO lights_on
 
@@ -24,9 +24,9 @@ BEGIN and END bookend multiple statements
 	CREATE SCENE
 		lights_on_2
 	BEGIN
-		SET state.on = true
+		SET state:on = true
 		WHERE id = "thing-01";
-		SET state.on = true, color = #FF0000
+		SET state:on = true, state:color = #FF0000
 		WHERE id = "thing-02";
 	END
 
@@ -35,9 +35,9 @@ BEGIN and END bookend multiple statements
 	CREATE SCENE
 		lights(value)
 	SET
-		state.on = :value
+		state:on = :value
 	WHERE
-		meta.facet & lighting
+		meta:facet & lighting
 		
 	;
 	DO lights(true);
@@ -55,21 +55,21 @@ When the front door is opened, the code in the BEGIN / END clause is run.
 	CREATE TRIGGER
 		front_door_light
 	WHEN
-		state.open = true
+		state:open = true
 	WHERE
-		meta.name = "Front Door Contact Switch"
+		meta:name = "Front Door Contact Switch"
 	BEGIN
 		SET
-			state.on = true
+			state:on = true
 		WHERE
-			meta.name = "Front Door Light"
+			meta:name = "Front Door Light"
 		;
 		SLEEP(minutes=10)
 		;
 		SET
-			state.on = false
+			state:on = false
 		WHERE
-			meta.name = "Front Door Light"
+			meta:name = "Front Door Light"
 		;
 	END
 	
@@ -84,7 +84,7 @@ Ideas:
 
 	LOCK()
 	LOCK(id, cancel=true)
-	MONITOR(id,state.on)
+	MONITOR(id,state:on)
 
 ### Time based
 
@@ -94,11 +94,11 @@ Ideas:
 		SUNSET(minutes=30)
 	BEGIN
 		SET
-			state.on = true
+			state:on = true
 		WHERE
-			meta.facet & facets.lighting
+			meta:facet & facets:lighting
 		AND
-			meta.zone & "Outdoors"
+			meta:zone & "Outdoors"
 	END
 
 	CREATE TRIGGER
@@ -107,11 +107,11 @@ Ideas:
 		SUNSET(minutes=-30)
 	BEGIN
 		SET
-			state.on = false
+			state:on = false
 		WHERE
-			meta.facet & facet.lighting
+			meta:facet & facet.lighting
 		AND
-			meta.zone & "Outdoors"
+			meta:zone & "Outdoors"
 	END
 	
 ### Sequences
@@ -121,9 +121,9 @@ This may be a hack - allow multiple WHENs in a row?
 	CREATE TRIGGER
 		something
 	WHEN
-		state.on = true
+		state:on = true
 	WHEN
-		state.on = falde
+		state:on = falde
 	BEGIN
 		-- the lights were turned on and off
 	END
@@ -144,9 +144,9 @@ This gets the average temperature of the house
 	CREATE VIEW
 		house_temperature
 	SELECT
-		AVG(state.sensor.temperature) AS temperature
+		AVG(state:sensor.temperature) AS temperature
 	WHERE
-		meta.facet & facets.sensor.temperature
+		meta:facet & facets:sensor.temperature
 	;
 	
 	SELECT
@@ -167,11 +167,11 @@ This is where it gets fun.
 	CREATE VIEW
 		temperature
 	SELECT
-		timeseries.average(state.sensor.temperature, minutes=5) AS avg,
-		timeseries.minimum(state.sensor.temperature, minutes=5) AS min,
-		timeseries.maximum(state.sensor.temperature, minutes=5) AS max,
+		timeseries.average(state:sensor.temperature, minutes=5) AS avg,
+		timeseries.minimum(state:sensor.temperature, minutes=5) AS min,
+		timeseries.maximum(state:sensor.temperature, minutes=5) AS max,
 	WHERE
-		meta.facet & facet.sensor.temperature
+		meta:facet & facets:sensor.temperature
 	;
 	
 	SELECT

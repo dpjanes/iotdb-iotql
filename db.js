@@ -654,6 +654,19 @@ DB.prototype.do_set = function(statement, rowd, callback) {
             return callback(new Error("code for attribute not found: " + selector));
         }
 
+        // DO CONVERSION HERE
+        /*
+         *  If there's a unit specified, we'll do a units
+         *  conversion to make sure we're in the correct 
+         *  unit space
+         */
+        if (unit !== null) {
+            var nvalue = units.units({
+                av: [ value, unit ]
+            });
+            value = typed.scalar(nvalue);
+        }
+
         var nvalue;
         if (assign === "&=") {
             var ovalue = (rowd[band] || {})[code];
@@ -705,6 +718,7 @@ DB.prototype.do_set = function(statement, rowd, callback) {
                 });
 
                 nvalue.sort();
+            } else if (band === "meta") {
             }
 
             bd[code] = nvalue;
@@ -750,7 +764,7 @@ DB.prototype.run_statement_set = function(statement, callback) {
             callback = null;
         } else {
             if (updatedd) {
-                // console.log("RESULT!", updatedd, rowd);
+                console.log("RESULT!", updatedd, rowd);
 
                 for (var band in updatedd) {
                     ++pending;
