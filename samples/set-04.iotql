@@ -3,3 +3,8 @@ SET
 WHERE
     id = "thing-03"
 ;
+SELECT
+    id, meta.name, state.on
+WHERE
+    id = "thing-03"
+;

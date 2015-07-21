@@ -3,3 +3,8 @@ SET
 WHERE
     meta.name = "The Name"
 ;
+SELECT
+    id, meta.name, meta.facets
+WHERE
+    meta.name = "The Name"
+;
