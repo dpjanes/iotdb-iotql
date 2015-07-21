@@ -2,5 +2,5 @@
 -- this converts each individual value to the type, and 
 -- attaches the type to the array as a whole
 SELECT
-    units([ -40, 0, 32, 100, 212 ], units.temperature.imperial.fahrenheit)
+    units([ -40, 0, 32, 100, 212 ], units:temperature.imperial.fahrenheit)
 ;

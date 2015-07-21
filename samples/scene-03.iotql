@@ -2,7 +2,7 @@
 CREATE SCENE
     lights(value)
 SET
-    state.on = :value
+    state:on = :value
 WHERE
-    meta.facet & lighting
+    meta:facet & lighting
 ;

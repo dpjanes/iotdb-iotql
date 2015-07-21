@@ -3,14 +3,14 @@ CREATE SCENE
     goodnight
 BEGIN
     SET
-        state.temperature = UNITS(18,units.temperature.si.celsius)
+        state:temperature = UNITS(18,units:temperature.si.celsius)
     AND 
-        meta.facet & facets.climate.heating
+        meta:facet & facets:climate.heating
     ;
     SET
-        state.on = false
+        state:on = false
     WHERE
-        meta.zone & [ "Basement", "Main Floor" ]
+        meta:zone & [ "Basement", "Main Floor" ]
     AND
-        meta.facet & lighting
+        meta:facet & lighting
 END

@@ -1,4 +1,4 @@
 -- perform a function on a value
 SELECT
-    string.lower("Hi There")
+    string:lower("Hi There")
 ;

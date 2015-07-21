@@ -1,5 +1,5 @@
-SELECT meta.name WHERE id = "thing-01";
-SELECT meta.name WHERE id = "thing-01";
-SELECT meta.name WHERE id = "thing-01";
-SELECT meta.name WHERE id = "thing-01";
-SELECT meta.name WHERE id = "thing-01";
+SELECT meta:name WHERE id = "thing-01";
+SELECT meta:name WHERE id = "thing-01";
+SELECT meta:name WHERE id = "thing-01";
+SELECT meta:name WHERE id = "thing-01";
+SELECT meta:name WHERE id = "thing-01";

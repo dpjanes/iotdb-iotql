@@ -1,6 +1,6 @@
--- this will select things that have 'state.sensor.temperature'
+-- this will select things that have 'state:sensor.temperature'
 SELECT
-    id, meta.name, state.sensor.temperature
+    id, meta:name, state:sensor.temperature
 WHERE
-    state.sensor.temperature 
+    state:sensor.temperature 
 ;

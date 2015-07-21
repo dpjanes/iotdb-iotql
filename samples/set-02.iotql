@@ -1,10 +1,10 @@
 SET
-    meta.name = "Thing 01"
+    meta:name = "Thing 01"
 WHERE
-    meta.name = "The Name"
+    meta:name = "The Name"
 ;
 SELECT
-    id, meta.name
+    id, meta:name
 WHERE
     id = "thing-01"
 ;

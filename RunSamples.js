@@ -142,7 +142,6 @@ DB.prototype.run_path_user = function(iotql_path, statements) {
     var name = path.basename(iotql_path);
 
     self.execute(statements, function(cd) {
-        // console.log("HERE:AAA", cd);
         if (cd.end) {
         } else if (cd.start) {
             console.log("=============");

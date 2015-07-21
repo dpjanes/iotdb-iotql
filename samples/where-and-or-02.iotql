@@ -1,9 +1,9 @@
 -- select a thing by ID and Name
 -- this should _not_ return a Thing
 SELECT
-    id, meta.name
+    id, meta:name
 WHERE
     id = "thing-01"
 AND
-    meta.name = "Not The Name"
+    meta:name = "Not The Name"
 ;

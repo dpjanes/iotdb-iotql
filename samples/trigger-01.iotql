@@ -1,21 +1,21 @@
 CREATE TRIGGER
     front_door_light
 SELECT
-    state.open = true
+    state:open = true
 WHERE
-    meta.name = "Front Door Contact Switch"
+    meta:name = "Front Door Contact Switch"
 BEGIN
     SET
-        state.on = true
+        state:on = true
     WHERE
-        meta.name = "Front Door Light"
+        meta:name = "Front Door Light"
         ;
     DELAY
         MINUTES(10)
     SET
-        state.on = false
+        state:on = false
     WHERE
-        meta.name = "Front Door Light"
+        meta:name = "Front Door Light"
         ;
 END
 ;

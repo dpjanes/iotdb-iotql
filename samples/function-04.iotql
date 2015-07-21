@@ -1,4 +1,4 @@
 -- perform a function on a value
 SELECT
-    string.split("Hi There")
+    string:split("Hi There")
 ;

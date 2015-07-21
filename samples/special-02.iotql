@@ -1,4 +1,4 @@
 -- percent sign
 SELECT
-    units(5%, units.math.fraction.unit)
+    units(5%, units:math.fraction.unit)
 ;

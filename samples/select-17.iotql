@@ -1,4 +1,4 @@
 -- another dot-list
 SELECT
-    facets.climate.heating
+    facets:climate.heating
 ;

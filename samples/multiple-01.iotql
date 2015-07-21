@@ -1,2 +1,2 @@
 SELECT id;
-SELECT meta.name;
+SELECT meta:name;

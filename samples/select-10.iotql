@@ -1,5 +1,5 @@
 -- selecting some dotted value
 SELECT
-    meta.name
+    meta:name
 ;
 

@@ -43,8 +43,8 @@
 "AND"                   return 'LOGIC-OPERATOR'
 "OR"                    return 'LOGIC-OPERATOR'
 "!"                     return 'LEFT-OPERATOR'
-[_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]*[:][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
-[_a-zA-Z][-_a-zA-Z0-9]+([.][_a-zA-Z][-_a-zA-Z0-9]*)+   return 'SYMBOL'
+[_a-zA-Z][-_a-zA-Z0-9]+([:][_a-zA-Z][-_a-zA-Z0-9]*[:][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
+[_a-zA-Z][-_a-zA-Z0-9]+[:]([_a-zA-Z][-_a-zA-Z0-9]*)([.][_a-zA-Z][-_a-zA-Z0-9]*)*   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]+([.][*])   return 'SYMBOL-STAR'
 [_a-zA-Z][-_a-zA-Z0-9]+   return 'SYMBOL-SIMPLE'
 "*"                     return 'STAR';
@@ -116,8 +116,8 @@ SET-TERM:
     {{
         $$ = {
             lhs: {
-                "band": $1.replace(/[.].*$/, ""),  
-                "selector": $1.replace(/^[^.]*[.]/, ""),  
+                "band": $1.replace(/[:].*$/, ""),  
+                "selector": $1.replace(/^[^.]*[:]/, ""),  
             },
             rhs: $3,
             assign: $2,
@@ -128,8 +128,8 @@ SET-TERM:
     {{
         $$ = {
             lhs: {
-                "band": $1.replace(/[.].*$/, ""),  
-                "selector": $1.replace(/^[^.]*[.]/, ""),  
+                "band": $1.replace(/[:].*$/, ""),  
+                "selector": $1.replace(/^[^.]*[:]/, ""),  
             },
             rhs: $3,
             assign: $2,
@@ -175,7 +175,7 @@ D-SYMBOL:
     |
     SYMBOL-STAR
     {{ $$ = {
-        "band": $1.replace(/[.].*$/, ""),  
+        "band": $1.replace(/[:].*$/, ""),  
         "all": true,
         };
     }}
@@ -232,8 +232,8 @@ VALUE:
     SYMBOL "(" PARAMETERS ")"
     {{ $$ = {  
             "compute": {
-                "module": $1.replace(/[.].*$/, ""),  
-                "operation": $1.replace(/^[^.]*[.]/, ""),  
+                "module": $1.replace(/[:].*$/, ""),  
+                "operation": $1.replace(/^[^.]*[:]/, ""),  
                 "operands": $3,
             }
         };
@@ -319,8 +319,8 @@ VALUES:
 ATOMIC:
     SYMBOL
     {{ $$ = {
-        "band": $1.replace(/[.].*$/, ""),  
-        "selector": $1.replace(/^[^.]*[.]/, ""),  
+        "band": $1.replace(/[:].*$/, ""),  
+        "selector": $1.replace(/^[^.]*[:]/, ""),  
         };
     }}
     |

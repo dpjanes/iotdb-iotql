@@ -1,10 +1,10 @@
 SET
-    state.on = true
+    state:on = true
 WHERE
     id = "thing-03"
 ;
 SELECT
-    id, meta.name, state.on
+    id, meta:name, state:on
 WHERE
     id = "thing-03"
 ;

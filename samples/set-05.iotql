@@ -1,16 +1,16 @@
 -- flip the 'on' state
 SELECT
-    id, meta.name, state.on
+    id, meta:name, state:on
 WHERE
     id = "thing-03"
 ;
 SET
-    state.on = !state.on
+    state:on = !state:on
 WHERE
     id = "thing-03"
 ;
 SELECT
-    id, meta.name, state.on
+    id, meta:name, state:on
 WHERE
     id = "thing-03"
 ;

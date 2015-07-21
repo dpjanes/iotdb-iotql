@@ -1,11 +1,11 @@
 -- this will set all the subsets of the facet too
 SET
-    meta.facet = facets.sensor.chemical.co2
+    meta:facet = facets:sensor.chemical.co2
 WHERE
-    meta.name = "The Name"
+    meta:name = "The Name"
 ;
 SELECT
-    id, meta.name, meta.facet
+    id, meta:name, meta:facet
 WHERE
-    meta.name = "The Name"
+    meta:name = "The Name"
 ;
