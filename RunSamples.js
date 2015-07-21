@@ -112,6 +112,8 @@ DB.prototype.run_path_test = function(iotql_path, statements) {
             lines.push(util.format("============="));
             lines.push(util.format("== %s[%s]", name, cd.index));
             lines.push(util.format("============="));
+            child_process.spawnSync("rm", [ "-rf", "samples/.things" ]);
+            child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
         } else if (cd.error) {
             lines.push(util.format("-- ERROR: %s", cd.error));
         } else if (cd.columns) {
@@ -146,6 +148,8 @@ DB.prototype.run_path_user = function(iotql_path, statements) {
             console.log("=============");
             console.log("== %s[%s]", name, cd.index);
             console.log("=============");
+            child_process.spawnSync("rm", [ "-rf", "samples/.things" ]);
+            child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
         } else if (cd.error) {
             console.log("-- ERROR: %s", cd.error);
         } else if (cd.columns) {
@@ -167,8 +171,6 @@ DB.prototype.run_path_user = function(iotql_path, statements) {
 };
 
 // --- main ---
-child_process.spawnSync("rm", [ "-rf", "samples/.things" ]);
-child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
 
 var transporter = new FSTransport({
     prefix: "samples/.things",

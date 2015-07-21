@@ -125,9 +125,9 @@ case 13: case 14:
             lhs: {
                 "band": $$[$0-2].replace(/[.].*$/, ""),  
                 "selector": $$[$0-2].replace(/^[^.]*[.]/, ""),  
-                "assign": $$[$0-1],
             },
             rhs: $$[$0],
+            assign: $$[$0-1],
         };
     
 break;

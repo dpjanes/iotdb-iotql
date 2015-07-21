@@ -5,5 +5,5 @@
 == set-02.iotql[1]
 =============
 0: thing-01
-1: null
+1: The Name
 --

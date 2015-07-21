@@ -114,9 +114,9 @@ SET-TERM:
             lhs: {
                 "band": $1.replace(/[.].*$/, ""),  
                 "selector": $1.replace(/^[^.]*[.]/, ""),  
-                "assign": $2,
             },
             rhs: $3,
+            assign: $2,
         };
     }}
     |
@@ -126,9 +126,9 @@ SET-TERM:
             lhs: {
                 "band": $1.replace(/[.].*$/, ""),  
                 "selector": $1.replace(/^[^.]*[.]/, ""),  
-                "assign": $2,
             },
             rhs: $3,
+            assign: $2,
         };
     }}
     ;

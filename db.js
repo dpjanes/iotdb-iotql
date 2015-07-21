@@ -600,6 +600,7 @@ DB.prototype.do_set = function(statement, rowd, callback) {
         var value = self.evaluate(setd.rhs, rowd);
         var band = setd.lhs.band;
         var selector = setd.lhs.selector;
+        var assign = setd.assign;
 
         if (!band) {
             return callback(new Error("no band?"));
@@ -638,7 +639,61 @@ DB.prototype.do_set = function(statement, rowd, callback) {
             return callback(new Error("code for attribute not found: " + selector));
         }
 
-        bd[code] = value;
+        var nvalue;
+        if (assign === "&=") {
+            var ovalue = (rowd[band] || {})[code];
+            if (ovalue === undefined) {
+                delete bd[code];
+            } else {
+                nvalue = operators.d["&"]({
+                    av: [ ovalue, value ]
+                });
+            }
+        } else if (assign === "|=") {
+            var ovalue = (rowd[band] || {})[code];
+            if (ovalue === undefined) {
+                nvalue = value;
+            } else {
+                nvalue = operators.d["|"]({
+                    av: [ ovalue, value ]
+                });
+            }
+        } else if (assign === "=") {
+            nvalue = value;
+        } else {
+            throw new Error("unknown assign operator: " + assign);
+        }
+
+        if (nvalue === undefined) {
+            delete bd[code];
+        } else {
+            // magic for meta.facet
+            if ((band === "meta") && (code === "iot:facet")) {
+                if (!_.is.Array(nvalue)) {
+                    nvalue = [ nvalue ];
+                }
+
+                var adds = [];
+                nvalue.map(function(v) {
+                    if (!v.match(/^iot-facet:/)) {
+                        return;
+                    }
+
+                    var parts = v.split(".");
+                    for (var pi = 1; pi < parts.length; pi++) {
+                        adds.push(parts.slice(0, pi).join("."));
+                    }
+                });
+
+                nvalue = operators.d["|"]({
+                    av: [ nvalue, adds ]
+                });
+
+                nvalue.sort();
+            }
+
+            bd[code] = nvalue;
+        }
     });
 
     callback(null, updated, rowd)
