@@ -56,6 +56,7 @@
 %left BI-OPERATOR
 %left "="
 %left LEFT-OPERATOR
+%right DECORATOR
 
 %%
 
