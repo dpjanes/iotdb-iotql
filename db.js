@@ -25,6 +25,12 @@
 var iotdb = require('iotdb')
 var _ = iotdb._;
 
+var logger = iotdb.logger({
+    name: 'iotdb-iotql',
+    module: 'db',
+});
+
+
 var parser = require("./grammar").parser;
 var string = require("./string");
 var math = require("./math");
@@ -686,7 +692,14 @@ DB.prototype.do_set = function(statement, rowd, callback) {
         }
 
         if (code === null) {
-            return callback(new Error("code for attribute not found: " + selector));
+            logger.error({
+                method: "do_set",
+                selector: selector,
+                cause: "attribute may not apply to this Thing",
+                thing_id: rowd.id,
+            }, "code for attribute not found");
+            return;
+            // return callback(new Error("code for attribute not found: " + selector));
         }
 
         // DO CONVERSION HERE

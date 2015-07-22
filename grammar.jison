@@ -253,6 +253,33 @@ VALUE:
     LIST
     |
     ATOMIC
+    |
+    ATOMIC DECORATOR
+    {{
+        var selector = null;
+        if ($2 === "%") {
+            selector = 'math.fraction.percent';
+        } else if ($2 === "°C") {
+            selector = 'temperature.si.celsius';
+        } else if ($2 === "°F") {
+            selector = 'temperature.imperial.fahrenheit';
+        } else if ($2 === "°K") {
+            selector = 'temperature.si.kelvin';
+        }
+
+        $$ = {
+            "compute": {
+                "operation": "units",
+                "operands": [
+                    $1,
+                    {
+                        band: "units",
+                        selector: selector,
+                    },
+                ]
+            },
+        };
+    }}
     ;
 
 PARAMETERS:
@@ -300,6 +327,33 @@ PARAMETER:
     LIST
     |
     ATOMIC
+    |
+    ATOMIC DECORATOR
+    {{
+        var selector = null;
+        if ($2 === "%") {
+            selector = 'math.fraction.percent';
+        } else if ($2 === "°C") {
+            selector = 'temperature.si.celsius';
+        } else if ($2 === "°F") {
+            selector = 'temperature.imperial.fahrenheit';
+        } else if ($2 === "°K") {
+            selector = 'temperature.si.kelvin';
+        }
+
+        $$ = {
+            "compute": {
+                "operation": "units",
+                "operands": [
+                    $1,
+                    {
+                        band: "units",
+                        selector: selector,
+                    },
+                ]
+            },
+        };
+    }}
     ;
 
 
@@ -331,6 +385,7 @@ ATOMIC:
         "selector": $1.replace(/^[^.]*[:]/, ""),  
         };
     }}
+    /*
     |
     INTEGER DECORATOR
     {{ 
@@ -389,6 +444,7 @@ ATOMIC:
             },
         };
     }}
+    */
     |
     INTEGER
     {{ $$ = { "actual": Number.parseInt($1) }; }}
