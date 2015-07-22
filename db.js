@@ -237,6 +237,11 @@ DB.prototype.prevaluate = function(v, paramd) {
         v.pre.query = true;
     } 
     
+    if (v.select_all) {
+        v.pre.query = true;
+        v.pre.bands = [ "state", "meta", "model" ];
+    } 
+    
     if (v.band) {
         if ((v.band === "state") && paramd.state) {
             v.band = paramd.state;
@@ -402,6 +407,8 @@ DB.prototype.evaluate = function(v, rowd) {
             rs.push(self.evaluate(value, rowd));
         });
         return rs;
+    } else if (v.select_all) {
+        return rowd;
     } else {
         console.log("THIS", v);
         throw new Error("not implemented");

@@ -131,6 +131,13 @@ SELECT-TERM:
         "column": $6,
       }
     }}
+    |
+    STAR
+    {{
+        $$ = {
+            select_all: true,
+        };
+    }}
     ;
 
 
