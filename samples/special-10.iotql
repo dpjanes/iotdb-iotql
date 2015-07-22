@@ -1,0 +1,9 @@
+-- set the temperature using a decorator
+SET
+    istate:sensor.temperature = 75°F
+;
+SELECT
+    state:sensor.temperature 
+WHERE
+    state:sensor.temperature 
+;

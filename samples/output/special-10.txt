@@ -1,0 +1,10 @@
+=============
+== special-10.iotql[0]
+=============
+=============
+== special-10.iotql[1]
+=============
+0: 23.889 [iot-unit:temperature.si.celsius]
+--
+0: 23.889 [iot-unit:temperature.si.celsius]
+--

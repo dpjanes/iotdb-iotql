@@ -1,10 +1,12 @@
 SET
-    state:status.temperature = 20°C;
+    istate:sensor.temperature = 20°C
 WHERE
-    HAS(state:status.temperature 
+    state:sensor.temperature 
+AND
+    id = "thing-01"
 ;
 SELECT
-    id, meta:name, state:status.temperature
+    id, meta:name, state:sensor.temperature
 WHERE
-    meta:name = "The Name"
+    id = "thing-01"
 ;
