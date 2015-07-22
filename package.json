@@ -27,6 +27,7 @@
     "peerDependencies": {
         "minimist": "~0.8.3", 
         "iotdb": "~0.8.3", 
+        "iotdb-transport": "~0.0.11", 
         "iotdb-transport-fs": "~0.0.11", 
         "iotdb-transport-iotdb": "~0.0.8"
     }, 

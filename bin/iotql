@@ -28,6 +28,7 @@
 "use strict";
 
 var iotdb = require('iotdb');
+var iotdb_transport = require('iotdb-transport')
 var _ = iotdb.helpers;
 var cfg = iotdb.cfg;
 
@@ -58,17 +59,8 @@ var help = function() {
     console.log("");
 };
 
-var iotdb_initd = {
-    envd: {
-        IOTDB_PROJECT: process.cwd()
-    },
-    discover: false,
-    load_drivers: false,
-    load_models: false,
-    load_things: false,
-    iotdb_thing_get: false,
-    iotdb_thing_create: false
-};
+var db;
+var transporter;
 
 var iotql_eval = function(cmd, context, filename, callback) {
     var statements = parser.parse(cmd);
@@ -76,7 +68,6 @@ var iotql_eval = function(cmd, context, filename, callback) {
     var transporter = new FSTransport({
         prefix: path.join(__dirname, "..", "samples", ".things"),
     });
-    var db = new DB(transporter);
     var name = "";
     var resultds = [];
     db.execute(statements, function(cd) {
@@ -114,12 +105,7 @@ var iotql_eval = function(cmd, context, filename, callback) {
 
 };
 
-var run_cli = function()  {
-    var ad = require('minimist')(process.argv.slice(2), {
-        boolean: boolean,
-        default: defaults,
-    });
-
+var run_interactive = function() {
     repl.start({
         prompt: "iotql> ",
         eval: iotql_eval,
@@ -127,7 +113,33 @@ var run_cli = function()  {
             return util.inspect(o, {showHidden: false, depth: null});
         },
     });
+};
 
+var run_cli = function()  {
+    var ad = require('minimist')(process.argv.slice(2), {
+        boolean: boolean,
+        default: defaults,
+    });
+
+    if (ad._.length === 0) {
+        throw new Error("no default store (yet)");
+    } else {
+        iotdb_transport.connect(ad._[0], function(error, td) {
+            if (error) {
+                throw new Error(_.error.message(error));
+            }
+
+            // XXX - at some point in the future support multiple transporters
+            if (transporter) {
+                return;
+            }
+
+            transporter = td.transport;
+            db = new DB(transporter);
+
+            run_interactive();
+        });
+    }
 };
 
 run_cli();

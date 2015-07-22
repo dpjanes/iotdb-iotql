@@ -502,12 +502,13 @@ DB.prototype.do_select = function(statement, rowd, callback) {
     var columns = _.ld.list(statement, "select", []);
     columns.map(function(column, index) {
         var result = self.evaluate(column, rowd);
-
-        // console.log("COLUMN", column, rowd);
+        if (result === undefined) {
+            return;
+        }
 
         var name;
-        if (result && result.as) {
-            name = result.as;
+        if (column && column.column) {
+            name = column.column;
         } else if (column.id) {
             name = "id";
         } else if (result && result.purpose) {
@@ -613,7 +614,10 @@ DB.prototype.run_statement_select = function(statement, callback) {
                         resultd.value = null;
                     }
                 });
-                callback(error, resultds);
+
+                if (resultds.length > 0) {
+                    callback(error, resultds);
+                }
             }
 
             if (--pending === 0) {
