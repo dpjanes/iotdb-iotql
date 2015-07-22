@@ -293,6 +293,10 @@ DB.prototype.evaluate = function(v, rowd) {
             return null;
         }
 
+        if (v.all) {
+            return d;
+        }
+
         if (v.selector) {
             var code = null;
             var unit = null;
@@ -486,7 +490,7 @@ DB.prototype.do_select = function(statement, rowd, callback) {
     columns.map(function(column, index) {
         var result = self.evaluate(column, rowd);
 
-        // console.log("COLUMN", column);
+        // console.log("COLUMN", column, rowd);
 
         var name;
         if (result && result.as) {

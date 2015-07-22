@@ -1,0 +1,6 @@
+-- select everything in a band
+SELECT
+    id, ostate:*
+WHERE
+    id = "thing-01"
+;

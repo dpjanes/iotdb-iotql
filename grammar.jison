@@ -45,7 +45,7 @@
 "!"                     return 'LEFT-OPERATOR'
 [_a-zA-Z][-_a-zA-Z0-9]+([:][_a-zA-Z][-_a-zA-Z0-9]*[:][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]+[:]([_a-zA-Z][-_a-zA-Z0-9]*)([.][_a-zA-Z][-_a-zA-Z0-9]*)*   return 'SYMBOL'
-[_a-zA-Z][-_a-zA-Z0-9]+([.][*])   return 'SYMBOL-STAR'
+[_a-zA-Z][-_a-zA-Z0-9]+([:][*])   return 'SYMBOL-STAR'
 [_a-zA-Z][-_a-zA-Z0-9]+   return 'SYMBOL-SIMPLE'
 "*"                     return 'STAR';
 
@@ -102,6 +102,52 @@ SELECT-TERMS:
     SELECT-TERM
     {{ $$ = [ $1 ]; }}
     ;
+/*
+ *  The way we we deal with functions needs to be 
+ *  overhauled in the long run
+ */
+SELECT-TERM:
+    D-SYMBOL
+    {{ $$ = $1 }}
+    |
+    D-SYMBOL "AS" SYMBOL-SIMPLE
+    {{ $1.column = $3; $$ = $1; }}
+    |
+    SYMBOL-SIMPLE "(" STAR ")"
+    {{ $$ = {
+        "compute": {
+            "operation": $1,
+            "star": true,
+        }
+      }
+    }}
+    |
+    SYMBOL-SIMPLE "(" STAR ")" "AS" SYMBOL-SIMPLE
+    {{ $$ = {
+        "compute": {
+            "operation": $1,
+            "star": true,
+        },
+        "column": $6,
+      }
+    }}
+    ;
+
+
+/*
+ *  "Dictionary" symbol - splitting up the symbol
+ */
+D-SYMBOL:
+    |
+    SYMBOL-STAR
+    {{ $$ = {
+        "band": $1.replace(/[:].*$/, ""),  
+        "all": true,
+        };
+    }}
+    |
+    VALUE
+    ;
 
 SET-TERMS:
     SET-TERMS "," SET-TERM
@@ -135,52 +181,6 @@ SET-TERM:
             assign: $2,
         };
     }}
-    ;
-
-/*
- *  The way we we deal with functions needs to be 
- *  overhauled in the long run
- */
-SELECT-TERM:
-    D-SYMBOL
-    {{ $$ = $1 }}
-    |
-    D-SYMBOL "AS" SYMBOL-SIMPLE
-    {{ $1.column = $3; $$ = $1; }}
-    |
-    SYMBOL-SIMPLE "(" STAR ")"
-    {{ $$ = {
-        "compute": {
-            "operation": $1,
-            "star": true,
-        }
-      }
-    }}
-    |
-    SYMBOL-SIMPLE "(" STAR ")" "AS" SYMBOL-SIMPLE
-    {{ $$ = {
-        "compute": {
-            "operation": $1,
-            "star": true,
-        },
-        "column": $6,
-      }
-    }}
-    ;
-
-/*
- *  "Dictionary" symbol - splitting up the symbol
- */
-D-SYMBOL:
-    |
-    SYMBOL-STAR
-    {{ $$ = {
-        "band": $1.replace(/[:].*$/, ""),  
-        "all": true,
-        };
-    }}
-    |
-    VALUE
     ;
 
 VALUE:

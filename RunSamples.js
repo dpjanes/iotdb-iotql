@@ -162,6 +162,8 @@ DB.prototype.run_path_user = function(iotql_path, statements) {
                 var v = column.value;
                 if (_.is.Array(v)) {
                     v = JSON.stringify(v);
+                } else if (_.is.Object(v)) {
+                    v = JSON.stringify(v);
                 }
 
                 if (column.units) {

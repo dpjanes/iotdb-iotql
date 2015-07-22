@@ -1,0 +1,4 @@
+-- select everything in a band (and get everything)
+SELECT
+    id, state:*, meta:*, model:*
+;

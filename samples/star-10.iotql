@@ -1,0 +1,6 @@
+-- select everything 
+SELECT
+    id, *
+WHERE
+    id = "thing-01"
+;
