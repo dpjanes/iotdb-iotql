@@ -34,7 +34,9 @@ var cfg = iotdb.cfg;
 
 var repl = require('repl');
 var path = require('path');
+var os = require('os');
 var util = require('util');
+var child_process = require('child_process');
 
 var minimist = require('minimist');
 var FSTransport = require('iotdb-transport-fs').Transport
@@ -50,6 +52,7 @@ var DB = require('../db').DB;
 
 /* for minimist */
 var boolean = [
+    "sample",
 ];
 var defaults = {};
 
@@ -121,25 +124,36 @@ var run_cli = function()  {
         default: defaults,
     });
 
-    if (ad._.length === 0) {
-        throw new Error("no default store (yet)");
+    var url;
+    if (ad.sample) {
+        var src_dir = path.join(__dirname, "..", "samples", "things");
+        var dst_dir = path.join(os.tmpdir(), "iotql-things-" + _.uid(8));
+
+        child_process.spawnSync("rm", [ "-rf", dst_dir ]);
+        child_process.spawnSync("cp", [ "-R", src_dir, dst_dir ]);
+
+        url = dst_dir;
+    } else if (ad._.length) {
+        url = ad._[0];
     } else {
-        iotdb_transport.connect(ad._[0], function(error, td) {
-            if (error) {
-                throw new Error(_.error.message(error));
-            }
-
-            // XXX - at some point in the future support multiple transporters
-            if (transporter) {
-                return;
-            }
-
-            transporter = td.transport;
-            db = new DB(transporter);
-
-            run_interactive();
-        });
+        throw new Error("no default store (yet)");
     }
+
+    iotdb_transport.connect(url, function(error, td) {
+        if (error) {
+            throw new Error(_.error.message(error));
+        }
+
+        // XXX - at some point in the future support multiple transporters
+        if (transporter) {
+            return;
+        }
+
+        transporter = td.transport;
+        db = new DB(transporter);
+
+        run_interactive();
+    });
 };
 
 run_cli();
