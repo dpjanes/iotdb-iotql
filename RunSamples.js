@@ -41,7 +41,7 @@ var ad = require('minimist')(process.argv.slice(2), {
 /**
  *  Run the IoTQL program at the path
  */
-DB.prototype.run_path = function(iotql_path) {
+DB.prototype.run_path = function(iotql_path, done) {
     var self = this;
 
     try {
@@ -50,17 +50,17 @@ DB.prototype.run_path = function(iotql_path) {
     }
     catch (x) {
         console.log("%s: failed: %s", iotql_path, x);
-        return;
+        return done(x);
     }
 
     if (ad.test || ad.write) {
-        self.run_path_test(iotql_path, statements);
+        self.run_path_test(iotql_path, statements, done);
     } else {
-        self.run_path_user(iotql_path, statements);
+        self.run_path_user(iotql_path, statements, done);
     }
 };
 
-DB.prototype.run_path_test = function(iotql_path, statements) {
+DB.prototype.run_path_test = function(iotql_path, statements, done) {
     var self = this;
 
     var name = path.basename(iotql_path);
@@ -108,6 +108,8 @@ DB.prototype.run_path_test = function(iotql_path, statements) {
                     console.log("%s: ok", name);
                 }
             }
+
+            done(null);
         } else if (cd.start) {
             lines.push(util.format("============="));
             lines.push(util.format("== %s[%s]", name, cd.index));
@@ -119,6 +121,7 @@ DB.prototype.run_path_test = function(iotql_path, statements) {
             }
         } else if (cd.error) {
             lines.push(util.format("-- ERROR: %s", cd.error));
+            done(cd.error);
         } else if (cd.columns) {
             cd.columns.map(function(column, column_index) {
                 var v = column.value;
@@ -140,12 +143,13 @@ DB.prototype.run_path_test = function(iotql_path, statements) {
 /**
  *  This executes the command and prints out the result to stdout
  */
-DB.prototype.run_path_user = function(iotql_path, statements) {
+DB.prototype.run_path_user = function(iotql_path, statements, done) {
     var self = this;
     var name = path.basename(iotql_path);
 
     self.execute(statements, function(cd) {
         if (cd.end) {
+            done(null);
         } else if (cd.start) {
             console.log("=============");
             console.log("== %s[%s]", name, cd.index);
@@ -157,6 +161,7 @@ DB.prototype.run_path_user = function(iotql_path, statements) {
             }
         } else if (cd.error) {
             console.log("-- ERROR: %s", cd.error);
+            done(cd.error);
         } else if (cd.columns) {
             cd.columns.map(function(column, column_index) {
                 var v = column.value;
@@ -184,6 +189,7 @@ var transporter = new FSTransport({
 });
 var db = new DB(transporter);
 
+var iotql_paths = [];
 if (ad.all) {
     var samples_dir = "samples";
 
@@ -193,10 +199,23 @@ if (ad.all) {
             return;
         }
 
-        db.run_path(path.join("samples", name));
+        iotql_paths.push(path.join("samples", name));
     });
 } else if (ad._.length) {
-    ad._.map(function(iotql_path) {
-        db.run_path(iotql_path);
-    });
+    iotql_paths = ad._;
 }
+
+var run_next = function() {
+    if (iotql_paths.length === 0) {
+        return;
+    }
+
+    var iotql_path = iotql_paths[0];
+    iotql_paths.splice(0, 1);
+
+    db.run_path(iotql_path, function() {
+        run_next();
+    });
+};
+
+run_next();
