@@ -1,5 +1,7 @@
 %lex
+%options case-insensitive
 %%  
+
 
 \s+                     {/* skip whitespace */}
 [-][-].*                   {/* skip comments */}
