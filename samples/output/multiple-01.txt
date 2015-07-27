@@ -1,18 +1,18 @@
 =============
 == multiple-01.iotql[0]
 =============
-0: thing-03
+0: thing-01
 --
 0: thing-02
 --
-0: thing-01
+0: thing-03
 --
 =============
 == multiple-01.iotql[1]
 =============
-0: Lights (03)
+0: The Name
 --
 0: Thing 2
 --
-0: The Name
+0: Lights (03)
 --

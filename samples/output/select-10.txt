@@ -1,9 +1,9 @@
 =============
 == select-10.iotql[0]
 =============
-0: Lights (03)
+0: The Name
 --
 0: Thing 2
 --
-0: The Name
+0: Lights (03)
 --

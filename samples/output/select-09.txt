@@ -1,9 +1,9 @@
 =============
 == select-09.iotql[0]
 =============
-0: thing-03
+0: thing-01
 --
 0: thing-02
 --
-0: thing-01
+0: thing-03
 --

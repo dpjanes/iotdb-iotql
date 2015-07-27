@@ -1,7 +1,7 @@
 =============
 == star-06.iotql[0]
 =============
-0: thing-03
+0: thing-01
 1: [object Object]
 2: [object Object]
 3: [object Object]
@@ -11,7 +11,7 @@
 2: [object Object]
 3: [object Object]
 --
-0: thing-01
+0: thing-03
 1: [object Object]
 2: [object Object]
 3: [object Object]
