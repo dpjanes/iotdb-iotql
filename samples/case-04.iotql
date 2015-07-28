@@ -1,0 +1,14 @@
+-- test case indepence
+UpdatE
+    THINGS
+Set
+    meta:name = "hello 04"
+wherE
+    ID = "thing-01";
+;
+-- note: bands are _not_ case independent, sorry
+SELECT
+    ID, meta:name
+FROM
+    Things;
+

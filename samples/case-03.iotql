@@ -1,0 +1,11 @@
+-- test case indepence
+Set
+    meta:name = "hello 3"
+wherE
+    ID = "thing-01";
+;
+select
+    meta:name
+from
+    THINGS
+;

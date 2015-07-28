@@ -1,0 +1,6 @@
+-- test case indepence
+select
+    "hello"
+From
+    Things
+;
