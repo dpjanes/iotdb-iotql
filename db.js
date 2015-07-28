@@ -456,8 +456,7 @@ DB.prototype.run_statement = function(statement, callback) {
     } else if (_.ld.first(statement, "let")) {
         self.run_statement_let(statement, callback);
     } else if (_.ld.first(statement, "create-scene")) {
-        throw new Error("CREATE SCENE not implemented");
-        // self.run_statement_create_scene(statement, callback);
+        self.run_statement_create_scene(statement, callback);
     } else {
         throw new Error("expected LET, SET, CREATE SCENE or SELECT");
     }
@@ -561,3 +560,4 @@ exports.DB = DB;
 require('./db_select');
 require('./db_set');
 require('./db_let');
+require('./db_create_scene');
