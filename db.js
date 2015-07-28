@@ -452,7 +452,7 @@ DB.prototype.run_statement = function(statement, callback) {
  *  This will get all the bands from the self.transporter,
  *  then when the data is in place, call the callback
  */
-DB.prototype.fetch_bands = function(id, bands, callback) {
+DB.prototype.fetch_bands = function(transporter, id, bands, callback) {
     var self = this;
 
     var bands = _.clone(bands);
@@ -478,7 +478,7 @@ DB.prototype.fetch_bands = function(id, bands, callback) {
 
     bands.map(function(band) {
         band_count++;
-        self.transporter.get({
+        transporter.get({
             id: id,
             band: band,
         }, function(gd) {
@@ -640,7 +640,7 @@ DB.prototype.run_statement_select = function(statement, callback) {
         } else {
             pending++;
 
-            self.fetch_bands(d.id, statement.pre.bands, function(error, rowd) {
+            self.fetch_bands(self.transporter, d.id, statement.pre.bands, function(error, rowd) {
                 if (!statement.where || self.evaluate(statement.where, rowd)) {
                     self.do_select(statement, rowd, _wrap_callback);
                 } else {
@@ -850,7 +850,7 @@ DB.prototype.run_statement_set = function(statement, callback) {
             _wrap_callback(error, null);
         } else {
             ++pending;
-            self.fetch_bands(d.id, statement.pre.bands, function(error, rowd) {
+            self.fetch_bands(self.transporter, d.id, statement.pre.bands, function(error, rowd) {
                 // console.log("ROWD", rowd);
                 if (!statement.where || self.evaluate(statement.where, rowd)) {
                     self.do_set(statement, rowd, _wrap_callback);
