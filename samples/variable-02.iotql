@@ -1,0 +1,4 @@
+-- test variables
+LET $var = "Hello There";
+SELECT $var;
+;

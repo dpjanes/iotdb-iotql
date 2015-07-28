@@ -1,0 +1,3 @@
+-- test variables (list with mixed types)
+LET $var = [ 0, true, false, "hi", 1.3 ];
+SELECT $var;

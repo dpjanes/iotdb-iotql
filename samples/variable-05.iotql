@@ -1,0 +1,4 @@
+-- test variables (typed value)
+LET $var = 212°F;
+SELECT $var;
+SELECT $var °C, $var °F, $var °K;
