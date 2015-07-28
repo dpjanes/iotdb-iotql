@@ -1,0 +1,10 @@
+=============
+== update-set-10.iotql[0]
+=============
+=============
+== update-set-10.iotql[1]
+=============
+0: thing-01
+1: The Name
+2: 20 [iot-unit:temperature.si.celsius]
+--

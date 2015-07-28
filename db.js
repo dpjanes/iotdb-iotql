@@ -449,7 +449,7 @@ DB.prototype.run_statement = function(statement, callback) {
 }
 
 /**
- *  This will get all the bands from the self.transporter,
+ *  This will get all the bands from the transporter,
  *  then when the data is in place, call the callback
  */
 DB.prototype.fetch_bands = function(transporter, id, bands, callback) {
@@ -799,6 +799,11 @@ DB.prototype.run_statement_set = function(statement, callback) {
 
     self.prevaluate(statement);
 
+    var transporter = self.stored[statement.store];
+    if (!transporter) {
+        return callback(new Error("store not found: " + statement.store));
+    }
+
     var sets = _.ld.list(statement, "set", []);
     sets.map(function(column) {
         column.aggregate = null;
@@ -834,7 +839,7 @@ DB.prototype.run_statement_set = function(statement, callback) {
 
                     var updated = _.defaults(updatedd[band], rowd[band]);
 
-                    self.transporter.update({
+                    transporter.update({
                         id: rowd.id,
                         band: band, 
                         value: updated, 
@@ -848,14 +853,14 @@ DB.prototype.run_statement_set = function(statement, callback) {
         }
     };
 
-    self.transporter.list(function(d) {
+    transporter.list(function(d) {
         if (d.end) {
             _wrap_callback(null, null);
         } else if (d.error) {
             _wrap_callback(error, null);
         } else {
             ++pending;
-            self.fetch_bands(self.transporter, d.id, statement.pre.bands, function(error, rowd) {
+            self.fetch_bands(transporter, d.id, statement.pre.bands, function(error, rowd) {
                 // console.log("ROWD", rowd);
                 if (!statement.where || self.evaluate(statement.where, rowd)) {
                     self.do_set(statement, rowd, _wrap_callback);

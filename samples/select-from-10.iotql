@@ -1,0 +1,8 @@
+-- selecting some dotted value
+-- with FROM
+SELECT
+    meta:name
+FROM
+    things
+;
+

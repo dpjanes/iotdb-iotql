@@ -1,0 +1,7 @@
+-- selecting some dotted value, with a colon-name and a dash
+-- with FROM
+SELECT
+    meta:iot:model-id
+FROM
+    things
+;

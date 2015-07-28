@@ -1,0 +1,17 @@
+SELECT
+    id, meta:name, meta:facet
+WHERE
+    meta:name = "The Name"
+;
+UPDATE
+    things
+SET
+    meta:facet &= [ facets:sensor, facets:sensor.temperature ]
+WHERE
+    meta:name = "The Name"
+;
+SELECT
+    id, meta:name, meta:facet
+WHERE
+    meta:name = "The Name"
+;

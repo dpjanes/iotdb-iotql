@@ -24,6 +24,7 @@
 "AS"                    return 'AS'
 "WHERE"                 return 'WHERE'
 "SET"                   return 'SET'
+"UPDATE"                return 'UPDATE'
 "FROM"                  return 'FROM'
 "false"                 return 'BOOLEAN'
 "true"                  return 'BOOLEAN'
@@ -88,16 +89,22 @@ EXPRESSION:
     { $$ = [ { "select": $2, "store": "things" } ]; }
     |
     "SELECT" SELECT-TERMS "FROM" SYMBOL-SIMPLE
-    { $$ = [ { "select": $2, "store": $4 } ]; }
+    { $$ = [ { "select": $2, "store": $4.toLowerCase() } ]; }
     |
     "SELECT" SELECT-TERMS "WHERE" VALUE
-    { $$ = [ { "select": $2, "where": $4 } ]; }
+    { $$ = [ { "select": $2, "where": $4, "store": "things" } ]; }
     |
     "SET" SET-TERMS
-    { $$ = [ { "set": $2 } ]; }
+    { $$ = [ { "set": $2, "store": "things" } ]; }
+    |
+    "UPDATE" SYMBOL-SIMPLE "SET" SET-TERMS
+    { $$ = [ { "set": $4, "store": $2.toLowerCase() } ]; }
     |
     "SET" SET-TERMS "WHERE" VALUE
-    { $$ = [ { "set": $2, "where": $4 } ]; }
+    { $$ = [ { "set": $2, "where": $4, "store": "things" } ]; }
+    |
+    "UPDATE" SYMBOL-SIMPLE "SET" SET-TERMS "WHERE" VALUE
+    { $$ = [ { "set": $4, "where": $6, "store": $2.toLowerCase() } ]; }
     |
     { $$ = []; }
     ;

@@ -1,0 +1,18 @@
+-- flip the 'on' state
+SELECT
+    id, meta:name, state:on
+WHERE
+    id = "thing-03"
+;
+UPDATE
+    things
+SET
+    state:on = !state:on
+WHERE
+    id = "thing-03"
+;
+SELECT
+    id, meta:name, state:on
+WHERE
+    id = "thing-03"
+;

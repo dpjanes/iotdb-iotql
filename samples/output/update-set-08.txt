@@ -1,0 +1,10 @@
+=============
+== update-set-08.iotql[0]
+=============
+=============
+== update-set-08.iotql[1]
+=============
+0: thing-01
+1: The Name
+2: ["iot-facet:sensor","iot-facet:sensor.chemical","iot-facet:sensor.chemical.co2"]
+--

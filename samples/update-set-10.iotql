@@ -1,0 +1,14 @@
+UPDATE
+    things
+SET
+    istate:sensor.temperature = 20°C
+WHERE
+    state:sensor.temperature 
+AND
+    id = "thing-01"
+;
+SELECT
+    id, meta:name, state:sensor.temperature
+WHERE
+    id = "thing-01"
+;

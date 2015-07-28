@@ -1,0 +1,7 @@
+-- selecting a string, results in the string
+-- even if we use FROM
+SELECT
+    "hello"
+FROM
+    things
+;

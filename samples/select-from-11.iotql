@@ -1,0 +1,9 @@
+-- selecting some dotted value, with a colon-name
+-- with FROM
+SELECT
+    meta:schema:name
+FROM
+    things
+;
+
+

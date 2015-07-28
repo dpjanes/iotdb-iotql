@@ -1,0 +1,17 @@
+=============
+== update-set-07.iotql[0]
+=============
+0: thing-01
+1: The Name
+2: ["iot-facet:climate","iot-facet:climate.heating"]
+--
+=============
+== update-set-07.iotql[1]
+=============
+=============
+== update-set-07.iotql[2]
+=============
+0: thing-01
+1: The Name
+2: ["iot-facet:climate","iot-facet:climate.heating","iot-facet:sensor","iot-facet:sensor.temperature"]
+--
