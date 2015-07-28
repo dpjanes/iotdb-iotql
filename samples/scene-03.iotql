@@ -1,8 +1,7 @@
 -- takes an argument
 CREATE SCENE
     lights(value)
-SET
-    state:on = :value
-WHERE
-    meta:facet & lighting
+BEGIN
+    SELECT "hello"
+END
 ;

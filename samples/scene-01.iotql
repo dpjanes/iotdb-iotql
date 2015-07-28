@@ -1,16 +1,6 @@
--- 
+-- sets the temperature to 18 degrees C
 CREATE SCENE
     goodnight
 BEGIN
-    SET
-        state:temperature = UNITS(18,units:temperature.si.celsius)
-    AND 
-        meta:facet & facets:climate.heating
-    ;
-    SET
-        state:on = false
-    WHERE
-        meta:zone & [ "Basement", "Main Floor" ]
-    AND
-        meta:facet & lighting
+    SET state:temperature = UNITS(18,units:temperature.si.celsius)
 END

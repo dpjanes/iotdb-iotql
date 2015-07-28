@@ -26,6 +26,11 @@
 "SET"                   return 'SET'
 "UPDATE"                return 'UPDATE'
 "FROM"                  return 'FROM'
+"CREATE"                return 'CREATE'
+"BEGIN"                 return 'BEGIN'
+"END"                   return 'END'
+"SCENE"                 return 'SCENE'
+"LET"                   return 'LET'
 "false"                 return 'BOOLEAN'
 "true"                  return 'BOOLEAN'
 "="                     return '='
@@ -51,6 +56,7 @@
 [_a-zA-Z][-_a-zA-Z0-9]+[:]([_a-zA-Z][-_a-zA-Z0-9]*)([.][_a-zA-Z][-_a-zA-Z0-9]*)*   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]+([:][*])   return 'SYMBOL-STAR'
 [_a-zA-Z][-_a-zA-Z0-9]+   return 'SYMBOL-SIMPLE'
+[$][_a-zA-Z][-_a-zA-Z0-9]+   return 'VARIABLE'
 "*"                     return 'STAR';
 
     
@@ -106,6 +112,19 @@ EXPRESSION:
     "UPDATE" SYMBOL-SIMPLE "SET" SET-TERMS "WHERE" VALUE
     { $$ = [ { "set": $4, "where": $6, "store": $2.toLowerCase() } ]; }
     |
+    "CREATE" "SCENE" SYMBOL-SIMPLE "BEGIN" EXPRESSION-LIST "END"
+    { $$ = []; }
+    |
+    "CREATE" "SCENE" SYMBOL-SIMPLE "(" SYMBOL-SIMPLE ")" "BEGIN" EXPRESSION-LIST "END"
+    { $$ = []; }
+    |
+    "LET" VARIABLE "=" VALUE
+    { $$ = [ {
+            "let": $2,
+            "value": $4,
+        } ]; 
+    }
+    |
     { $$ = []; }
     ;
 
@@ -116,6 +135,7 @@ SELECT-TERMS:
     SELECT-TERM
     {{ $$ = [ $1 ]; }}
     ;
+
 /*
  *  The way we we deal with functions needs to be 
  *  overhauled in the long run
@@ -476,4 +496,7 @@ ATOMIC:
     |
     ID
     {{ $$ = { "id": true }; }}
+    |
+    VARIABLE
+    {{ $$ = { "variable": $1 }; }}
     ;

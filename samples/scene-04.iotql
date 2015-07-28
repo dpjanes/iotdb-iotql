@@ -1,2 +1,7 @@
--- run a scene
-DO lights(true);
+-- takes an argument, and _uses_ that argument
+CREATE SCENE
+    lights(value)
+BEGIN
+    SELECT $value
+END
+;

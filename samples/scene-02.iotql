@@ -1,2 +1,7 @@
--- run a scene
-DO goodnight;
+-- sets the temperature to 18 degrees C and then turns off the lights
+CREATE SCENE
+    goodnight
+BEGIN
+    SET state:temperature = UNITS(18,units:temperature.si.celsius);
+    SET state:on = false WHERE meta:facet & facets:lighting;
+END
