@@ -148,7 +148,7 @@ var DB = function(things_transporter, recipes_transporter) {
         "things": things_transporter,
     };
     if (recipes_transporter) {
-        thus.stored["recipes"] = recipes_transporter;
+        this.stored["recipes"] = recipes_transporter;
     }
 };
 
@@ -631,8 +631,13 @@ DB.prototype.run_statement_select = function(statement, callback) {
             }
         }
     };
+    
+    var transporter = self.stored[statement.store];
+    if (!transporter) {
+        return callback(new Error("store not found: " + statement.store));
+    }
 
-    self.transporter.list(function(d) {
+    transporter.list(function(d) {
         if (d.end) {
             _wrap_callback(null, null);
         } else if (d.error) {
@@ -640,7 +645,7 @@ DB.prototype.run_statement_select = function(statement, callback) {
         } else {
             pending++;
 
-            self.fetch_bands(self.transporter, d.id, statement.pre.bands, function(error, rowd) {
+            self.fetch_bands(transporter, d.id, statement.pre.bands, function(error, rowd) {
                 if (!statement.where || self.evaluate(statement.where, rowd)) {
                     self.do_select(statement, rowd, _wrap_callback);
                 } else {
