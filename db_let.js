@@ -43,5 +43,15 @@ DB.prototype.run_statement_let = function(statement, callback) {
 
     self.prevaluate(statement);
 
-    callback(new Error("LET not implemented"));
+    var variable = _.ld.first(statement, "let");
+    var value = self.evaluate(statement.rhs, {
+        id: null,
+        istate: {},
+        ostate: {},
+        meta: {},
+    });
+
+    self.variabled[variable] = value
+
+    callback(null, null);
 };

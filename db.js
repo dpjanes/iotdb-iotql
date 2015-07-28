@@ -150,6 +150,9 @@ var DB = function(things_transporter, recipes_transporter) {
     if (recipes_transporter) {
         this.stored["recipes"] = recipes_transporter;
     }
+
+    // this is temporary - we need to deal with SCOPE
+    this.variabled = {};
 };
 
 /**
@@ -421,6 +424,13 @@ DB.prototype.evaluate = function(v, rowd) {
         return rs;
     } else if (v.select_all) {
         return rowd;
+    } else if (v.variable) {
+        var v = self.variabled[v.variable];
+        if (v === undefined) {
+            return null;
+        } else {
+            return v;
+        }
     } else {
         console.log("THIS", v);
         throw new Error("not implemented");
@@ -443,7 +453,7 @@ DB.prototype.run_statement = function(statement, callback) {
         self.run_statement_select(statement, callback);
     } else if (_.ld.list(statement, "set")) {
         self.run_statement_set(statement, callback);
-    } else if (_.ld.list(statement, "let")) {
+    } else if (_.ld.first(statement, "let")) {
         self.run_statement_let(statement, callback);
     } else {
         throw new Error("expected LET, SET or SELECT");

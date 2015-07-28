@@ -121,7 +121,7 @@ EXPRESSION:
     "LET" VARIABLE "=" VALUE
     { $$ = [ {
             "let": $2,
-            "value": $4,
+            "rhs": $4,
         } ]; 
     }
     |

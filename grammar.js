@@ -125,7 +125,7 @@ break;
 case 13:
  this.$ = [ {
             "let": $$[$0-2],
-            "value": $$[$0],
+            "rhs": $$[$0],
         } ]; 
     
 break;
