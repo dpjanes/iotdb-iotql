@@ -1,9 +1,9 @@
 /*
- *  db.js
+ *  db_set.js
  *
  *  David Janes
  *  IOTDB.org
- *  2015-07-16
+ *  2015-07-29
  *
  *  Copyright [2013-2015] [David P. Janes]
  *
@@ -27,7 +27,7 @@ var _ = iotdb._;
 
 var logger = iotdb.logger({
     name: 'iotdb-iotql',
-    module: 'db',
+    module: 'db_set',
 });
 
 var operators = require("./operators");

@@ -444,9 +444,9 @@ DB.prototype.run_statement = function(statement, callback) {
     } else if (_.ld.list(statement, "set")) {
         self.run_statement_set(statement, callback);
     } else if (_.ld.list(statement, "let")) {
-        throw new Error("don't know how to do LET!");
+        self.run_statement_let(statement, callback);
     } else {
-        throw new Error("expected SELECT or SET");
+        throw new Error("expected LET, SET or SELECT");
     }
 }
 
@@ -547,3 +547,4 @@ exports.DB = DB;
 
 require('./db_select');
 require('./db_set');
+require('./db_let');

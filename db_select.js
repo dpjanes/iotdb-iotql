@@ -1,9 +1,9 @@
 /*
- *  db.js
+ *  db_select.js
  *
  *  David Janes
  *  IOTDB.org
- *  2015-07-16
+ *  2015-07-29
  *
  *  Copyright [2013-2015] [David P. Janes]
  *
