@@ -55,22 +55,16 @@ var boolean = [
     "sample",
 ];
 var defaults = {};
-
+var db;
 
 var help = function() {
     console.log("usage: iotql");
     console.log("");
 };
 
-var db;
-var transporter;
-
 var iotql_eval = function(cmd, context, filename, callback) {
     var statements = parser.parse(cmd);
 
-    var transporter = new FSTransport({
-        prefix: path.join(__dirname, "..", "samples", ".things"),
-    });
     var name = "";
     var resultds = [];
     db.execute(statements, function(cd) {
@@ -124,7 +118,8 @@ var run_cli = function()  {
         default: defaults,
     });
 
-    var url;
+    var things_url = "iotdb://";
+    var recipes_url = null;
     if (ad.sample) {
         var src_dir = path.join(__dirname, "..", "samples", "things");
         var dst_dir = path.join(os.tmpdir(), "iotql-things-" + _.uid(8));
@@ -132,28 +127,51 @@ var run_cli = function()  {
         child_process.spawnSync("rm", [ "-rf", dst_dir ]);
         child_process.spawnSync("cp", [ "-R", src_dir, dst_dir ]);
 
-        url = dst_dir;
-    } else if (ad._.length) {
-        url = ad._[0];
-    } else {
-        throw new Error("no default store (yet)");
+        things_url = dst_dir;
+    } else if (ad.things) {
+        things_url = ad.things;
     }
 
-    iotdb_transport.connect(url, function(error, td) {
+    if (ad.recipes) {
+        recipes_url = ad.recipes;
+    }
+
+    var things_transporter;
+    var recipes_transporter;
+
+    var connected = function() {
+        if (things_transporter === undefined) {
+            return;
+        } else if (recipes_transporter === undefined) {
+            return;
+        }
+
+        db = new DB(things_transporter, recipes_transporter);
+        run_interactive();
+    };
+
+    iotdb_transport.connect(things_url, function(error, td) {
         if (error) {
             throw new Error(_.error.message(error));
         }
 
-        // XXX - at some point in the future support multiple transporters
-        if (transporter) {
-            return;
-        }
-
-        transporter = td.transport;
-        db = new DB(transporter);
-
-        run_interactive();
+        things_transporter = td.transport;
+        connected();
     });
+
+    if (!recipes_url) {
+        recipes_transporter = null;
+        connected();
+    } else {
+        iotdb_transport.connect(recipes_url, function(error, td) {
+            if (error) {
+                throw new Error(_.error.message(error));
+            }
+
+            recipes_transporter = td.transport;
+            connected();
+        });
+    }
 };
 
 run_cli();
