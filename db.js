@@ -142,8 +142,14 @@ var operatord = _.defaults(
     }
 );
 
-var DB = function(transporter) {
-    this.transporter = transporter;
+var DB = function(things_transporter, recipes_transporter) {
+    this.transporter = things_transporter;
+    this.stored = {
+        "things": things_transporter,
+    };
+    if (recipes_transporter) {
+        thus.stored["recipes"] = recipes_transporter;
+    }
 };
 
 /**

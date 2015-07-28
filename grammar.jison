@@ -24,6 +24,7 @@
 "AS"                    return 'AS'
 "WHERE"                 return 'WHERE'
 "SET"                   return 'SET'
+"FROM"                  return 'FROM'
 "false"                 return 'BOOLEAN'
 "true"                  return 'BOOLEAN'
 "="                     return '='
@@ -84,7 +85,10 @@ EXPRESSION-LIST:
 
 EXPRESSION:
     "SELECT" SELECT-TERMS
-    { $$ = [ { "select": $2 } ]; }
+    { $$ = [ { "select": $2, "store": "things" } ]; }
+    |
+    "SELECT" SELECT-TERMS "FROM" SYMBOL-SIMPLE
+    { $$ = [ { "select": $2, "store": $4 } ]; }
     |
     "SELECT" SELECT-TERMS "WHERE" VALUE
     { $$ = [ { "select": $2, "where": $4 } ]; }
