@@ -2,7 +2,7 @@
 %options case-insensitive
 %%  
 
-
+"CREATE"\s+"SCENE"      return 'CREATE-SCENE'
 \s+                     {/* skip whitespace */}
 [-][-].*                   {/* skip comments */}
 0\b                     return 'NUMBER'
@@ -26,10 +26,8 @@
 "SET"                   return 'SET'
 "UPDATE"                return 'UPDATE'
 "FROM"                  return 'FROM'
-"CREATE"                return 'CREATE'
 "BEGIN"                 return 'BEGIN'
 "END"                   return 'END'
-"SCENE"                 return 'SCENE'
 "LET"                   return 'LET'
 "false"                 return 'BOOLEAN'
 "true"                  return 'BOOLEAN'
@@ -112,11 +110,23 @@ EXPRESSION:
     "UPDATE" SYMBOL-SIMPLE "SET" SET-TERMS "WHERE" VALUE
     { $$ = [ { "set": $4, "where": $6, "store": $2.toLowerCase() } ]; }
     |
-    "CREATE" "SCENE" SYMBOL-SIMPLE "BEGIN" EXPRESSION-LIST "END"
-    { $$ = []; }
+    "CREATE-SCENE" SYMBOL-SIMPLE "BEGIN" EXPRESSION-LIST "END"
+    { $$ = [
+        {
+            "create-scene": $2,
+            "parameters": [],
+            "begin-end": $4
+        }
+    ]; }
     |
-    "CREATE" "SCENE" SYMBOL-SIMPLE "(" SYMBOL-SIMPLE ")" "BEGIN" EXPRESSION-LIST "END"
-    { $$ = []; }
+    "CREATE-SCENE" SYMBOL-SIMPLE "(" PARAMETERS ")" "BEGIN" EXPRESSION-LIST "END"
+    { $$ = [
+        {
+            "create-scene": $2,
+            "parameters": $4,
+            "begin-end": $7
+        }
+    ]; }
     |
     "LET" VARIABLE "=" VALUE
     { $$ = [ {
