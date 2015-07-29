@@ -69,6 +69,10 @@ DB.prototype._decompile = function(fragment) {
         results.push(fragment.variable);
     } else if (fragment.band && fragment.selector) {
         results.push(fragment.band + ":" + fragment.selector);
+    } else if (fragment.band && fragment.all) {
+        results.push(fragment.band + ":*");
+    } else if (fragment.select_all) {
+        results.push("*");
     } else if (fragment.compute && fragment.compute.join === "middle") {
         results.push(self._decompile(fragment.compute.operands[0]));
         results.push(fragment.compute.operation);
@@ -76,7 +80,7 @@ DB.prototype._decompile = function(fragment) {
     } else if (fragment.compute && fragment.compute.join === "left") {
         results.push(fragment.compute.operation);
         results.push(self._decompile(fragment.compute.operands[0]));
-    } else if (fragment.compute) {
+    } else if (fragment.compute && fragment.compute.join === "function") {
         if (fragment.compute.module) {
             results.push(fragment.compute.module + ":" + fragment.compute.operation);
         } else {
@@ -84,8 +88,6 @@ DB.prototype._decompile = function(fragment) {
         }
         if (fragment.compute.star) {
             results.push("(*)");
-        } else if (fragment.compute.operands.length === 1) {
-            results.push(self._decompile(fragment.compute.operands[0]));
         } else {
             results.push("(");
             results.push(self._decompile_list_comma(fragment.compute.operands));
@@ -104,11 +106,18 @@ DB.prototype._decompile = function(fragment) {
         results.push(fragment.store);
         results.push("SET");
         results.push(self._decompile_list_comma(fragment.set));
-        results.push("WHERE");
-        results.push(self._decompile(fragment.where));
+        if (fragment.where) {
+            results.push("WHERE");
+            results.push(self._decompile(fragment.where));
+        }
     } else if (fragment.lhs && fragment.rhs && fragment.assign) {
         results.push(self._decompile(fragment.lhs));
         results.push(fragment.assign);
+        results.push(self._decompile(fragment.rhs));
+    } else if (fragment.let && fragment.rhs) {
+        results.push("LET");
+        results.push(fragment.let);
+        results.push("=");
         results.push(self._decompile(fragment.rhs));
     } else {
         console.log("HERE:XX", fragment);

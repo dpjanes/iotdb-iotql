@@ -325,7 +325,8 @@ VALUE:
                         band: "units",
                         selector: selector,
                     },
-                ]
+                ],
+                "join": "function",
             },
         };
     }}
@@ -356,6 +357,7 @@ PARAMETER:
             "compute": {
                 "operation": $1,
                 "operands": $3,
+                "join": "function",
             }
         };
     }}
@@ -366,6 +368,7 @@ PARAMETER:
                 "module": $1.replace(/[.].*$/, ""),  
                 "operation": $1.replace(/^[^.]*[.]/, ""),  
                 "operands": $3,
+                "join": "function",
             }
         };
     }}
@@ -399,7 +402,8 @@ PARAMETER:
                         band: "units",
                         selector: selector,
                     },
-                ]
+                ],
+                "join": "function",
             },
         };
     }}
@@ -460,7 +464,8 @@ ATOMIC:
                         band: "units",
                         selector: selector,
                     },
-                ]
+                ],
+                "join": "function",
             },
         };
     }}
@@ -489,7 +494,8 @@ ATOMIC:
                         band: "units",
                         selector: selector,
                     },
-                ]
+                ],
+                "join": "function",
             },
         };
     }}

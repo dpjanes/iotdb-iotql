@@ -224,7 +224,7 @@ case 30: case 31: case 32:
         };
     
 break;
-case 33:
+case 33: case 43:
  this.$ = {  
             "compute": {
                 "operation": $$[$0-3],
@@ -270,7 +270,8 @@ case 38: case 48:
                         band: "units",
                         selector: selector,
                     },
-                ]
+                ],
+                "join": "function",
             },
         };
     
@@ -287,21 +288,13 @@ case 42:
         };
     
 break;
-case 43:
- this.$ = {  
-            "compute": {
-                "operation": $$[$0-3],
-                "operands": $$[$0-1],
-            }
-        };
-    
-break;
 case 44:
  this.$ = {  
             "compute": {
                 "module": $$[$0-3].replace(/[.].*$/, ""),  
                 "operation": $$[$0-3].replace(/^[^.]*[.]/, ""),  
                 "operands": $$[$0-1],
+                "join": "function",
             }
         };
     
