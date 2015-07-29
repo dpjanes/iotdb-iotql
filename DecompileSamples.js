@@ -53,17 +53,11 @@ DB.prototype.decompile_path = function(iotql_path, done) {
         return done(x);
     }
 
-    console.log("OK");
-    done(null, null);
-
-
-    /*
     if (ad.test || ad.write) {
         self.decompile_path_test(iotql_path, statements, done);
     } else {
         self.decompile_path_user(iotql_path, statements, done);
     }
-    */
 };
 
 /*
@@ -155,37 +149,13 @@ DB.prototype.decompile_path_user = function(iotql_path, statements, done) {
     var self = this;
     var name = path.basename(iotql_path);
 
-    self.execute(statements, function(cd) {
-        if (cd.end) {
-            done(null);
-        } else if (cd.start) {
-            console.log("=============");
-            console.log("== %s[%s]", name, cd.index);
-            console.log("=============");
-
-            if (cd.index === 0) {
-                child_process.spawnSync("rm", [ "-rf", "samples/.things" ]);
-                child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
-            }
-        } else if (cd.error) {
+    self.decompile(statements, function(error, code) {
+        if (error) {
             console.log("-- ERROR: %s", cd.error);
-            done(cd.error);
-        } else if (cd.columns) {
-            cd.columns.map(function(column, column_index) {
-                var v = column.value;
-                if (_.is.Array(v)) {
-                    v = JSON.stringify(v);
-                } else if (_.is.Object(v)) {
-                    v = JSON.stringify(v);
-                }
-
-                if (column.units) {
-                    console.log("%s: %s [%s]", column_index, v, column.units);
-                } else {
-                    console.log("%s: %s", column_index, v);
-                }
-            });
-            console.log("--");
+            done(error);
+        } else {
+            console.log(code);
+            done(null);
         }
     });
 };

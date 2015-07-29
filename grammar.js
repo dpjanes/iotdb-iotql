@@ -209,6 +209,7 @@ case 29:
             "compute": {
                 "operation": $$[$0-1],
                 "operands": [ $$[$0], ],
+                "join": "left",
             }
         };
     
@@ -218,15 +219,17 @@ case 30: case 31: case 32:
             "compute": {
                 "operation": $$[$0-1],
                 "operands": [ $$[$0-2], $$[$0] ],
+                "join": "middle",
             }
         };
     
 break;
-case 33: case 43:
+case 33:
  this.$ = {  
             "compute": {
                 "operation": $$[$0-3],
                 "operands": $$[$0-1],
+                "join": "function",
             }
         };
     
@@ -237,6 +240,7 @@ case 34:
                 "module": $$[$0-3].replace(/[:].*$/, ""),  
                 "operation": $$[$0-3].replace(/^[^.]*[:]/, ""),  
                 "operands": $$[$0-1],
+                "join": "function",
             }
         };
     
@@ -279,6 +283,15 @@ case 42:
             "named": {
                 "key": $$[$0-2],
                 "value": $$[$0],
+            }
+        };
+    
+break;
+case 43:
+ this.$ = {  
+            "compute": {
+                "operation": $$[$0-3],
+                "operands": $$[$0-1],
             }
         };
     

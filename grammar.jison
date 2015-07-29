@@ -240,6 +240,7 @@ VALUE:
             "compute": {
                 "operation": $1,
                 "operands": [ $2, ],
+                "join": "left",
             }
         };
     }}
@@ -249,6 +250,7 @@ VALUE:
             "compute": {
                 "operation": $2,
                 "operands": [ $1, $3 ],
+                "join": "middle",
             }
         };
     }}
@@ -258,6 +260,7 @@ VALUE:
             "compute": {
                 "operation": $2,
                 "operands": [ $1, $3 ],
+                "join": "middle",
             }
         };
     }}
@@ -267,6 +270,7 @@ VALUE:
             "compute": {
                 "operation": $2,
                 "operands": [ $1, $3 ],
+                "join": "middle",
             }
         };
     }}
@@ -276,6 +280,7 @@ VALUE:
             "compute": {
                 "operation": $1,
                 "operands": $3,
+                "join": "function",
             }
         };
     }}
@@ -286,6 +291,7 @@ VALUE:
                 "module": $1.replace(/[:].*$/, ""),  
                 "operation": $1.replace(/^[^.]*[:]/, ""),  
                 "operands": $3,
+                "join": "function",
             }
         };
     }}
