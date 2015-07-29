@@ -123,7 +123,7 @@ EXPRESSION:
     { $$ = [
         {
             "create-scene": $2,
-            "parameters": [ $4 ],
+            "parameters": [ { variable: $4 }, ],
             "begin-end": $7
         }
     ]; }

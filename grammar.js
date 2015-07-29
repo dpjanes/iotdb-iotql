@@ -132,7 +132,7 @@ case 12:
  this.$ = [
         {
             "create-scene": $$[$0-6],
-            "parameters": [ $$[$0-4] ],
+            "parameters": [ { variable: $$[$0-4] }, ],
             "begin-end": $$[$0-1]
         }
     ]; 

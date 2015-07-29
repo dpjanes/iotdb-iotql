@@ -119,22 +119,33 @@ DB.prototype._decompile = function(fragment) {
         results.push(fragment.let);
         results.push("=");
         results.push(self._decompile(fragment.rhs));
+    } else if (fragment['create-scene']) {
+        results.push("CREATE SCENE");
+        results.push(fragment['create-scene']);
+        if (fragment.parameters && fragment.parameters.length) {
+            results.push("(");
+            results.push(self._decompile_list_comma(fragment.parameters));
+            results.push(")");
+        }
+        results.push("BEGIN");
+        results.push(self._decompile_list_comma(fragment['begin-end'], "; "));
+        results.push("END");
     } else {
         console.log("HERE:XX", fragment);
         throw new Error("not implemented");
     }
 
-
     return results.join(" ");
 };
 
-DB.prototype._decompile_list_comma = function(fragments) {
+DB.prototype._decompile_list_comma = function(fragments, joiner) {
     var self = this;
     var results = [];
+    joiner = joiner || ", ";
 
     fragments.map(function(fragment, subindex) {
         results.push(self._decompile(fragment));
     });
 
-    return results.join(", ");
+    return results.join(joiner);
 }
