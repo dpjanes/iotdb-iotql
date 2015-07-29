@@ -164,6 +164,7 @@ case 19:
         "compute": {
             "operation": $$[$0-3],
             "star": true,
+            "join": "function",
         }
       }
     

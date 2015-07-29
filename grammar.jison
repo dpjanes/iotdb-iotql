@@ -162,6 +162,7 @@ SELECT-TERM:
         "compute": {
             "operation": $1,
             "star": true,
+            "join": "function",
         }
       }
     }}
