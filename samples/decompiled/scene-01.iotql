@@ -1,0 +1,1 @@
+CREATE SCENE goodnight BEGIN UPDATE things SET state:temperature = UNITS ( 18, units:temperature.si.celsius ) END

@@ -7,3 +7,5 @@
 --
 0: model-03
 --
+0: model-contact-switch
+--

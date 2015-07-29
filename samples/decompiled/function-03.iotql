@@ -1,0 +1,1 @@
+SELECT string:lower ( "Hi There" ) FROM things ;

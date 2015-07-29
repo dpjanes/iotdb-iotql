@@ -1,0 +1,1 @@
+SELECT units ( 5, units:math.fraction.percent ) FROM things ;

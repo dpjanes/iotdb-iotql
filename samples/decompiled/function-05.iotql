@@ -1,0 +1,1 @@
+SELECT string:split ( "ABBBABA" ), string:split ( "ABBBABA", separator = "A" ), string:split ( "ABBBABA", separator = "AA" ), string:split ( "ABBBABA", separator = "B" ), string:split ( "ABBBABA", separator = "BB" ) FROM things ;

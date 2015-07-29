@@ -1,0 +1,2 @@
+UPDATE things SET meta:facet = facets:sensor.chemical.co2 WHERE meta:name = "The Name"
+SELECT id, meta:name, meta:facet FROM things ;

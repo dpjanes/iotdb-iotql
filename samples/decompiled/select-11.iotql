@@ -1,0 +1,1 @@
+SELECT meta:name FROM things ;

@@ -1,0 +1,2 @@
+UPDATE things SET state:on = true WHERE id = "thing-03"
+SELECT id, meta:name, state:on FROM things ;

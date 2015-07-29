@@ -1,0 +1,3 @@
+SELECT id, meta:name, state:on FROM things ;
+UPDATE things SET state:on = ! state:on WHERE id = "thing-03"
+SELECT id, meta:name, state:on FROM things ;

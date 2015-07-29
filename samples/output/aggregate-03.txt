@@ -2,6 +2,6 @@
 == aggregate-03.iotql[0]
 =============
 0: 2
-1: Lights (03)
+1: Front Door Contact Switch
 2: Thing 2
 --

@@ -60,12 +60,11 @@ DB.prototype.decompile_path = function(iotql_path, done) {
     }
 };
 
-/*
 DB.prototype.decompile_path_test = function(iotql_path, statements, done) {
     var self = this;
 
     var name = path.basename(iotql_path);
-    var text_path = path.join("samples", "output", name.replace(/[.]iotql/, ".txt"));
+    var text_path = path.join("samples", "decompiled", name);
 
     // get the previous result if we need it
     var previous = null;
@@ -85,21 +84,22 @@ DB.prototype.decompile_path_test = function(iotql_path, statements, done) {
 
     var lines = [];
 
-    self.execute(statements, function(cd) {
-        if (cd.end) {
-            var text = lines.join("\n") + "\n";
-
+    self.decompile(statements, function(error, code) {
+        if (error) {
+            console.log("%s: ERROR: %s", name, error);
+            return done(error, null);
+        } else {
             if (ad.write) {
-                fs.writeFileSync(text_path, text);
+                fs.writeFileSync(text_path, code);
                 console.log("%s: ok: wrote", name, text_path);
             } else if (ad.test) {
-                if (text !== previous) {
+                if (code !== previous) {
                     console.log("-----");
                     console.log("%s: changed", name);
                     console.log("------");
                     console.log("-- CURRENT");
                     console.log("------");
-                    console.log("%s", text);
+                    console.log("%s", code);
                     console.log("------");
                     console.log("-- PREVIOUS");
                     console.log("------");
@@ -111,36 +111,9 @@ DB.prototype.decompile_path_test = function(iotql_path, statements, done) {
             }
 
             done(null);
-        } else if (cd.start) {
-            lines.push(util.format("============="));
-            lines.push(util.format("== %s[%s]", name, cd.index));
-            lines.push(util.format("============="));
-
-            if (cd.index === 0) {
-                child_process.spawnSync("rm", [ "-rf", "samples/.things" ]);
-                child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
-            }
-        } else if (cd.error) {
-            lines.push(util.format("-- ERROR: %s", cd.error));
-            done(cd.error);
-        } else if (cd.columns) {
-            cd.columns.map(function(column, column_index) {
-                var v = column.value;
-                if (_.is.Array(v)) {
-                    v = JSON.stringify(v);
-                }
-
-                if (column.units) {
-                    lines.push(util.format("%s: %s [%s]", column_index, v, column.units));
-                } else {
-                    lines.push(util.format("%s: %s", column_index, v));
-                }
-            });
-            lines.push(util.format("--"));
         }
     });
 };
-*/
 
 /**
  *  This executes the command and prints out the result to stdout

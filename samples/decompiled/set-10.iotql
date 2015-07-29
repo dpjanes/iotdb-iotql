@@ -1,0 +1,2 @@
+UPDATE things SET istate:sensor.temperature = units ( 20, units:temperature.si.celsius ) WHERE state:sensor.temperature AND id = "thing-01"
+SELECT id, meta:name, state:sensor.temperature FROM things ;

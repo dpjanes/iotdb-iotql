@@ -1,0 +1,1 @@
+SELECT meta:model-id FROM things ;

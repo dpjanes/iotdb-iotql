@@ -1,0 +1,1 @@
+SELECT facets:climate.heating FROM things ;

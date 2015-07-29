@@ -1,0 +1,1 @@
+CREATE SCENE goodnight BEGIN UPDATE things SET state:temperature = UNITS ( 18, units:temperature.si.celsius ); UPDATE things SET state:on = false WHERE meta:facet & facets:lighting END

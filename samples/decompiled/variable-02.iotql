@@ -1,0 +1,2 @@
+LET $var = "Hello There"
+SELECT $var FROM things ;

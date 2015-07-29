@@ -1,0 +1,3 @@
+SELECT id, meta:name, meta:facet FROM things ;
+UPDATE things SET meta:facet &= [ facets:sensor, facets:sensor.temperature ] WHERE meta:name = "The Name"
+SELECT id, meta:name, meta:facet FROM things ;

@@ -1,0 +1,1 @@
+SELECT units ( 10, units:temperature.imperial.fahrenheit ) FROM things ;

@@ -1,0 +1,1 @@
+SELECT COUNT ( state:sensor.temperature ), MIN ( meta:name ), MAX ( meta:name ) FROM things ;

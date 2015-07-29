@@ -16,3 +16,8 @@
 2: [object Object]
 3: [object Object]
 --
+0: thing-04
+1: [object Object]
+2: [object Object]
+3: [object Object]
+--

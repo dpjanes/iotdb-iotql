@@ -1,0 +1,1 @@
+SELECT units ( units ( 0, units:temperature.si.kelvin ), units:temperature.si.kelvin ), units ( units ( 0, units:temperature.si.kelvin ), units:temperature.si.celsius ), units ( units ( 0, units:temperature.si.kelvin ), units:temperature.imperial.fahrenheit ) FROM things ;

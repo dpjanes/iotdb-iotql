@@ -1,0 +1,2 @@
+LET $var = 1.2
+SELECT $var FROM things ;

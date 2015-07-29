@@ -1,0 +1,2 @@
+UPDATE things SET meta:name = "hello 3" WHERE id = "thing-01"
+SELECT meta:name FROM things ;

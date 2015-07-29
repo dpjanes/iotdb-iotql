@@ -8,14 +8,16 @@ BEGIN
     SET
         state:on = true
     WHERE
-        meta:name = "Front Door Light"
+        meta:facet & facets.lighting
+    AND
+        meta:zone & "Foyer"
         ;
-    DELAY
-        MINUTES(10)
     SET
         state:on = false
     WHERE
-        meta:name = "Front Door Light"
+        meta:facet & facets.lighting
+    AND
+        meta:zone & "Foyer"
         ;
 END
 ;

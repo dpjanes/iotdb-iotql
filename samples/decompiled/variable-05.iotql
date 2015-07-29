@@ -1,0 +1,3 @@
+LET $var = units ( 212, units:temperature.imperial.fahrenheit )
+SELECT $var FROM things ;
+SELECT units ( $var, units:temperature.si.celsius ), units ( $var, units:temperature.imperial.fahrenheit ), units ( $var, units:temperature.si.kelvin ) FROM things ;

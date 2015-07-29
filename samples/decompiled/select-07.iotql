@@ -1,0 +1,1 @@
+SELECT "abc", 123, 999.123, true, false FROM things ;

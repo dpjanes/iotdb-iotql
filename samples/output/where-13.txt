@@ -12,3 +12,6 @@
 0: thing-03
 1: Lights (03)
 --
+0: thing-04
+1: Front Door Contact Switch
+--

@@ -1,0 +1,7 @@
+{
+    "iot:attribute": {
+        "@id": "#open",
+        "iot:purpose": "iot-attribute:open",
+        "iot:role": "iot:role-control"
+    }
+}

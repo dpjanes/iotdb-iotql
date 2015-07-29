@@ -1,0 +1,2 @@
+SELECT id FROM things ;
+SELECT meta:name FROM things ;
