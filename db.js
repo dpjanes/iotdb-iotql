@@ -561,3 +561,4 @@ require('./db_select');
 require('./db_set');
 require('./db_let');
 require('./db_create_scene');
+require('./db_decompile');

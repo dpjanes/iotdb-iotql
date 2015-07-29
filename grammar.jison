@@ -119,11 +119,11 @@ EXPRESSION:
         }
     ]; }
     |
-    "CREATE-SCENE" SYMBOL-SIMPLE "(" PARAMETERS ")" "BEGIN" EXPRESSION-LIST "END"
+    "CREATE-SCENE" SYMBOL-SIMPLE "(" SYMBOL-SIMPLE ")" "BEGIN" EXPRESSION-LIST "END"
     { $$ = [
         {
             "create-scene": $2,
-            "parameters": $4,
+            "parameters": [ $4 ],
             "begin-end": $7
         }
     ]; }
