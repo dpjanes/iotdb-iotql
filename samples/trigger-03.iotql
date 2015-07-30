@@ -1,7 +1,9 @@
 CREATE TRIGGER
-    front_door_light-1
+    front_door_light
 SELECT
     state:open = true
+WHERE
+    meta:name = "Front Door Contact Switch"
 BEGIN
     SET
         state:on = true
@@ -9,5 +11,5 @@ BEGIN
         meta:facet & facets:lighting
     AND
         meta:zone & "Foyer"
-    ;
+        ;
 END;

@@ -3,6 +3,7 @@
 %%  
 
 "CREATE"\s+"SCENE"      return 'CREATE-SCENE'
+"CREATE"\s+"TRIGGER"    return 'CREATE-TRIGGER'
 \s+                     {/* skip whitespace */}
 [-][-].*                   {/* skip comments */}
 0\b                     return 'NUMBER'
@@ -134,6 +135,48 @@ EXPRESSION:
             "rhs": $4,
         } ]; 
     }
+    |
+    "CREATE-TRIGGER" SYMBOL-SIMPLE "SELECT" SELECT-TERMS "BEGIN" EXPRESSION-LIST "END"
+    { $$ = [
+        {
+            "create-trigger": $2,
+            "store": "things",
+            "select": $4,
+            "begin-end": $6,
+        }
+    ]; }
+    |
+    "CREATE-TRIGGER" SYMBOL-SIMPLE "SELECT" SELECT-TERMS "FROM" SYMBOL-SIMPLE "BEGIN" EXPRESSION-LIST "END"
+    { $$ = [
+        {
+            "create-trigger": $2,
+            "select": $4,
+            "store": $6,
+            "begin-end": $8,
+        }
+    ]; }
+    |
+    "CREATE-TRIGGER" SYMBOL-SIMPLE "SELECT" SELECT-TERMS "WHERE" VALUE "BEGIN" EXPRESSION-LIST "END"
+    { $$ = [
+        {
+            "create-trigger": $2,
+            "store": "things",
+            "select": $4,
+            "where": $6,
+            "begin-end": $8,
+        }
+    ]; }
+    |
+    "CREATE-TRIGGER" SYMBOL-SIMPLE "SELECT" SELECT-TERMS "FROM" SYMBOL-SIMPLE "WHERE" VALUE "BEGIN" EXPRESSION-LIST "END"
+    { $$ = [
+        {
+            "create-trigger": $2,
+            "store": $6.toLowerCase(),
+            "select": $4,
+            "where": $8,
+            "begin-end": $10,
+        }
+    ]; }
     |
     { $$ = []; }
     ;
