@@ -118,7 +118,7 @@ var run_cli = function()  {
         default: defaults,
     });
 
-    var things_url = "iotdb://";
+    var things_url = null;
     var recipes_url = null;
     if (ad.sample) {
         var src_dir = path.join(__dirname, "..", "samples", "things");
@@ -134,6 +134,12 @@ var run_cli = function()  {
 
     if (ad.recipes) {
         recipes_url = ad.recipes;
+    }
+
+    /* default connection */
+    if (!things_url && !recipes_url) {
+        var things_url = "iotdb://";
+        var recipes_url = "file://recipes";
     }
 
     var things_transporter;
