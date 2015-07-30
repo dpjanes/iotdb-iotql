@@ -259,6 +259,7 @@ DB.prototype.prevaluate = function(v, paramd) {
     
     if (v.band) {
         if ((v.band === "state") && paramd.state) {
+            v.oband = v.band;
             v.band = paramd.state;
         }
 
@@ -314,6 +315,40 @@ DB.prototype.evaluate = function(v, rowd) {
         }
 
         if (v.all) {
+            if ((v.band === "istate") || (v.band === "ostate")) {
+                // we return the semantic columns, not the raw data
+                // this means lots of ugly complexity and hacks
+                var cts = [];
+                var attributes = _.ld.list(rowd.model, "iot:attribute", []);
+                attributes.map(function(attribute) {
+                    code = _.ld.first(attribute, "@id", "");
+                    code = code.replace(/^.*?#/, '');
+
+                    unit = _.ld.first(attribute, "iot:unit", null);
+                    purpose = _.ld.first(attribute, "iot:purpose", null);
+                    if (purpose.match(/^iot-attribute:/)) {
+                        purpose = purpose.replace(/^iot-attribute:/, '');
+                    }
+
+                    var result = d[code];
+                    if (result !== undefined) {
+                        var ct = new typed.Typed(result, unit);
+                        ct.purpose = purpose;
+                        if (v.oband) {
+                            ct.as = v.oband + ":" + purpose;
+                        } else {
+                            ct.as = v.band + ":" + purpose;
+                        }
+
+                        cts.push(ct);
+                    }
+                });
+
+                var t = new typed.Typed(cts);
+                t.expand_columns = true;
+                return t;
+            }
+
             return d;
         }
 

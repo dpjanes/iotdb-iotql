@@ -48,11 +48,12 @@ var logger = bunyan.createLogger({
 });
 
 var parser = require("../grammar").parser;
+var typed = require("../typed");
 var DB = require('../db').DB;
 
 /* for minimist */
 var boolean = [
-    "sample",
+    "samples",
 ];
 var defaults = {};
 var db;
@@ -107,7 +108,18 @@ var run_interactive = function() {
         prompt: "iotql> ",
         eval: iotql_eval,
         writer: function(o) {
-            return util.inspect(o, {showHidden: false, depth: null});
+            o.map(function(d) {
+                for (var key in d) {
+                    var valued = d[key];
+                    if (valued.units) {
+                        console.log(util.format("%s %s %s", key, valued.value, valued.units));
+                    } else {
+                        console.log(util.format("%s %s", key, valued.value));
+                    }
+                }
+                console.log();
+            });
+            return "";
         },
     });
 };
@@ -120,7 +132,7 @@ var run_cli = function()  {
 
     var things_url = null;
     var recipes_url = null;
-    if (ad.sample) {
+    if (ad.samples) {
         var src_dir = path.join(__dirname, "..", "samples", "things");
         var dst_dir = path.join(os.tmpdir(), "iotql-things-" + _.uid(8));
 
