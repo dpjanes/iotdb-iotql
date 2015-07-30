@@ -459,6 +459,8 @@ DB.prototype.run_statement = function(statement, callback) {
         self.run_statement_set(statement, callback);
     } else if (_.ld.first(statement, "let")) {
         self.run_statement_let(statement, callback);
+    } else if (_.ld.first(statement, "do")) {
+        self.run_statement_do(statement, callback);
     } else {
         throw new Error("expected LET, SET, CREATE or SELECT");
     }
@@ -565,3 +567,4 @@ require('./db_let');
 require('./db_create_scene');
 require('./db_create_trigger');
 require('./db_decompile');
+require('./db_dp');
