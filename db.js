@@ -449,16 +449,18 @@ DB.prototype.evaluate = function(v, rowd) {
 DB.prototype.run_statement = function(statement, callback) {
     var self = this;
 
-    if (_.ld.list(statement, "select")) {
+    if (_.ld.first(statement, "create-scene")) {
+        self.run_statement_create_scene(statement, callback);
+    } else if (_.ld.first(statement, "create-trigger")) {
+        self.run_statement_create_trigger(statement, callback);
+    } else if (_.ld.list(statement, "select")) {
         self.run_statement_select(statement, callback);
     } else if (_.ld.list(statement, "set")) {
         self.run_statement_set(statement, callback);
     } else if (_.ld.first(statement, "let")) {
         self.run_statement_let(statement, callback);
-    } else if (_.ld.first(statement, "create-scene")) {
-        self.run_statement_create_scene(statement, callback);
     } else {
-        throw new Error("expected LET, SET, CREATE SCENE or SELECT");
+        throw new Error("expected LET, SET, CREATE or SELECT");
     }
 }
 
@@ -561,4 +563,5 @@ require('./db_select');
 require('./db_set');
 require('./db_let');
 require('./db_create_scene');
+require('./db_create_trigger');
 require('./db_decompile');
