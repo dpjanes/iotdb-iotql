@@ -114,7 +114,7 @@ var run_interactive = function() {
                     if (valued.units) {
                         console.log(util.format("%s %s %s", key, valued.value, valued.units));
                     } else {
-                        console.log(util.format("%s %s", key, valued.value));
+                        console.log(util.format("%s %s", key, util.inspect(valued.value, { depth: null })));
                     }
                 }
                 console.log();

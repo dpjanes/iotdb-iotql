@@ -347,6 +347,17 @@ DB.prototype.evaluate = function(v, rowd) {
                 var t = new typed.Typed(cts);
                 t.expand_columns = true;
                 return t;
+            } else if (v.band === "meta") {
+                var cts = [];
+                for (var key in d) {
+                    var ct = new typed.Typed(d[key])
+                    ct.as = "meta:" + key;
+                    cts.push(ct);
+                }
+
+                var t = new typed.Typed(cts);
+                t.expand_columns = true;
+                return t;
             }
 
             return d;
