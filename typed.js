@@ -32,6 +32,8 @@ var Typed = function(scalar, units) {
 
     this.scalar = scalar;
     this.units = (units === undefined) ? null : units;
+    this.as = null;
+    this.expand_columns = false;
 };
 
 Typed.prototype._isTyped = true;

@@ -452,11 +452,15 @@ DB.prototype.evaluate = function(v, rowd) {
                 return undefined;
             }
 
-            return operator({
+            var result = operator({
                 first: operands[0], 
                 av: operands, 
                 ad: named,
             });
+            result.purpose = operands[0].purpose;
+            result.as = operands[0].as;
+
+            return result;
         }
     } else if (v.list) {
         var rs = [];

@@ -53,10 +53,11 @@ var DB = require('../db').DB;
 
 /* for minimist */
 var boolean = [
-    "samples",
+    "samples", "json",
 ];
 var defaults = {};
 var db;
+var ad;
 
 var help = function() {
     console.log("usage: iotql");
@@ -84,6 +85,7 @@ var iotql_eval = function(cmd, context, filename, callback) {
             var rowdd = {};
 
             cd.columns.map(function(column, column_index) {
+                console.log(column);
                 if (column.value === null) {
                     return;
                 }
@@ -108,6 +110,10 @@ var run_interactive = function() {
         prompt: "iotql> ",
         eval: iotql_eval,
         writer: function(o) {
+            if (ad.json) {
+                return util.inspect(o, { depth: null });
+            }
+
             o.map(function(d) {
                 for (var key in d) {
                     var valued = d[key];
@@ -130,7 +136,7 @@ var run_interactive = function() {
 };
 
 var run_cli = function()  {
-    var ad = require('minimist')(process.argv.slice(2), {
+    ad = require('minimist')(process.argv.slice(2), {
         boolean: boolean,
         default: defaults,
     });
