@@ -2,5 +2,5 @@
 == star-01.iotql[0]
 =============
 0: thing-01
-1: [object Object]
+1: 20 [iot-unit:temperature.si.celsius]
 --

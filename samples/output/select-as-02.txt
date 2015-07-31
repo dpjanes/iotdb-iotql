@@ -4,11 +4,11 @@
 0: thing-01
 1: The Name
 --
-0: thing-02
-1: Thing 2
---
 0: thing-03
 1: Lights (03)
+--
+0: thing-02
+1: Thing 2
 --
 0: thing-04
 1: Front Door Contact Switch

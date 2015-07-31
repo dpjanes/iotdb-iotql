@@ -2,22 +2,38 @@
 == star-06.iotql[0]
 =============
 0: thing-01
-1: [object Object]
-2: [object Object]
-3: [object Object]
+1: 20 [iot-unit:temperature.si.celsius]
+2: thing-01
+3: model-01
+4: The Name
+5: ["iot-facet:climate","iot-facet:climate.heating"]
+6: Basement
+7: [object Object]
 --
 0: thing-02
-1: [object Object]
-2: [object Object]
-3: [object Object]
+1: 16 [iot-unit:temperature.si.celsius]
+2: thing-02
+3: model-02
+4: Thing 2
+5: ["iot-facet:climate","iot-facet:climate.cooling"]
+6: ["Second Floor","Master Bedroom"]
+7: [object Object]
 --
 0: thing-03
-1: [object Object]
-2: [object Object]
-3: [object Object]
+1: true
+2: thing-03
+3: model-03
+4: Lights (03)
+5: iot-facet:lighting
+6: ["Master Bedroom"]
+7: [object Object]
 --
 0: thing-04
-1: [object Object]
-2: [object Object]
-3: [object Object]
+1: false
+2: thing-04
+3: model-contact-switch
+4: Front Door Contact Switch
+5: ["iot-facet:sensor.contact","iot-facet:sensor"]
+6: ["Front Porch","Foyer"]
+7: [object Object]
 --

@@ -1,0 +1,4 @@
+=============
+== trigger-03.iotql[0]
+=============
+-- ERROR: Error: not implemented
