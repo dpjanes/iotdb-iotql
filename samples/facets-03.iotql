@@ -2,4 +2,4 @@
 SELECT
     id
 WHERE
-    facets:climate IN meta:facet
+    iot-facet:climate IN meta:facet

@@ -2,4 +2,4 @@
 SELECT
     id
 WHERE
-    meta:facet = facets:lighting
+    meta:facet = iot-facet:lighting

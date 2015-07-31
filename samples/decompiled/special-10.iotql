@@ -1,2 +1,2 @@
-UPDATE things SET istate:sensor.temperature = units ( 75, units:temperature.imperial.fahrenheit )
+UPDATE things SET istate:sensor.temperature = units ( 75, iot-unit:temperature.imperial.fahrenheit )
 SELECT state:sensor.temperature FROM things ;

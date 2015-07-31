@@ -1,1 +1,1 @@
-SELECT id, meta:name, units ( state:sensor.temperature, units:temperature.imperial.fahrenheit ), units ( state:sensor.temperature, units:temperature.si.celsius ), units ( state:sensor.temperature, units:temperature.si.kelvin ) FROM things ;
+SELECT id, meta:name, units ( state:sensor.temperature, iot-unit:temperature.imperial.fahrenheit ), units ( state:sensor.temperature, iot-unit:temperature.si.celsius ), units ( state:sensor.temperature, iot-unit:temperature.si.kelvin ) FROM things ;

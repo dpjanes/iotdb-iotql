@@ -2,5 +2,5 @@
 CREATE SCENE
     goodnight
 BEGIN
-    SET state:temperature = UNITS(18,units:temperature.si.celsius)
+    SET state:temperature = UNITS(18,iot-unit:temperature.si.celsius)
 END

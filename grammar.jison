@@ -366,7 +366,7 @@ VALUE:
                 "operands": [
                     $1,
                     {
-                        band: "units",
+                        band: "iot-unit",
                         selector: selector,
                     },
                 ],
@@ -443,7 +443,7 @@ PARAMETER:
                 "operands": [
                     $1,
                     {
-                        band: "units",
+                        band: "iot-unit",
                         selector: selector,
                     },
                 ],
@@ -505,7 +505,7 @@ ATOMIC:
                         actual: Number.parseInt($1)
                     },
                     {
-                        band: "units",
+                        band: "iot-unit",
                         selector: selector,
                     },
                 ],
@@ -535,7 +535,7 @@ ATOMIC:
                         actual: Number.parseFloat($1)
                     },
                     {
-                        band: "units",
+                        band: "iot-unit",
                         selector: selector,
                     },
                 ],

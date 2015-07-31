@@ -5,7 +5,7 @@
 --
 0: Thing 2
 --
-0: Lights (03)
---
 0: Front Door Contact Switch
+--
+0: Lights (03)
 --

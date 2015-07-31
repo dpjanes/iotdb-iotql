@@ -310,7 +310,7 @@ case 42: case 52:
                 "operands": [
                     $$[$0-1],
                     {
-                        band: "units",
+                        band: "iot-unit",
                         selector: selector,
                     },
                 ],

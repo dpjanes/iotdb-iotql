@@ -1,1 +1,1 @@
-SELECT units ( units ( 0, units:temperature.si.kelvin ), units:temperature.si.kelvin ), units ( units ( 0, units:temperature.si.kelvin ), units:temperature.si.celsius ), units ( units ( 0, units:temperature.si.kelvin ), units:temperature.imperial.fahrenheit ) FROM things ;
+SELECT units ( units ( 0, iot-unit:temperature.si.kelvin ), iot-unit:temperature.si.kelvin ), units ( units ( 0, iot-unit:temperature.si.kelvin ), iot-unit:temperature.si.celsius ), units ( units ( 0, iot-unit:temperature.si.kelvin ), iot-unit:temperature.imperial.fahrenheit ) FROM things ;

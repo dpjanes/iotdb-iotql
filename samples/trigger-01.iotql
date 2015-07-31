@@ -6,7 +6,7 @@ BEGIN
     SET
         state:on = true
     WHERE
-        meta:facet & facets:lighting
+        meta:facet & iot-facet:lighting
     AND
         meta:zone & "Foyer"
     ;

@@ -1,1 +1,1 @@
-SELECT units ( units ( 5, units:math.fraction.percent ), units:math.fraction.unit ) FROM things ;
+SELECT units ( units ( 5, iot-unit:math.fraction.percent ), iot-unit:math.fraction.unit ) FROM things ;

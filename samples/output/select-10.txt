@@ -3,9 +3,9 @@
 =============
 0: The Name
 --
-0: Thing 2
---
 0: Lights (03)
+--
+0: Thing 2
 --
 0: Front Door Contact Switch
 --

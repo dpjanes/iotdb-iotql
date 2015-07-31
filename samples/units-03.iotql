@@ -1,4 +1,4 @@
 -- this will attach units to a scalar, then convert it to anoth
 SELECT
-    units(units(10, units:temperature.imperial.fahrenheit), units:temperature.si.celsius)
+    units(units(10, iot-unit:temperature.imperial.fahrenheit), iot-unit:temperature.si.celsius)
 ;

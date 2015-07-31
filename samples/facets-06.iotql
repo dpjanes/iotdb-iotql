@@ -4,4 +4,4 @@
 SELECT
     id
 WHERE
-    list(meta:facet) = [ facets:lighting ]
+    list(meta:facet) = [ iot-facet:lighting ]

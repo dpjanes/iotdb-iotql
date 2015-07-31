@@ -2,4 +2,4 @@
 SELECT
     id
 WHERE
-    facets:climate NOT IN meta:facet
+    iot-facet:climate NOT IN meta:facet

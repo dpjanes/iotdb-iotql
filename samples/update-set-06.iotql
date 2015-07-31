@@ -6,7 +6,7 @@ WHERE
 UPDATE
     things
 SET
-    meta:facet &= [ facets:sensor, facets:sensor.temperature ]
+    meta:facet &= [ iot-facet:sensor, iot-facet:sensor.temperature ]
 WHERE
     meta:name = "The Name"
 ;

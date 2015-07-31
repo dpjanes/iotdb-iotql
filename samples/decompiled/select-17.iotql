@@ -1,1 +1,1 @@
-SELECT facets:climate.heating FROM things ;
+SELECT iot-facet:climate.heating FROM things ;

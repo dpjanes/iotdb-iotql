@@ -55,7 +55,7 @@ DB.prototype.do_select = function(statement, rowd, callback) {
             return;
         }
 
-        if (result.expand_columns) {
+        if (result && result.expand_columns) {
             typed.scalar(result).map(function(new_result) {
                 resultds.push({
                     name: new_result.as,

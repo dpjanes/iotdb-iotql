@@ -4,10 +4,10 @@ SELECT
         units(
             units(
                 [ -40, 0, 32, 100, 212 ], 
-                units:temperature.imperial.fahrenheit
+                iot-unit:temperature.imperial.fahrenheit
             ), 
-            units:temperature.si.celsius
+            iot-unit:temperature.si.celsius
         ), 
-        units:temperature.imperial.fahrenheit
+        iot-unit:temperature.imperial.fahrenheit
     )
 ;

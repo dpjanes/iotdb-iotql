@@ -2,7 +2,7 @@
 UPDATE
     things
 SET
-    meta:facet = facets:sensor.chemical.co2
+    meta:facet = iot-facet:sensor.chemical.co2
 WHERE
     meta:name = "The Name"
 ;

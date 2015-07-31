@@ -1,6 +1,6 @@
 -- temperature
 SELECT
-    units(20°C, units:temperature.si.celsius), 
-    units(68°F, units:temperature.si.celsius), 
-    units(293.15°K, units:temperature.si.celsius)
+    units(20°C, iot-unit:temperature.si.celsius), 
+    units(68°F, iot-unit:temperature.si.celsius), 
+    units(293.15°K, iot-unit:temperature.si.celsius)
 ;

@@ -1,1 +1,1 @@
-SELECT units ( [ -40, 0, 32, 100, 212 ], units:temperature.imperial.fahrenheit ) FROM things ;
+SELECT units ( [ -40, 0, 32, 100, 212 ], iot-unit:temperature.imperial.fahrenheit ) FROM things ;

@@ -284,12 +284,8 @@ DB.prototype.prevaluate = function(v, paramd) {
                     }
                 }
             } 
-        } else if (v.band === "facets") {
-            v.actual = "iot-facet:" + v.selector;
-            v.band = null;
-            v.selector = null;
-        } else if (v.band === "units") {
-            v.actual = "iot-unit:" + v.selector;
+        } else {
+            v.actual = v.band + ":" + v.selector;
             v.band = null;
             v.selector = null;
         }
