@@ -31,6 +31,7 @@ var logger = iotdb.logger({
 });
 
 var typed = require("./typed");
+var operators = require("./operators");
 var DB = require('./db').DB;
 
 var WHEN_START = "start";
@@ -201,7 +202,7 @@ DB.prototype.run_statement_select = function(statement, callback) {
             pending++;
 
             self.fetch_bands(transporter, d.id, statement.pre.bands, function(error, rowd) {
-                if (!statement.where || self.evaluate(statement.where, rowd)) {
+                if (!statement.where || operators.is_true(self.evaluate(statement.where, rowd))) {
                     self.do_select(statement, rowd, _wrap_callback);
                 } else {
                     _wrap_callback(null, null);

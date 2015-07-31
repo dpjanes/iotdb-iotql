@@ -1,0 +1,5 @@
+-- select matching a facet
+SELECT
+    id
+WHERE
+    facets:climate NOT IN meta:facet

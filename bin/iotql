@@ -111,10 +111,15 @@ var run_interactive = function() {
             o.map(function(d) {
                 for (var key in d) {
                     var valued = d[key];
+                    var value = valued.value;
+                    if (!_.is.String(value)) {
+                        value = util.inspect(valued.value, { depth: null });
+                    }
+
                     if (valued.units) {
-                        console.log(util.format("%s %s %s", key, valued.value, valued.units));
+                        console.log(util.format("%s %s %s", key, value, valued.units));
                     } else {
-                        console.log(util.format("%s %s", key, util.inspect(valued.value, { depth: null })));
+                        console.log(util.format("%s %s", key, value));
                     }
                 }
                 console.log();

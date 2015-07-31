@@ -27,6 +27,7 @@ var _ = iotdb._;
 var typed = require('./typed');
 
 var _list = function(a) {
+    a = typed.scalar(a);
     if (typed.is.Array(a)) {
         return a;
     } else {
@@ -141,6 +142,7 @@ exports.d = {
             return false;
         }
 
+
         var as = _list(paramd.av[0]);
         var bs = _list(paramd.av[1]);
         var cs = [];
@@ -223,4 +225,13 @@ exports.d = {
     "min": function(paramd) {
         return paramd.first;
     },
+    "list": function(paramd) {
+        // at some point we may need to re-introducte units
+        return _list(paramd.first);
+    },
 };
+
+/**
+ *  API
+ */
+exports.is_true = _true;

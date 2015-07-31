@@ -1,0 +1,5 @@
+-- select exactly matching
+SELECT
+    id
+WHERE
+    meta:facet = facets:lighting

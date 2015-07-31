@@ -1,0 +1,7 @@
+-- select exactly matching
+-- this will not match, because our one example doesn't have
+-- the meta:facet as a list
+SELECT
+    id
+WHERE
+    list(meta:facet) = [ facets:lighting ]
