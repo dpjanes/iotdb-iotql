@@ -58,9 +58,8 @@ DB.prototype.do_select = function(statement, rowd, callback) {
         if (result && result.expand_columns) {
             typed.scalar(result).map(function(new_result) {
                 resultds.push({
-                    name: new_result.as,
+                    as: new_result.as,
                     index: index,
-                    column: new_result.as,
                     value: typed.scalar(new_result),
                     units: typed.units(new_result),
                 });
@@ -68,25 +67,25 @@ DB.prototype.do_select = function(statement, rowd, callback) {
             return;
         }
 
-        var name;
+        var as;
         if (column && column.column) {
-            name = column.column;
+            as = column.column;
         } else if (column.id) {
-            name = "id";
+            as = "id";
         } else if (result && result.purpose) {
-            name = result.purpose.replace(/^iot.*:/, '');
+            as = result.purpose.replace(/^iot.*:/, '');
         } else if (column.selector) {
-            name = column.selector.replace(/^iot.*:/, '');
+            as = column.selector.replace(/^iot.*:/, '');
         } else if (index === 0) {
-            name = "c00";
+            as = "c00";
         } else if (index < 10) {
-            name = "c0" + index; 
+            as = "c0" + index; 
         } else {
-            name = "c" + index;
+            as = "c" + index;
         }
 
         resultds.push({
-            name: name,
+            as: as,
             index: index,
             column: column,
             value: typed.scalar(result),

@@ -96,7 +96,7 @@ var iotql_eval = function(cmd, context, filename, callback) {
                     rowd.units = column.units;
                 }
 
-                rowdd[column.name] = rowd
+                rowdd[column.as] = rowd
             });
 
             resultds.push(rowdd);
