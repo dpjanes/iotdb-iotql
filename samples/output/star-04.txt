@@ -1,10 +1,10 @@
 =============
 == star-04.iotql[0]
 =============
-0: thing-01
-1: thing-01
-2: model-01
-3: The Name
-4: ["iot-facet:climate","iot-facet:climate.heating"]
-5: Basement
+id: thing-01
+meta:iot:thing-id: thing-01
+meta:iot:model-id: model-01
+meta:schema:name: The Name
+meta:iot:facet: ["iot-facet:climate","iot-facet:climate.heating"]
+meta:iot:zone: Basement
 --

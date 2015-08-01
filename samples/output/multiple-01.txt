@@ -1,22 +1,22 @@
 =============
 == multiple-01.iotql[0]
 =============
-0: thing-01
+id: thing-01
 --
-0: thing-02
+id: thing-02
 --
-0: thing-03
+id: thing-03
 --
-0: thing-04
+id: thing-04
 --
 =============
 == multiple-01.iotql[1]
 =============
-0: The Name
+schema:name: The Name
 --
-0: Front Door Contact Switch
+schema:name: Thing 2
 --
-0: Thing 2
+schema:name: Lights (03)
 --
-0: Lights (03)
+schema:name: Front Door Contact Switch
 --

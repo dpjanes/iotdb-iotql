@@ -1,6 +1,6 @@
 =============
 == where-02.iotql[0]
 =============
-0: thing-01
-1: The Name
+id: thing-01
+schema:name: The Name
 --

@@ -1,5 +1,5 @@
 =============
 == select-as-01.iotql[0]
 =============
-0: hello
+column1: hello
 --

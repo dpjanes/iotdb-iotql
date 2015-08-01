@@ -1,7 +1,7 @@
 =============
 == where-11.iotql[0]
 =============
-0: thing-02
-1: Thing 2
-2: 16 [iot-unit:temperature.si.celsius]
+id: thing-02
+schema:name: Thing 2
+sensor.temperature: 16 [iot-unit:temperature.si.celsius]
 --

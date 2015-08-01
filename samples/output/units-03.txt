@@ -1,5 +1,5 @@
 =============
 == units-03.iotql[0]
 =============
-0: -12.222 [iot-unit:temperature.si.celsius]
+c00: -12.222 [iot-unit:temperature.si.celsius]
 --

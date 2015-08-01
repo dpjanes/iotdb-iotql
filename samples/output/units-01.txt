@@ -1,5 +1,5 @@
 =============
 == units-01.iotql[0]
 =============
-0: 10 [iot-unit:temperature.imperial.fahrenheit]
+c00: 10 [iot-unit:temperature.imperial.fahrenheit]
 --

@@ -1,15 +1,15 @@
 =============
 == select-as-02.iotql[0]
 =============
-0: thing-01
-1: The Name
+the_id: thing-01
+the_name: The Name
 --
-0: thing-03
-1: Lights (03)
+the_id: thing-02
+the_name: Thing 2
 --
-0: thing-02
-1: Thing 2
+the_id: thing-03
+the_name: Lights (03)
 --
-0: thing-04
-1: Front Door Contact Switch
+the_id: thing-04
+the_name: Front Door Contact Switch
 --

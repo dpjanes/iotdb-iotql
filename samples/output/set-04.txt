@@ -4,7 +4,7 @@
 =============
 == set-04.iotql[1]
 =============
-0: thing-03
-1: Lights (03)
-2: true
+id: thing-03
+schema:name: Lights (03)
+on: true
 --

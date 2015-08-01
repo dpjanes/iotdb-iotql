@@ -4,12 +4,12 @@
 =============
 == variable-05.iotql[1]
 =============
-0: 212 [iot-unit:temperature.imperial.fahrenheit]
+c00: 212 [iot-unit:temperature.imperial.fahrenheit]
 --
 =============
 == variable-05.iotql[2]
 =============
-0: 100 [iot-unit:temperature.si.celsius]
-1: 212 [iot-unit:temperature.imperial.fahrenheit]
-2: 373.15 [iot-unit:temperature.si.kelvin]
+c00: 100 [iot-unit:temperature.si.celsius]
+c01: 212 [iot-unit:temperature.imperial.fahrenheit]
+c02: 373.15 [iot-unit:temperature.si.kelvin]
 --

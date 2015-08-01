@@ -4,7 +4,7 @@
 =============
 == set-units-03.iotql[1]
 =============
-0: thing-01
-1: The Name
-2: 93.333 [iot-unit:temperature.si.celsius]
+id: thing-01
+schema:name: The Name
+sensor.temperature: 93.333 [iot-unit:temperature.si.celsius]
 --

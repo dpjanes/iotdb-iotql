@@ -4,7 +4,7 @@
 =============
 == update-set-08.iotql[1]
 =============
-0: thing-01
-1: The Name
-2: ["iot-facet:sensor","iot-facet:sensor.chemical","iot-facet:sensor.chemical.co2"]
+id: thing-01
+schema:name: The Name
+facet: ["iot-facet:sensor","iot-facet:sensor.chemical","iot-facet:sensor.chemical.co2"]
 --

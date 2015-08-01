@@ -1,39 +1,39 @@
 =============
 == star-06.iotql[0]
 =============
-0: thing-01
-1: 20 [iot-unit:temperature.si.celsius]
-2: thing-01
-3: model-01
-4: The Name
-5: ["iot-facet:climate","iot-facet:climate.heating"]
-6: Basement
-7: [object Object]
+id: thing-01
+state:sensor.temperature: 20 [iot-unit:temperature.si.celsius]
+meta:iot:thing-id: thing-01
+meta:iot:model-id: model-01
+meta:schema:name: The Name
+meta:iot:facet: ["iot-facet:climate","iot-facet:climate.heating"]
+meta:iot:zone: Basement
+c03: [object Object]
 --
-0: thing-02
-1: 16 [iot-unit:temperature.si.celsius]
-2: thing-02
-3: model-02
-4: Thing 2
-5: ["iot-facet:climate","iot-facet:climate.cooling"]
-6: ["Second Floor","Master Bedroom"]
-7: [object Object]
+id: thing-02
+state:sensor.temperature: 16 [iot-unit:temperature.si.celsius]
+meta:iot:thing-id: thing-02
+meta:iot:model-id: model-02
+meta:schema:name: Thing 2
+meta:iot:facet: ["iot-facet:climate","iot-facet:climate.cooling"]
+meta:iot:zone: ["Second Floor","Master Bedroom"]
+c03: [object Object]
 --
-0: thing-03
-1: true
-2: thing-03
-3: model-03
-4: Lights (03)
-5: iot-facet:lighting
-6: ["Master Bedroom"]
-7: [object Object]
+id: thing-03
+state:on: true
+meta:iot:thing-id: thing-03
+meta:iot:model-id: model-03
+meta:schema:name: Lights (03)
+meta:iot:facet: iot-facet:lighting
+meta:iot:zone: ["Master Bedroom"]
+c03: [object Object]
 --
-0: thing-04
-1: false
-2: thing-04
-3: model-contact-switch
-4: Front Door Contact Switch
-5: ["iot-facet:sensor.contact","iot-facet:sensor"]
-6: ["Front Porch","Foyer"]
-7: [object Object]
+id: thing-04
+state:open: false
+meta:iot:thing-id: thing-04
+meta:iot:model-id: model-contact-switch
+meta:schema:name: Front Door Contact Switch
+meta:iot:facet: ["iot-facet:sensor.contact","iot-facet:sensor"]
+meta:iot:zone: ["Front Porch","Foyer"]
+c03: [object Object]
 --

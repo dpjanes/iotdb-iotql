@@ -1,6 +1,6 @@
 =============
 == star-05.iotql[0]
 =============
-0: thing-01
-1: [object Object]
+id: thing-01
+c01: [object Object]
 --

@@ -1,5 +1,5 @@
 =============
 == select-from-01.iotql[0]
 =============
-0: hello
+c00: hello
 --

@@ -1,9 +1,9 @@
 =============
 == set-05.iotql[0]
 =============
-0: thing-03
-1: Lights (03)
-2: true
+id: thing-03
+schema:name: Lights (03)
+on: true
 --
 =============
 == set-05.iotql[1]
@@ -11,7 +11,7 @@
 =============
 == set-05.iotql[2]
 =============
-0: thing-03
-1: Lights (03)
-2: true
+id: thing-03
+schema:name: Lights (03)
+on: true
 --

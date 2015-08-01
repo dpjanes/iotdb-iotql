@@ -130,9 +130,9 @@ DB.prototype.run_path_test = function(iotql_path, statements, done) {
                 }
 
                 if (column.units) {
-                    lines.push(util.format("%s: %s [%s]", column_index, v, column.units));
+                    lines.push(util.format("%s: %s [%s]", column.as, v, column.units));
                 } else {
-                    lines.push(util.format("%s: %s", column_index, v));
+                    lines.push(util.format("%s: %s", column.as, v));
                 }
             });
             lines.push(util.format("--"));

@@ -1,11 +1,11 @@
 =============
 == select-from-11.iotql[0]
 =============
-0: The Name
+schema:name: The Name
 --
-0: Thing 2
+schema:name: Thing 2
 --
-0: Front Door Contact Switch
+schema:name: Lights (03)
 --
-0: Lights (03)
+schema:name: Front Door Contact Switch
 --

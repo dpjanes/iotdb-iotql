@@ -452,13 +452,21 @@ DB.prototype.evaluate = function(v, rowd) {
                 return undefined;
             }
 
+            var first = operands[0];
             var result = operator({
-                first: operands[0], 
+                first: first,
                 av: operands, 
                 ad: named,
             });
-            result.purpose = operands[0].purpose;
-            result.as = operands[0].as;
+
+            if (!(result && result._isTyped)) {
+                result = new typed.Typed(result);
+            }
+
+            if (first && first.purpose) {
+                result.purpose = first.purpose;
+                result.as = first.as;
+            }
 
             return result;
         }

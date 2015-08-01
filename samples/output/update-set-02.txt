@@ -4,6 +4,6 @@
 =============
 == update-set-02.iotql[1]
 =============
-0: thing-01
-1: Thing 01
+id: thing-01
+schema:name: Thing 01
 --

@@ -1,11 +1,11 @@
 =============
 == select-12.iotql[0]
 =============
-0: model-01
+model-id: model-01
 --
-0: model-02
+model-id: model-02
 --
-0: model-03
+model-id: model-03
 --
-0: model-contact-switch
+model-id: model-contact-switch
 --

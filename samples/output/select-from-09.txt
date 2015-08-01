@@ -1,11 +1,11 @@
 =============
 == select-from-09.iotql[0]
 =============
-0: thing-01
+id: thing-01
 --
-0: thing-02
+id: thing-02
 --
-0: thing-03
+id: thing-03
 --
-0: thing-04
+id: thing-04
 --

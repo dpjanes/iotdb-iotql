@@ -1,6 +1,6 @@
 =============
 == star-02.iotql[0]
 =============
-0: thing-01
-1: 20 [iot-unit:temperature.si.celsius]
+id: thing-01
+istate:sensor.temperature: 20 [iot-unit:temperature.si.celsius]
 --

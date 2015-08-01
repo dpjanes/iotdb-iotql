@@ -1,9 +1,9 @@
 =============
 == set-03.iotql[0]
 =============
-0: thing-01
-1: The Name
-2: ["iot-facet:climate","iot-facet:climate.heating"]
+id: thing-01
+schema:name: The Name
+facet: ["iot-facet:climate","iot-facet:climate.heating"]
 --
 =============
 == set-03.iotql[1]
@@ -11,7 +11,7 @@
 =============
 == set-03.iotql[2]
 =============
-0: thing-01
-1: The Name
-2: ["iot-facet:climate","iot-facet:climate.heating","iot-facet:sensor","iot-facet:sensor.temperature"]
+id: thing-01
+schema:name: The Name
+facet: ["iot-facet:climate","iot-facet:climate.heating","iot-facet:sensor","iot-facet:sensor.temperature"]
 --

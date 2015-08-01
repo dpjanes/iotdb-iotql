@@ -4,15 +4,15 @@
 =============
 == case-04.iotql[1]
 =============
-0: thing-01
-1: hello 04
+id: thing-01
+schema:name: hello 04
 --
-0: thing-02
-1: Thing 2
+id: thing-02
+schema:name: hello 04
 --
-0: thing-03
-1: Lights (03)
+id: thing-03
+schema:name: hello 04
 --
-0: thing-04
-1: Front Door Contact Switch
+id: thing-04
+schema:name: hello 04
 --

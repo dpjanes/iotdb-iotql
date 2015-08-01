@@ -4,11 +4,11 @@
 =============
 == case-03.iotql[1]
 =============
-0: hello 3
+schema:name: hello 3
 --
-0: Thing 2
+schema:name: hello 3
 --
-0: Lights (03)
+schema:name: hello 3
 --
-0: Front Door Contact Switch
+schema:name: hello 3
 --
