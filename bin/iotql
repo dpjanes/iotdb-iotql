@@ -85,7 +85,6 @@ var iotql_eval = function(cmd, context, filename, callback) {
             var rowdd = {};
 
             cd.columns.map(function(column, column_index) {
-                console.log(column);
                 if (column.value === null) {
                     return;
                 }
@@ -132,6 +131,9 @@ var run_interactive = function() {
             });
             return "";
         },
+    })
+    .on('exit', function() {
+        process.exit(0)
     });
 };
 

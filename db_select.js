@@ -144,6 +144,10 @@ DB.prototype.run_statement_select = function(statement, callback) {
                     var column = resultd.column;
                     column.value = resultd.value;
 
+                    if ((column._as === undefined) && resultd.as) {
+                        column._as = resultd.as;
+                    }
+
                     if (column.pre.aggregate) {
                         column.pre.aggregate(resultd.value, column, WHEN_ITEM);
                     }
@@ -158,6 +162,7 @@ DB.prototype.run_statement_select = function(statement, callback) {
                     }
 
                     resultds.push({
+                        as: column._as,
                         index: index,
                         value: column.value,
                         column: column,
