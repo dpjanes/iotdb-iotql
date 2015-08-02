@@ -43,11 +43,13 @@ DB.prototype.run_statement_create_scene = function(statement, callback) {
 
     self.prevaluate(statement);
 
+    /*
     console.log("CREATE SCENE.1", statement);
 
     self.decompile(statement['begin-end'], function(error, code) {
         console.log("CREATE SCENE.2", code);
     });
+    */
 
     /*
     var variable = _.ld.first(statement, "let");

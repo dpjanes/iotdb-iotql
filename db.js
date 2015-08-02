@@ -600,7 +600,12 @@ DB.prototype.execute = function(statements, callback) {
                 index: statement_index,
                 error: error,
                 columns: columns,
+                end: error ? true : false,
             });
+            
+            if (error) {
+                return;
+            }
 
             if (!columns) {
                 next();
