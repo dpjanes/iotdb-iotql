@@ -1,15 +1,18 @@
-=============
-== variable-05.iotql[0]
-=============
-=============
-== variable-05.iotql[1]
-=============
-c00: 212 [iot-unit:temperature.imperial.fahrenheit]
---
-=============
-== variable-05.iotql[2]
-=============
-c00: 100 [iot-unit:temperature.si.celsius]
-c01: 212 [iot-unit:temperature.imperial.fahrenheit]
-c02: 373.15 [iot-unit:temperature.si.kelvin]
---
+[
+  [
+    "c00",
+    100,
+    "iot-unit:temperature.si.celsius",
+    "c01",
+    212,
+    "iot-unit:temperature.imperial.fahrenheit",
+    "c02",
+    373.15,
+    "iot-unit:temperature.si.kelvin"
+  ],
+  [
+    "c00",
+    212,
+    "iot-unit:temperature.imperial.fahrenheit"
+  ]
+]

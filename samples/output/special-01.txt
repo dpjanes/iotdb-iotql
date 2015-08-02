@@ -1,5 +1,7 @@
-=============
-== special-01.iotql[0]
-=============
-c00: 5 [iot-unit:math.fraction.percent]
---
+[
+  [
+    "c00",
+    5,
+    "iot-unit:math.fraction.percent"
+  ]
+]

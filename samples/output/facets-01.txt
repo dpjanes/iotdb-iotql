@@ -1,7 +1,12 @@
-=============
-== facets-01.iotql[0]
-=============
-id: thing-01
---
-id: thing-02
---
+[
+  [
+    "id",
+    "thing-01",
+    null
+  ],
+  [
+    "id",
+    "thing-02",
+    null
+  ]
+]

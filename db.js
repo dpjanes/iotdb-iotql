@@ -284,10 +284,11 @@ DB.prototype.prevaluate = function(v, paramd) {
                     }
                 }
             } 
-        } else {
+        } else if (v.selector) {
             v.actual = v.band + ":" + v.selector;
             v.band = null;
             v.selector = null;
+        } else {
         }
     } 
 }

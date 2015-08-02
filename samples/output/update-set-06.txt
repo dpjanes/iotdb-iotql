@@ -1,17 +1,27 @@
-=============
-== update-set-06.iotql[0]
-=============
-id: thing-01
-schema:name: The Name
-facet: ["iot-facet:climate","iot-facet:climate.heating"]
---
-=============
-== update-set-06.iotql[1]
-=============
-=============
-== update-set-06.iotql[2]
-=============
-id: thing-01
-schema:name: The Name
-facet: []
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "schema:name",
+    "The Name",
+    null,
+    "facet",
+    [],
+    null
+  ],
+  [
+    "id",
+    "thing-01",
+    null,
+    "schema:name",
+    "The Name",
+    null,
+    "facet",
+    [
+      "iot-facet:climate",
+      "iot-facet:climate.heating"
+    ],
+    null
+  ]
+]

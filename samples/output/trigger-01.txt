@@ -1,4 +1,1 @@
-=============
-== trigger-01.iotql[0]
-=============
--- ERROR: Error: not implemented
+[]

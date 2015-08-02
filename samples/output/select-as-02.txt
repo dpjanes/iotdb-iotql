@@ -1,15 +1,34 @@
-=============
-== select-as-02.iotql[0]
-=============
-the_id: thing-01
-the_name: The Name
---
-the_id: thing-02
-the_name: Thing 2
---
-the_id: thing-03
-the_name: Lights (03)
---
-the_id: thing-04
-the_name: Front Door Contact Switch
---
+[
+  [
+    "the_id",
+    "thing-01",
+    null,
+    "the_name",
+    "The Name",
+    null
+  ],
+  [
+    "the_id",
+    "thing-02",
+    null,
+    "the_name",
+    "Thing 2",
+    null
+  ],
+  [
+    "the_id",
+    "thing-03",
+    null,
+    "the_name",
+    "Lights (03)",
+    null
+  ],
+  [
+    "the_id",
+    "thing-04",
+    null,
+    "the_name",
+    "Front Door Contact Switch",
+    null
+  ]
+]

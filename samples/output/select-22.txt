@@ -1,8 +1,16 @@
-=============
-== select-22.iotql[0]
-=============
-c00: true
-c01: true
-c02: true
-c03: true
---
+[
+  [
+    "c00",
+    true,
+    null,
+    "c01",
+    true,
+    null,
+    "c02",
+    true,
+    null,
+    "c03",
+    true,
+    null
+  ]
+]

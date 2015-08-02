@@ -1,10 +1,12 @@
-=============
-== special-10.iotql[0]
-=============
-=============
-== special-10.iotql[1]
-=============
-sensor.temperature: 23.889 [iot-unit:temperature.si.celsius]
---
-sensor.temperature: 23.889 [iot-unit:temperature.si.celsius]
---
+[
+  [
+    "sensor.temperature",
+    23.889,
+    "iot-unit:temperature.si.celsius"
+  ],
+  [
+    "sensor.temperature",
+    23.889,
+    "iot-unit:temperature.si.celsius"
+  ]
+]

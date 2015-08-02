@@ -1,18 +1,34 @@
-=============
-== case-04.iotql[0]
-=============
-=============
-== case-04.iotql[1]
-=============
-id: thing-01
-schema:name: hello 04
---
-id: thing-02
-schema:name: hello 04
---
-id: thing-03
-schema:name: hello 04
---
-id: thing-04
-schema:name: hello 04
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "schema:name",
+    "hello 04",
+    null
+  ],
+  [
+    "id",
+    "thing-02",
+    null,
+    "schema:name",
+    "hello 04",
+    null
+  ],
+  [
+    "id",
+    "thing-03",
+    null,
+    "schema:name",
+    "hello 04",
+    null
+  ],
+  [
+    "id",
+    "thing-04",
+    null,
+    "schema:name",
+    "hello 04",
+    null
+  ]
+]

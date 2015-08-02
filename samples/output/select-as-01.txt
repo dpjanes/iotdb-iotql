@@ -1,5 +1,7 @@
-=============
-== select-as-01.iotql[0]
-=============
-column1: hello
---
+[
+  [
+    "column1",
+    "hello",
+    null
+  ]
+]

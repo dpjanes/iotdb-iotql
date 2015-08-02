@@ -1,6 +1,33 @@
-=============
-== star-10.iotql[0]
-=============
-id: thing-01
-c01: [object Object]
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "c01",
+    {
+      "id": "thing-01",
+      "istate": {},
+      "ostate": {},
+      "model": {
+        "iot:attribute": {
+          "@id": "#temperature",
+          "iot:purpose": "iot-attribute:sensor.temperature",
+          "iot:role": "iot:role-reading",
+          "iot:unit": "iot-unit:temperature.si.celsius"
+        }
+      },
+      "meta": {
+        "iot:thing-id": "thing-01",
+        "iot:model-id": "model-01",
+        "schema:name": "The Name",
+        "iot:facet": [
+          "iot-facet:climate",
+          "iot-facet:climate.heating"
+        ],
+        "iot:zone": "Basement"
+      },
+      "state": {}
+    },
+    null
+  ]
+]

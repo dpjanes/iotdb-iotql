@@ -1,7 +1,13 @@
-=============
-== aggregate-03.iotql[0]
-=============
-sensor.temperature: 2
-c01: Front Door Contact Switch
-c02: Thing 2
---
+[
+  [
+    "sensor.temperature",
+    2,
+    null,
+    "c01",
+    "Front Door Contact Switch",
+    null,
+    "c02",
+    "Thing 2",
+    null
+  ]
+]

@@ -1,5 +1,7 @@
-=============
-== select-17.iotql[0]
-=============
-c00: iot-facet:climate.heating
---
+[
+  [
+    "c00",
+    "iot-facet:climate.heating",
+    null
+  ]
+]

@@ -1,11 +1,22 @@
-=============
-== select-09.iotql[0]
-=============
-id: thing-01
---
-id: thing-02
---
-id: thing-03
---
-id: thing-04
---
+[
+  [
+    "id",
+    "thing-01",
+    null
+  ],
+  [
+    "id",
+    "thing-02",
+    null
+  ],
+  [
+    "id",
+    "thing-03",
+    null
+  ],
+  [
+    "id",
+    "thing-04",
+    null
+  ]
+]

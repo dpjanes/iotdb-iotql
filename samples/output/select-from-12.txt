@@ -1,11 +1,22 @@
-=============
-== select-from-12.iotql[0]
-=============
-model-id: model-01
---
-model-id: model-02
---
-model-id: model-03
---
-model-id: model-contact-switch
---
+[
+  [
+    "model-id",
+    "model-01",
+    null
+  ],
+  [
+    "model-id",
+    "model-02",
+    null
+  ],
+  [
+    "model-id",
+    "model-03",
+    null
+  ],
+  [
+    "model-id",
+    "model-contact-switch",
+    null
+  ]
+]

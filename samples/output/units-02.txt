@@ -1,5 +1,13 @@
-=============
-== units-02.iotql[0]
-=============
-c00: [-40,0,32,100,212] [iot-unit:temperature.imperial.fahrenheit]
---
+[
+  [
+    "c00",
+    [
+      -40,
+      0,
+      32,
+      100,
+      212
+    ],
+    "iot-unit:temperature.imperial.fahrenheit"
+  ]
+]

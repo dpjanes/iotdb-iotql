@@ -1,6 +1,17 @@
-=============
-== star-05.iotql[0]
-=============
-id: thing-01
-c01: [object Object]
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "c01",
+    {
+      "iot:attribute": {
+        "@id": "#temperature",
+        "iot:purpose": "iot-attribute:sensor.temperature",
+        "iot:role": "iot:role-reading",
+        "iot:unit": "iot-unit:temperature.si.celsius"
+      }
+    },
+    null
+  ]
+]

@@ -1,6 +1,10 @@
-=============
-== star-01.iotql[0]
-=============
-id: thing-01
-state:sensor.temperature: 20 [iot-unit:temperature.si.celsius]
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "state:sensor.temperature",
+    20,
+    "iot-unit:temperature.si.celsius"
+  ]
+]

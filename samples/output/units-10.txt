@@ -1,9 +1,19 @@
-=============
-== units-10.iotql[0]
-=============
-id: thing-01
-schema:name: The Name
-fahrenheit: 68 [iot-unit:temperature.imperial.fahrenheit]
-celsius: 20 [iot-unit:temperature.si.celsius]
-kelvin: 293.15 [iot-unit:temperature.si.kelvin]
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "schema:name",
+    "The Name",
+    null,
+    "fahrenheit",
+    68,
+    "iot-unit:temperature.imperial.fahrenheit",
+    "celsius",
+    20,
+    "iot-unit:temperature.si.celsius",
+    "kelvin",
+    293.15,
+    "iot-unit:temperature.si.kelvin"
+  ]
+]

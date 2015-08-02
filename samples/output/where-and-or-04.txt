@@ -1,6 +1,10 @@
-=============
-== where-and-or-04.iotql[0]
-=============
-id: thing-01
-schema:name: The Name
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "schema:name",
+    "The Name",
+    null
+  ]
+]

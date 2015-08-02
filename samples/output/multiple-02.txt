@@ -1,25 +1,27 @@
-=============
-== multiple-02.iotql[0]
-=============
-schema:name: The Name
---
-=============
-== multiple-02.iotql[1]
-=============
-schema:name: The Name
---
-=============
-== multiple-02.iotql[2]
-=============
-schema:name: The Name
---
-=============
-== multiple-02.iotql[3]
-=============
-schema:name: The Name
---
-=============
-== multiple-02.iotql[4]
-=============
-schema:name: The Name
---
+[
+  [
+    "schema:name",
+    "The Name",
+    null
+  ],
+  [
+    "schema:name",
+    "The Name",
+    null
+  ],
+  [
+    "schema:name",
+    "The Name",
+    null
+  ],
+  [
+    "schema:name",
+    "The Name",
+    null
+  ],
+  [
+    "schema:name",
+    "The Name",
+    null
+  ]
+]

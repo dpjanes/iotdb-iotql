@@ -1,10 +1,13 @@
-=============
-== set-units-02.iotql[0]
-=============
-=============
-== set-units-02.iotql[1]
-=============
-id: thing-01
-schema:name: The Name
-sensor.temperature: 200 [iot-unit:temperature.si.celsius]
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "schema:name",
+    "The Name",
+    null,
+    "sensor.temperature",
+    200,
+    "iot-unit:temperature.si.celsius"
+  ]
+]

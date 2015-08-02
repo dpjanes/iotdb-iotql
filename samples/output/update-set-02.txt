@@ -1,9 +1,10 @@
-=============
-== update-set-02.iotql[0]
-=============
-=============
-== update-set-02.iotql[1]
-=============
-id: thing-01
-schema:name: Thing 01
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "schema:name",
+    "Thing 01",
+    null
+  ]
+]

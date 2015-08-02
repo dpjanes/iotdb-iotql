@@ -83,10 +83,13 @@ DB.prototype.run_path_test = function(iotql_path, statements, done) {
     }
 
     var lines = [];
+    var rss = [];
 
     self.execute(statements, function(cd) {
         if (cd.end) {
-            var text = lines.join("\n") + "\n";
+            // var text = lines.join("\n") + "\n";
+            rss.sort();
+            var text = JSON.stringify(rss, null, 2);
 
             if (ad.write) {
                 fs.writeFileSync(text_path, text);
@@ -123,6 +126,14 @@ DB.prototype.run_path_test = function(iotql_path, statements, done) {
             lines.push(util.format("-- ERROR: %s", cd.error));
             done(cd.error);
         } else if (cd.columns) {
+            var rs = [];
+            cd.columns.map(function(column, column_index) {
+                // rs.push([ column.as, column.value, column.units ]);
+                rs.push(column.as);
+                rs.push(column.value);
+                rs.push(column.units);
+            });
+            rss.push(rs);
             cd.columns.map(function(column, column_index) {
                 var v = column.value;
                 if (_.is.Array(v)) {

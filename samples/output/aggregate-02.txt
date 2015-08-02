@@ -1,9 +1,19 @@
-=============
-== aggregate-02.iotql[0]
-=============
-sensor.temperature: 2
-sensor.temperature: 36
-sensor.temperature: 16
-sensor.temperature: 20
-sensor.temperature: 18
---
+[
+  [
+    "sensor.temperature",
+    2,
+    null,
+    "sensor.temperature",
+    36,
+    null,
+    "sensor.temperature",
+    16,
+    null,
+    "sensor.temperature",
+    20,
+    null,
+    "sensor.temperature",
+    18,
+    null
+  ]
+]

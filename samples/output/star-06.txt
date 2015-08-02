@@ -1,39 +1,152 @@
-=============
-== star-06.iotql[0]
-=============
-id: thing-01
-state:sensor.temperature: 20 [iot-unit:temperature.si.celsius]
-meta:iot:thing-id: thing-01
-meta:iot:model-id: model-01
-meta:schema:name: The Name
-meta:iot:facet: ["iot-facet:climate","iot-facet:climate.heating"]
-meta:iot:zone: Basement
-c03: [object Object]
---
-id: thing-02
-state:sensor.temperature: 16 [iot-unit:temperature.si.celsius]
-meta:iot:thing-id: thing-02
-meta:iot:model-id: model-02
-meta:schema:name: Thing 2
-meta:iot:facet: ["iot-facet:climate","iot-facet:climate.cooling"]
-meta:iot:zone: ["Second Floor","Master Bedroom"]
-c03: [object Object]
---
-id: thing-03
-state:on: true
-meta:iot:thing-id: thing-03
-meta:iot:model-id: model-03
-meta:schema:name: Lights (03)
-meta:iot:facet: iot-facet:lighting
-meta:iot:zone: ["Master Bedroom"]
-c03: [object Object]
---
-id: thing-04
-state:open: false
-meta:iot:thing-id: thing-04
-meta:iot:model-id: model-contact-switch
-meta:schema:name: Front Door Contact Switch
-meta:iot:facet: ["iot-facet:sensor.contact","iot-facet:sensor"]
-meta:iot:zone: ["Front Porch","Foyer"]
-c03: [object Object]
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "state:sensor.temperature",
+    20,
+    "iot-unit:temperature.si.celsius",
+    "meta:iot:thing-id",
+    "thing-01",
+    null,
+    "meta:iot:model-id",
+    "model-01",
+    null,
+    "meta:schema:name",
+    "The Name",
+    null,
+    "meta:iot:facet",
+    [
+      "iot-facet:climate",
+      "iot-facet:climate.heating"
+    ],
+    null,
+    "meta:iot:zone",
+    "Basement",
+    null,
+    "c03",
+    {
+      "iot:attribute": {
+        "@id": "#temperature",
+        "iot:purpose": "iot-attribute:sensor.temperature",
+        "iot:role": "iot:role-reading",
+        "iot:unit": "iot-unit:temperature.si.celsius"
+      }
+    },
+    null
+  ],
+  [
+    "id",
+    "thing-02",
+    null,
+    "state:sensor.temperature",
+    16,
+    "iot-unit:temperature.si.celsius",
+    "meta:iot:thing-id",
+    "thing-02",
+    null,
+    "meta:iot:model-id",
+    "model-02",
+    null,
+    "meta:schema:name",
+    "Thing 2",
+    null,
+    "meta:iot:facet",
+    [
+      "iot-facet:climate",
+      "iot-facet:climate.cooling"
+    ],
+    null,
+    "meta:iot:zone",
+    [
+      "Second Floor",
+      "Master Bedroom"
+    ],
+    null,
+    "c03",
+    {
+      "iot:attribute": {
+        "@id": "#t",
+        "iot:purpose": "iot-attribute:sensor.temperature",
+        "iot:role": "iot:role-reading",
+        "iot:unit": "iot-unit:temperature.si.celsius"
+      }
+    },
+    null
+  ],
+  [
+    "id",
+    "thing-03",
+    null,
+    "state:on",
+    true,
+    null,
+    "meta:iot:thing-id",
+    "thing-03",
+    null,
+    "meta:iot:model-id",
+    "model-03",
+    null,
+    "meta:schema:name",
+    "Lights (03)",
+    null,
+    "meta:iot:facet",
+    "iot-facet:lighting",
+    null,
+    "meta:iot:zone",
+    [
+      "Master Bedroom"
+    ],
+    null,
+    "c03",
+    {
+      "iot:attribute": {
+        "@id": "#on",
+        "iot:purpose": "iot-attribute:on",
+        "iot:role": [
+          "iot:role-reading",
+          "iot:role-control"
+        ]
+      }
+    },
+    null
+  ],
+  [
+    "id",
+    "thing-04",
+    null,
+    "state:open",
+    false,
+    null,
+    "meta:iot:thing-id",
+    "thing-04",
+    null,
+    "meta:iot:model-id",
+    "model-contact-switch",
+    null,
+    "meta:schema:name",
+    "Front Door Contact Switch",
+    null,
+    "meta:iot:facet",
+    [
+      "iot-facet:sensor.contact",
+      "iot-facet:sensor"
+    ],
+    null,
+    "meta:iot:zone",
+    [
+      "Front Porch",
+      "Foyer"
+    ],
+    null,
+    "c03",
+    {
+      "iot:attribute": {
+        "@id": "#open",
+        "iot:purpose": "iot-attribute:open",
+        "iot:role": "iot:role-control"
+      }
+    },
+    null
+  ]
+]

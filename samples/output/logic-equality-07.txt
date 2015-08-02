@@ -1,5 +1,7 @@
-=============
-== logic-equality-07.iotql[0]
-=============
-c00: false
---
+[
+  [
+    "c00",
+    false,
+    null
+  ]
+]

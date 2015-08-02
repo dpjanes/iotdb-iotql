@@ -1,5 +1,7 @@
-=============
-== special-02.iotql[0]
-=============
-c00: 0.05 [iot-unit:math.fraction.unit]
---
+[
+  [
+    "c00",
+    0.05,
+    "iot-unit:math.fraction.unit"
+  ]
+]

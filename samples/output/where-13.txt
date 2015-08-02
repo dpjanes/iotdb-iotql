@@ -1,17 +1,40 @@
-=============
-== where-13.iotql[0]
-=============
-id: thing-01
-schema:name: The Name
-sensor.temperature: 20 [iot-unit:temperature.si.celsius]
---
-id: thing-02
-schema:name: Thing 2
-sensor.temperature: 16 [iot-unit:temperature.si.celsius]
---
-id: thing-03
-schema:name: Lights (03)
---
-id: thing-04
-schema:name: Front Door Contact Switch
---
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "schema:name",
+    "The Name",
+    null,
+    "sensor.temperature",
+    20,
+    "iot-unit:temperature.si.celsius"
+  ],
+  [
+    "id",
+    "thing-02",
+    null,
+    "schema:name",
+    "Thing 2",
+    null,
+    "sensor.temperature",
+    16,
+    "iot-unit:temperature.si.celsius"
+  ],
+  [
+    "id",
+    "thing-03",
+    null,
+    "schema:name",
+    "Lights (03)",
+    null
+  ],
+  [
+    "id",
+    "thing-04",
+    null,
+    "schema:name",
+    "Front Door Contact Switch",
+    null
+  ]
+]

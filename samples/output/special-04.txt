@@ -1,7 +1,13 @@
-=============
-== special-04.iotql[0]
-=============
-c00: 20 [iot-unit:temperature.si.celsius]
-c01: 20 [iot-unit:temperature.si.celsius]
-c02: 20 [iot-unit:temperature.si.celsius]
---
+[
+  [
+    "c00",
+    20,
+    "iot-unit:temperature.si.celsius",
+    "c01",
+    20,
+    "iot-unit:temperature.si.celsius",
+    "c02",
+    20,
+    "iot-unit:temperature.si.celsius"
+  ]
+]

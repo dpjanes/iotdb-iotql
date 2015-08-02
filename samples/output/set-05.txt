@@ -1,17 +1,24 @@
-=============
-== set-05.iotql[0]
-=============
-id: thing-03
-schema:name: Lights (03)
-on: true
---
-=============
-== set-05.iotql[1]
-=============
-=============
-== set-05.iotql[2]
-=============
-id: thing-03
-schema:name: Lights (03)
-on: true
---
+[
+  [
+    "id",
+    "thing-03",
+    null,
+    "schema:name",
+    "Lights (03)",
+    null,
+    "on",
+    true,
+    null
+  ],
+  [
+    "id",
+    "thing-03",
+    null,
+    "schema:name",
+    "Lights (03)",
+    null,
+    "on",
+    true,
+    null
+  ]
+]

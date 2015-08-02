@@ -1,14 +1,22 @@
-=============
-== case-03.iotql[0]
-=============
-=============
-== case-03.iotql[1]
-=============
-schema:name: hello 3
---
-schema:name: hello 3
---
-schema:name: hello 3
---
-schema:name: hello 3
---
+[
+  [
+    "schema:name",
+    "hello 3",
+    null
+  ],
+  [
+    "schema:name",
+    "hello 3",
+    null
+  ],
+  [
+    "schema:name",
+    "hello 3",
+    null
+  ],
+  [
+    "schema:name",
+    "hello 3",
+    null
+  ]
+]
