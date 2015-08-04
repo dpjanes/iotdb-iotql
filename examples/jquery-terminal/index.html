@@ -1,0 +1,35 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="jquery.terminal-0.8.8.js"></script>
+<link href="jquery.terminal.css" rel="stylesheet"/>
+<style type="text/css">
+.terminal div{
+    margin-bottom: 0.4em;    
+}
+
+.terminal-output, .terminal, .cmd{
+    font-size: 1.4em !important;
+}
+</style>
+<script>
+jQuery(function($, undefined) {
+    $('body').terminal( function(command, term) {
+        $.jrpc("http://0.0.0.0:16016", 'execute', [command], function(json) {
+            console.log(json);
+            term.echo(json.result);
+        });
+    }, 
+    {
+        greetings: 'IOTQL Demo',
+        name: 'iotql',
+        // height: 200,
+        prompt: 'iotql> '});
+});
+</script>
+</head>
+<body>
+</body>
+</html>

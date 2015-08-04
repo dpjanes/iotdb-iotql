@@ -105,6 +105,7 @@ var run_interactive = function(paramd) {
             return util.inspect(o, { depth: null });
         }
 
+        var lines = [];
         o.map(function(d) {
             for (var key in d) {
                 var valued = d[key];
@@ -114,14 +115,14 @@ var run_interactive = function(paramd) {
                 }
 
                 if (valued.units) {
-                    console.log(util.format("%s %s %s", key, value, valued.units));
+                    lines.push(util.format("%s %s %s", key, value, valued.units));
                 } else {
-                    console.log(util.format("%s %s", key, value));
+                    lines.push(util.format("%s %s", key, value));
                 }
             }
-            console.log();
+            lines.push("");
         });
-        return "";
+        return lines.join("\n");
     };
 
     if (paramd.rpc_server) {
@@ -130,7 +131,7 @@ var run_interactive = function(paramd) {
                 return callback(new Error("execute takes exactly one argument"));
             }
 
-            _iotql_eval(argv[0], null, null, function(error, raw) {
+            _iotql_eval(args[0], null, null, function(error, raw) {
                 if (error) {
                     return callback(error);
                 }
