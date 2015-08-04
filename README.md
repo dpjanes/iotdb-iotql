@@ -99,23 +99,7 @@ or (more flexible, but unwieldy)
 	SELECT units(state:sensor.temperature,
 	             units:temperature.imperial.fahrenheit)
 	
-		
-## Semantics
-
-## 
-
-
-# Use
-
-## Command Line
-
-## Code
-
-### Connect with IOTDB
-
-    iotql = require('iotql')
-
-
+# Development
 ## Running
 
 This isn't quite finished yet, but you can do
@@ -126,7 +110,7 @@ The samples are in <code>samples</code>. The Things it
 runs against are in <code>samples/things</code>. 
 How that's structured should be fairly obvious.
 
-## Notes
+## Compile the Grammar
 
 to compile the grammar, you need to do this
 
