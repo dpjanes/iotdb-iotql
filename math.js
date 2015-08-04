@@ -24,16 +24,16 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 var typed = require('./typed');
 
 exports.d = {};
 
-exports.d.maximum = function(paramd) {
+exports.d.maximum = function (paramd) {
     if (typed.is.Array(paramd.first)) {
         var max = null;
-        paramd.first.map(function(value) {
+        paramd.first.map(function (value) {
             if (!typed.is.Number(value)) {
                 return;
             }
@@ -54,10 +54,10 @@ exports.d.maximum = function(paramd) {
     }
 };
 
-exports.d.minimum = function(paramd) {
+exports.d.minimum = function (paramd) {
     if (typed.is.Array(paramd.first)) {
         var max = null;
-        paramd.first.map(function(value) {
+        paramd.first.map(function (value) {
             if (!typed.is.Number(value)) {
                 return;
             }
@@ -78,10 +78,10 @@ exports.d.minimum = function(paramd) {
     }
 };
 
-exports.d.count = function(paramd) {
+exports.d.count = function (paramd) {
     if (typed.is.Array(paramd.first)) {
         var count = 0;
-        paramd.first.map(function(value) {
+        paramd.first.map(function (value) {
             if (!typed.is.Number(value)) {
                 return;
             }
@@ -96,10 +96,10 @@ exports.d.count = function(paramd) {
     }
 };
 
-exports.d.sum = function(paramd) {
+exports.d.sum = function (paramd) {
     if (typed.is.Array(paramd.first)) {
         var sum = 0;
-        paramd.first.map(function(value) {
+        paramd.first.map(function (value) {
             if (!typed.is.Number(value)) {
                 return;
             }
@@ -114,11 +114,11 @@ exports.d.sum = function(paramd) {
     }
 };
 
-exports.d.average = function(paramd) {
+exports.d.average = function (paramd) {
     if (typed.is.Array(paramd.first)) {
         var sum = 0;
         var count = 0;
-        paramd.first.map(function(value) {
+        paramd.first.map(function (value) {
             if (!typed.is.Number(value)) {
                 return;
             }

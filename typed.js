@@ -24,10 +24,10 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 
-var Typed = function(scalar, units) {
+var Typed = function (scalar, units) {
     var self = this;
 
     this.scalar = scalar;
@@ -39,7 +39,7 @@ var Typed = function(scalar, units) {
 Typed.prototype._isTyped = true;
 
 
-var scalar = function(v) {
+var scalar = function (v) {
     if (v && v._isTyped) {
         return v.scalar;
     } else {
@@ -47,7 +47,7 @@ var scalar = function(v) {
     }
 };
 
-var units = function(v) {
+var units = function (v) {
     if (v && v._isTyped) {
         return v.units;
     } else {
@@ -57,7 +57,7 @@ var units = function(v) {
 
 // "is" functions equivalent to _.is.*
 var is = {
-    Scalar: function(v) {
+    Scalar: function (v) {
         if (v && v._isTyped) {
             if (v.units) {
                 return false;
@@ -69,14 +69,14 @@ var is = {
         }
     }
 };
-var _add_is = function(key, underlying) {
-    is[key] = function(a, b) {
+var _add_is = function (key, underlying) {
+    is[key] = function (a, b) {
         return underlying(scalar(a), scalar(b));
     };
-}
+};
 
 for (var key in _.is) {
-    _add_is(key, _.is[key])
+    _add_is(key, _.is[key]);
 }
 
 /**

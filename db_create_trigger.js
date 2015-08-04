@@ -22,7 +22,7 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 
 var logger = iotdb.logger({
@@ -38,14 +38,14 @@ var DB = require('./db').DB;
 /**
  *  LET statement
  */
-DB.prototype.run_statement_create_trigger = function(statement, callback) {
+DB.prototype.run_statement_create_trigger = function (statement, callback) {
     var self = this;
 
     self.prevaluate(statement);
 
     console.log("CREATE TRIGGER.1", statement);
 
-    self.decompile(statement['begin-end'], function(error, code) {
+    self.decompile(statement['begin-end'], function (error, code) {
         console.log("CREATE TRIGGER.2", code);
     });
 

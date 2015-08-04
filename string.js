@@ -24,13 +24,13 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 var typed = require('./typed');
 
 exports.d = {};
 
-exports.d.upper = function(paramd) {
+exports.d.upper = function (paramd) {
     if (typed.is.String(paramd.first)) {
         return typed.scalar(paramd.first).toUpperCase();
     } else {
@@ -38,7 +38,7 @@ exports.d.upper = function(paramd) {
     }
 };
 
-exports.d.lower = function(paramd) {
+exports.d.lower = function (paramd) {
     if (typed.is.String(paramd.first)) {
         return typed.scalar(paramd.first).toLowerCase();
     } else {
@@ -46,7 +46,7 @@ exports.d.lower = function(paramd) {
     }
 };
 
-exports.d.split = function(paramd) {
+exports.d.split = function (paramd) {
     if (typed.is.String(paramd.first)) {
         var separator = paramd.ad.separator;
         if (separator === undefined) {
@@ -65,7 +65,7 @@ exports.d.split = function(paramd) {
     }
 };
 
-exports.d.join = function(paramd) {
+exports.d.join = function (paramd) {
     if (typed.is.Array(paramd.first)) {
         var separator = paramd.ad.separator;
         if (separator === undefined) {

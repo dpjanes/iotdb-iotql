@@ -22,7 +22,7 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 
 var logger = iotdb.logger({
@@ -38,15 +38,14 @@ var DB = require('./db').DB;
 /**
  *  This does the 'SET' part
  */
-DB.prototype.do_set = function(statement, rowd, callback) {
+DB.prototype.do_set = function (statement, rowd, callback) {
     var self = this;
 
     var resultds = [];
-    var updated = {
-    };
+    var updated = {};
 
     var sets = _.ld.list(statement, "set", []);
-    sets.map(function(setd, index) {
+    sets.map(function (setd, index) {
         var value = self.evaluate(setd.rhs, rowd);
         var band = setd.lhs.band;
         var selector = setd.lhs.selector;
@@ -54,7 +53,7 @@ DB.prototype.do_set = function(statement, rowd, callback) {
 
         if (!band) {
             return callback(new Error("no band?"));
-        } else if ([ "istate", "ostate", "meta", ].indexOf(band) === -1) {
+        } else if (["istate", "ostate", "meta", ].indexOf(band) === -1) {
             return callback(new Error("bad band: " + band));
         } else if (!selector) {
             return callback(new Error("no band selector?"));
@@ -72,9 +71,8 @@ DB.prototype.do_set = function(statement, rowd, callback) {
         // selectors on state need to be looked up in the model
         if ((band === "istate") || (band === "ostate")) {
             var attributes = _.ld.list(rowd.model, "iot:attribute", []);
-            attributes.map(function(attribute) {
-                if (code) {
-                } else if (_.ld.contains(attribute, "iot:purpose", selector)) {
+            attributes.map(function (attribute) {
+                if (code) {} else if (_.ld.contains(attribute, "iot:purpose", selector)) {
                     code = _.ld.first(attribute, "@id", "");
                     code = code.replace(/^.*?#/, '');
 
@@ -104,7 +102,7 @@ DB.prototype.do_set = function(statement, rowd, callback) {
          */
         if (unit !== null) {
             var nvalue = units.units({
-                av: [ value, unit ]
+                av: [value, unit]
             });
             value = typed.scalar(nvalue);
         }
@@ -116,7 +114,7 @@ DB.prototype.do_set = function(statement, rowd, callback) {
                 delete bd[code];
             } else {
                 nvalue = operators.d["&"]({
-                    av: [ ovalue, value ]
+                    av: [ovalue, value]
                 });
             }
         } else if (assign === "|=") {
@@ -125,7 +123,7 @@ DB.prototype.do_set = function(statement, rowd, callback) {
                 nvalue = value;
             } else {
                 nvalue = operators.d["|"]({
-                    av: [ ovalue, value ]
+                    av: [ovalue, value]
                 });
             }
         } else if (assign === "=") {
@@ -140,11 +138,11 @@ DB.prototype.do_set = function(statement, rowd, callback) {
             // magic for meta.facet
             if ((band === "meta") && (code === "iot:facet")) {
                 if (!_.is.Array(nvalue)) {
-                    nvalue = [ nvalue ];
+                    nvalue = [nvalue];
                 }
 
                 var adds = [];
-                nvalue.map(function(v) {
+                nvalue.map(function (v) {
                     if (!v.match(/^iot-facet:/)) {
                         return;
                     }
@@ -156,12 +154,11 @@ DB.prototype.do_set = function(statement, rowd, callback) {
                 });
 
                 nvalue = operators.d["|"]({
-                    av: [ nvalue, adds ]
+                    av: [nvalue, adds]
                 });
 
                 nvalue.sort();
-            } else if (band === "meta") {
-            }
+            } else if (band === "meta") {}
 
             bd[code] = nvalue;
         }
@@ -173,7 +170,7 @@ DB.prototype.do_set = function(statement, rowd, callback) {
 /**
  *  SET statement
  */
-DB.prototype.run_statement_set = function(statement, callback) {
+DB.prototype.run_statement_set = function (statement, callback) {
     var self = this;
 
     self.prevaluate(statement);
@@ -184,14 +181,14 @@ DB.prototype.run_statement_set = function(statement, callback) {
     }
 
     var sets = _.ld.list(statement, "set", []);
-    sets.map(function(column) {
+    sets.map(function (column) {
         column.aggregate = null;
     });
 
     // run it
     var pending = 1;
 
-    var _decrement = function() {
+    var _decrement = function () {
         if (--pending !== 0) {
             return;
         }
@@ -203,7 +200,7 @@ DB.prototype.run_statement_set = function(statement, callback) {
         callback = null;
     };
 
-    var _wrap_callback = function(error, updatedd, rowd) {
+    var _wrap_callback = function (error, updatedd, rowd) {
         if (!callback) {
             return;
         } else if (error) {
@@ -220,9 +217,9 @@ DB.prototype.run_statement_set = function(statement, callback) {
 
                     transporter.update({
                         id: rowd.id,
-                        band: band, 
-                        value: updated, 
-                    }, function(ud) {
+                        band: band,
+                        value: updated,
+                    }, function (ud) {
                         _decrement();
                     });
                 }
@@ -232,14 +229,14 @@ DB.prototype.run_statement_set = function(statement, callback) {
         }
     };
 
-    transporter.list(function(d) {
+    transporter.list(function (d) {
         if (d.end) {
             _wrap_callback(null, null);
         } else if (d.error) {
             _wrap_callback(error, null);
         } else {
             ++pending;
-            self.fetch_bands(transporter, d.id, statement.pre.bands, function(error, rowd) {
+            self.fetch_bands(transporter, d.id, statement.pre.bands, function (error, rowd) {
                 // console.log("ROWD", rowd);
                 if (!statement.where || self.evaluate(statement.where, rowd)) {
                     self.do_set(statement, rowd, _wrap_callback);

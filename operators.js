@@ -22,20 +22,20 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 var typed = require('./typed');
 
-var _list = function(a) {
+var _list = function (a) {
     a = typed.scalar(a);
     if (typed.is.Array(a)) {
         return a;
     } else {
-        return [ a ];
+        return [a];
     }
-}
+};
 
-var _true = function(a) {
+var _true = function (a) {
     a = typed.scalar(a);
     if (typed.is.Equal(a, undefined)) {
         return false;
@@ -56,7 +56,7 @@ var _true = function(a) {
     }
 };
 
-var _compatible = function(a, b) {
+var _compatible = function (a, b) {
     if (a === null) {
         return (b === null);
     } else if (typed.is.String(a)) {
@@ -66,23 +66,23 @@ var _compatible = function(a, b) {
     } else {
         return false;
     }
-}
+};
 
 exports.d = {
-    "=": function(paramd) {
+    "=": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
 
         return typed.is.Equal(paramd.av[0], paramd.av[1]);
     },
-    "!=": function(paramd) {
+    "!=": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
         return !typed.is.Equal(paramd.av[0], paramd.av[1]);
     },
-    "<": function(paramd) {
+    "<": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         } else if (typed.is.Null(paramd.av[0])) {
@@ -93,7 +93,7 @@ exports.d = {
 
         return typed.scalar(paramd.av[0]) < typed.scalar(paramd.av[1]);
     },
-    ">": function(paramd) {
+    ">": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         } else if (typed.is.Null(paramd.av[0])) {
@@ -103,7 +103,7 @@ exports.d = {
         }
         return typed.scalar(paramd.av[0]) > typed.scalar(paramd.av[1]);
     },
-    "<=": function(paramd) {
+    "<=": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         } else if (typed.is.Null(paramd.av[0])) {
@@ -113,7 +113,7 @@ exports.d = {
         }
         return typed.scalar(paramd.av[0]) <= typed.scalar(paramd.av[1]);
     },
-    ">=": function(paramd) {
+    ">=": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         } else if (typed.is.Null(paramd.av[0])) {
@@ -124,20 +124,20 @@ exports.d = {
         return typed.scalar(paramd.av[0]) >= typed.scalar(paramd.av[1]);
     },
     // XXX list functions are not properly dealing with typed values
-    "in": function(paramd) {
+    "in": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
 
         return _list(paramd.av[1]).indexOf(typed.scalar(paramd.av[0])) > -1;
     },
-    "not in": function(paramd) {
+    "not in": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
         return _list(paramd.av[1]).indexOf(typed.scalar(paramd.av[0])) === -1;
     },
-    "&": function(paramd) {
+    "&": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
@@ -147,7 +147,7 @@ exports.d = {
         var bs = _list(paramd.av[1]);
         var cs = [];
 
-        as.map(function(v) {
+        as.map(function (v) {
             if ((cs.indexOf(v) === -1) && (bs.indexOf(v) !== -1)) {
                 cs.push(v);
             }
@@ -155,7 +155,7 @@ exports.d = {
 
         return cs;
     },
-    "|": function(paramd) {
+    "|": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
@@ -164,7 +164,7 @@ exports.d = {
         var bs = _list(paramd.av[1]);
 
         var cs = [];
-        var handle = function(v) {
+        var handle = function (v) {
             if (cs.indexOf(v) === -1) {
                 cs.push(v);
             }
@@ -175,10 +175,10 @@ exports.d = {
 
         return cs;
     },
-    "!": function(paramd) {
+    "!": function (paramd) {
         return !_true(paramd.first);
     },
-    "and": function(paramd) {
+    "and": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
@@ -192,7 +192,7 @@ exports.d = {
 
         return true;
     },
-    "or": function(paramd) {
+    "or": function (paramd) {
         if (paramd.av.length !== 2) {
             return false;
         }
@@ -206,26 +206,26 @@ exports.d = {
 
         return false;
     },
-    "count": function(paramd) {
+    "count": function (paramd) {
         if (_true(paramd.first)) {
             return 1;
         } else {
             return null;
         }
     },
-    "avg": function(paramd) {
+    "avg": function (paramd) {
         return paramd.first;
     },
-    "sum": function(paramd) {
+    "sum": function (paramd) {
         return paramd.first;
     },
-    "max": function(paramd) {
+    "max": function (paramd) {
         return paramd.first;
     },
-    "min": function(paramd) {
+    "min": function (paramd) {
         return paramd.first;
     },
-    "list": function(paramd) {
+    "list": function (paramd) {
         // at some point we may need to re-introducte units
         return _list(paramd.first);
     },

@@ -27,18 +27,18 @@
 
 "use strict";
 
-var fs = require('fs')
-var path = require('path')
+var fs = require('fs');
+var path = require('path');
 var minimist = require('minimist');
 var parser = require("./grammar").parser;
 
 var ad = require('minimist')(process.argv.slice(2), {
-    boolean: [ "all", "write", "test" ],
+    boolean: ["all", "write", "test"],
 });
 
 var samples_dir = "samples";
 
-var doit = function(iotql_path) {
+var doit = function (iotql_path) {
     var name = path.basename(iotql_path);
     var json_path = path.join("samples", "compiled", name.replace(/[.]iotql/, ".json"));
     var contents = fs.readFileSync(iotql_path, 'utf-8');
@@ -54,9 +54,7 @@ var doit = function(iotql_path) {
             var got = null;
             try {
                 got = fs.readFileSync(json_path, 'utf-8');
-            }
-            catch (x) {
-            }
+            } catch (x) {}
             if (want !== got) {
                 console.log(got, want);
                 console.log("%s: changed", name);
@@ -66,15 +64,14 @@ var doit = function(iotql_path) {
         } else {
             console.log("%s: ok", name);
         }
-    }
-    catch (x) {
-        console.log("%s: failed: %s", name, ( "" + x ).replace(/\n.*$/gm, ''));
+    } catch (x) {
+        console.log("%s: failed: %s", name, ("" + x).replace(/\n.*$/gm, ''));
     }
 };
 
 if (ad.all) {
     var names = fs.readdirSync(samples_dir);
-    names.map(function(name) {
+    names.map(function (name) {
         if (!name.match(/[.]iotql$/)) {
             return;
         }

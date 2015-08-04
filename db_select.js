@@ -22,7 +22,7 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 
 var logger = iotdb.logger({
@@ -43,20 +43,20 @@ var WHEN_END = "end";
  *  This does the select part for the particular row.
  *  The 'callback' function is called with (error, row-results)
  */
-DB.prototype.do_select = function(statement, rowd, callback) {
+DB.prototype.do_select = function (statement, rowd, callback) {
     var self = this;
 
     var resultds = [];
 
     var columns = _.ld.list(statement, "select", []);
-    columns.map(function(column, index) {
+    columns.map(function (column, index) {
         var result = self.evaluate(column, rowd);
         if (result === undefined) {
             return;
         }
 
         if (result && result.expand_columns) {
-            typed.scalar(result).map(function(new_result) {
+            typed.scalar(result).map(function (new_result) {
                 resultds.push({
                     as: new_result.as,
                     index: index,
@@ -79,7 +79,7 @@ DB.prototype.do_select = function(statement, rowd, callback) {
         } else if (index === 0) {
             as = "c00";
         } else if (index < 10) {
-            as = "c0" + index; 
+            as = "c0" + index;
         } else {
             as = "c" + index;
         }
@@ -99,7 +99,7 @@ DB.prototype.do_select = function(statement, rowd, callback) {
 /**
  *  This does SELECT
  */
-DB.prototype.run_statement_select = function(statement, callback) {
+DB.prototype.run_statement_select = function (statement, callback) {
     var self = this;
 
     self.prevaluate(statement);
@@ -111,7 +111,7 @@ DB.prototype.run_statement_select = function(statement, callback) {
             istate: {},
             ostate: {},
             meta: {},
-        }, function(error, resultds) {
+        }, function (error, resultds) {
             if (error) {
                 callback(error, resultds);
             } else {
@@ -124,7 +124,7 @@ DB.prototype.run_statement_select = function(statement, callback) {
 
     // query mode
     var columns = _.ld.list(statement, "select", []);
-    columns.map(function(column) {
+    columns.map(function (column) {
         if (column.pre.aggregate) {
             column.pre.aggregate(null, column, WHEN_START);
         }
@@ -132,15 +132,15 @@ DB.prototype.run_statement_select = function(statement, callback) {
 
     var pending = 1;
 
-    var _wrap_callback = function(error, resultds) {
+    var _wrap_callback = function (error, resultds) {
         if (!callback) {
             return;
         } else if (error) {
             callback(error, null);
             callback = null;
-        } else if (statement.pre.aggregate)  {
+        } else if (statement.pre.aggregate) {
             if (resultds !== null) {
-                resultds.map(function(resultd) {
+                resultds.map(function (resultd) {
                     var column = resultd.column;
                     column.value = resultd.value;
 
@@ -156,7 +156,7 @@ DB.prototype.run_statement_select = function(statement, callback) {
 
             if (--pending === 0) {
                 resultds = [];
-                columns.map(function(column, index) {
+                columns.map(function (column, index) {
                     if (column.pre.aggregate) {
                         column.pre.aggregate(null, column, WHEN_END);
                     }
@@ -174,7 +174,7 @@ DB.prototype.run_statement_select = function(statement, callback) {
             }
         } else {
             if (resultds !== null) {
-                resultds.map(function(resultd) {
+                resultds.map(function (resultd) {
                     // don't let undefined leak out from here
                     if (resultd.value === undefined) {
                         resultd.value = null;
@@ -191,13 +191,13 @@ DB.prototype.run_statement_select = function(statement, callback) {
             }
         }
     };
-    
+
     var transporter = self.stored[statement.store];
     if (!transporter) {
         return callback(new Error("store not found: " + statement.store));
     }
 
-    transporter.list(function(d) {
+    transporter.list(function (d) {
         if (d.end) {
             _wrap_callback(null, null);
         } else if (d.error) {
@@ -205,7 +205,7 @@ DB.prototype.run_statement_select = function(statement, callback) {
         } else {
             pending++;
 
-            self.fetch_bands(transporter, d.id, statement.pre.bands, function(error, rowd) {
+            self.fetch_bands(transporter, d.id, statement.pre.bands, function (error, rowd) {
                 if (!statement.where || operators.is_true(self.evaluate(statement.where, rowd))) {
                     self.do_select(statement, rowd, _wrap_callback);
                 } else {

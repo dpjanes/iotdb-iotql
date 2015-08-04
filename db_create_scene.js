@@ -22,7 +22,7 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 
 var logger = iotdb.logger({
@@ -38,7 +38,7 @@ var DB = require('./db').DB;
 /**
  *  LET statement
  */
-DB.prototype.run_statement_create_scene = function(statement, callback) {
+DB.prototype.run_statement_create_scene = function (statement, callback) {
     var self = this;
 
     self.prevaluate(statement);

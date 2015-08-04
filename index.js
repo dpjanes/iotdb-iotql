@@ -25,11 +25,11 @@
 var DB = require('./db').DB;
 var parser = require("./grammar").parser;
 
-var iotdb = require('iotdb')
-var iotdb_transport = require('iotdb-transport')
+var iotdb = require('iotdb');
+var iotdb_transport = require('iotdb-transport');
 var _ = iotdb._;
 
-var connect = function(paramd, done) {
+var connect = function (paramd, done) {
     paramd = _.defaults(paramd, {
         things_url: "iotdb://",
         recipes_url: "file://recipes",
@@ -38,11 +38,11 @@ var connect = function(paramd, done) {
     var things_transporter;
     var recipes_transporter;
 
-    var _connected = function() {
+    var _connected = function () {
         if (done === null) {
             return;
-        } 
-        
+        }
+
         if (things_transporter === undefined) {
             return;
         } else if (recipes_transporter === undefined) {
@@ -52,7 +52,7 @@ var connect = function(paramd, done) {
         return done(null, new DB(things_transporter, recipes_transporter));
     };
 
-    iotdb_transport.connect(paramd.things_url, function(error, td) {
+    iotdb_transport.connect(paramd.things_url, function (error, td) {
         if (error) {
             done(error);
             done = null;
@@ -67,7 +67,7 @@ var connect = function(paramd, done) {
         recipes_transporter = null;
         _connected();
     } else {
-        iotdb_transport.connect(paramd.recipes_url, function(error, td) {
+        iotdb_transport.connect(paramd.recipes_url, function (error, td) {
             if (error) {
                 done(error);
                 done = null;
@@ -78,7 +78,7 @@ var connect = function(paramd, done) {
             _connected();
         });
     }
-}
+};
 
 /**
  *  API

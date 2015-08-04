@@ -24,7 +24,7 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 var typed = require('./typed');
 
@@ -35,7 +35,8 @@ var typed = require('./typed');
  *  paramd.av[1] - value unis
  *  the units it is supposed to be
  */
-var units = function(paramd) {
+var units = function (paramd) {
+    var nscalars;
     var value = paramd.av[0];
     var value_units = paramd.av[1];
 
@@ -44,7 +45,7 @@ var units = function(paramd) {
             return new typed.Typed(typed.scalar(value), value_units);
         } else {
             var nscalar = _.convert.convert({
-                from: typed.units(value), 
+                from: typed.units(value),
                 to: value_units,
                 value: typed.scalar(value),
             });
@@ -52,21 +53,21 @@ var units = function(paramd) {
         }
     } else if (typed.is.Array(value)) {
         if (typed.is.Scalar(value)) {
-            var nscalars = [];
-            typed.scalar(value).map(function(v) {
+            nscalars = [];
+            typed.scalar(value).map(function (v) {
                 var nvalue = units({
                     first: v,
-                    av: [ v, value_units ],
+                    av: [v, value_units],
                     ad: {},
                 });
                 nscalars.push(typed.scalar(nvalue));
             });
             return new typed.Typed(nscalars, value_units);
         } else {
-            var nscalars = [];
-            typed.scalar(value).map(function(v) {
+            nscalars = [];
+            typed.scalar(value).map(function (v) {
                 var nscalar = _.convert.convert({
-                    from: typed.units(value), 
+                    from: typed.units(value),
                     to: value_units,
                     value: v,
                 });

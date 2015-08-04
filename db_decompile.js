@@ -22,7 +22,7 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 
 var logger = iotdb.logger({
@@ -40,18 +40,18 @@ var DB = require('./db').DB;
  *  into IoTQL. This is needed for storing
  *  TRIGGERs, &c.
  */
-DB.prototype.decompile = function(statements, callback) {
+DB.prototype.decompile = function (statements, callback) {
     var self = this;
     var results = [];
 
-    statements.map(function(statement) {
+    statements.map(function (statement) {
         results.push(self._decompile(statement));
     });
 
     callback(null, results.join("\n"));
 };
 
-DB.prototype._decompile = function(fragment) {
+DB.prototype._decompile = function (fragment) {
     var self = this;
     var results = [];
 
@@ -138,12 +138,12 @@ DB.prototype._decompile = function(fragment) {
     return results.join(" ");
 };
 
-DB.prototype._decompile_list_comma = function(fragments, joiner) {
+DB.prototype._decompile_list_comma = function (fragments, joiner) {
     var self = this;
     var results = [];
     joiner = joiner || ", ";
 
-    fragments.map(function(fragment, subindex) {
+    fragments.map(function (fragment, subindex) {
         results.push(self._decompile(fragment));
     });
 

@@ -22,7 +22,7 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 
 var logger = iotdb.logger({
@@ -38,7 +38,7 @@ var units = require("./units");
 var operators = require("./operators");
 var typed = require("./typed");
 
-var _update_pre = function(a, b) {
+var _update_pre = function (a, b) {
     a.query |= b.query;
     a.aggregate = a.aggregate || b.aggregate;
     _.ld.extend(a, "bands", b.bands);
@@ -53,7 +53,7 @@ var WHEN_END = "end";
  *  in the result set
  */
 var aggregated = {
-    count: function(item, column, when) {
+    count: function (item, column, when) {
         if (when === WHEN_START) {
             column.a_count = 0;
         } else if (when === WHEN_ITEM) {
@@ -66,7 +66,7 @@ var aggregated = {
         }
     },
 
-    sum: function(item, column, when) {
+    sum: function (item, column, when) {
         if (when === WHEN_START) {
             column.a_sum = 0;
         } else if (when === WHEN_ITEM) {
@@ -79,7 +79,7 @@ var aggregated = {
         }
     },
 
-    avg: function(item, column, when) {
+    avg: function (item, column, when) {
         if (when === WHEN_START) {
             column.a_sum = 0;
             column.a_count = 0;
@@ -94,13 +94,11 @@ var aggregated = {
         }
     },
 
-    min: function(item, column, when) {
+    min: function (item, column, when) {
         if (when === WHEN_START) {
-            column.a_min = null
+            column.a_min = null;
         } else if (when === WHEN_ITEM) {
-            if (item === null) {
-            } else if (item === undefined) {
-            } else if (column.a_min === null) {
+            if (item === null) {} else if (item === undefined) {} else if (column.a_min === null) {
                 column.a_min = item;
             } else if (_.is.Number(column.a_min) && _.is.Number(item)) {
                 column.a_min = Math.min(column.a_min, item);
@@ -113,13 +111,11 @@ var aggregated = {
         }
     },
 
-    max: function(item, column, when) {
+    max: function (item, column, when) {
         if (when === WHEN_START) {
             column.a_max = null;
         } else if (when === WHEN_ITEM) {
-            if (item === null) {
-            } else if (item === undefined) {
-            } else if (column.a_max === null) {
+            if (item === null) {} else if (item === undefined) {} else if (column.a_max === null) {
                 column.a_max = item;
             } else if (_.is.Number(column.a_max) && _.is.Number(item)) {
                 column.a_max = Math.max(column.a_max, item);
@@ -134,15 +130,14 @@ var aggregated = {
 };
 
 var operatord = _.defaults(
-    operators.d,
-    {
+    operators.d, {
         string: string.d,
         math: math.d,
         units: units.units,
     }
 );
 
-var DB = function(things_transporter, recipes_transporter) {
+var DB = function (things_transporter, recipes_transporter) {
     this.transporter = things_transporter;
     this.stored = {
         "things": things_transporter,
@@ -160,7 +155,7 @@ var DB = function(things_transporter, recipes_transporter) {
  *  and figures out things about it. Safe
  *  to call multiple times.
  */
-DB.prototype.prevaluate = function(v, paramd) {
+DB.prototype.prevaluate = function (v, paramd) {
     var self = this;
 
     paramd = _.defaults(paramd, {
@@ -184,17 +179,17 @@ DB.prototype.prevaluate = function(v, paramd) {
     }
 
     if (v.select) {
-        _.ld.list(v, "select", []).map(function(column) {
+        _.ld.list(v, "select", []).map(function (column) {
             self.prevaluate(column, paramd);
             _update_pre(v.pre, column.pre);
         });
     }
 
     if (v.set) {
-        _.ld.list(v, "set", []).map(function(set) {
+        _.ld.list(v, "set", []).map(function (set) {
             self.prevaluate(set, paramd);
             _update_pre(v.pre, set.pre);
-        })
+        });
     }
 
     if (v.named && v.named.value) {
@@ -218,14 +213,14 @@ DB.prototype.prevaluate = function(v, paramd) {
     }
 
     if (v.operands) {
-        v.operands.map(function(operand) {
+        v.operands.map(function (operand) {
             self.prevaluate(operand, paramd);
             _update_pre(v.pre, operand.pre);
         });
-    } 
+    }
 
     if (v.list) {
-        v.list.map(function(item) {
+        v.list.map(function (item) {
             self.prevaluate(item, paramd);
             _update_pre(v.pre, item.pre);
         });
@@ -245,25 +240,24 @@ DB.prototype.prevaluate = function(v, paramd) {
         _update_pre(v.pre, v.lhs.pre);
     }
 
-    if (v.actual) {
-    } 
-    
+    if (v.actual) {}
+
     if (v.id) {
         v.pre.query = true;
-    } 
-    
+    }
+
     if (v.select_all) {
         v.pre.query = true;
-        v.pre.bands = [ "state", "meta", "model" ];
-    } 
-    
+        v.pre.bands = ["state", "meta", "model"];
+    }
+
     if (v.band) {
         if ((v.band === "state") && paramd.state) {
             v.oband = v.band;
             v.band = paramd.state;
         }
 
-        if ([ "state", "istate", "ostate", "meta", "model" ].indexOf(v.band) !== -1) {
+        if (["state", "istate", "ostate", "meta", "model"].indexOf(v.band) !== -1) {
             v.pre.query = true;
             _.ld.add(v.pre, "bands", v.band);
 
@@ -283,18 +277,21 @@ DB.prototype.prevaluate = function(v, paramd) {
                         v.selector = _.ld.compact(v.selector);
                     }
                 }
-            } 
+            }
         } else if (v.selector) {
             v.actual = v.band + ":" + v.selector;
             v.band = null;
             v.selector = null;
-        } else {
-        }
-    } 
-}
+        } else {}
+    }
+};
 
-DB.prototype.evaluate = function(v, rowd) {
+DB.prototype.evaluate = function (v, rowd) {
     var self = this;
+    var cts;
+    var t;
+    var attributes;
+    var result;
 
     if (rowd === undefined) {
         console.trace();
@@ -306,7 +303,7 @@ DB.prototype.evaluate = function(v, rowd) {
     } else if (v.id) {
         return rowd.id;
     } else if (v.band) {
-        var d = rowd[v.band]
+        var d = rowd[v.band];
         if (d === undefined) {
             return null;
         }
@@ -315,9 +312,9 @@ DB.prototype.evaluate = function(v, rowd) {
             if ((v.band === "istate") || (v.band === "ostate")) {
                 // we return the semantic columns, not the raw data
                 // this means lots of ugly complexity and hacks
-                var cts = [];
-                var attributes = _.ld.list(rowd.model, "iot:attribute", []);
-                attributes.map(function(attribute) {
+                cts = [];
+                attributes = _.ld.list(rowd.model, "iot:attribute", []);
+                attributes.map(function (attribute) {
                     code = _.ld.first(attribute, "@id", "");
                     code = code.replace(/^.*?#/, '');
 
@@ -327,7 +324,7 @@ DB.prototype.evaluate = function(v, rowd) {
                         purpose = purpose.replace(/^iot-attribute:/, '');
                     }
 
-                    var result = d[code];
+                    result = d[code];
                     if (result !== undefined) {
                         var ct = new typed.Typed(result, unit);
                         ct.purpose = purpose;
@@ -341,18 +338,18 @@ DB.prototype.evaluate = function(v, rowd) {
                     }
                 });
 
-                var t = new typed.Typed(cts);
+                t = new typed.Typed(cts);
                 t.expand_columns = true;
                 return t;
             } else if (v.band === "meta") {
-                var cts = [];
+                cts = [];
                 for (var key in d) {
-                    var ct = new typed.Typed(d[key])
+                    var ct = new typed.Typed(d[key]);
                     ct.as = "meta:" + key;
                     cts.push(ct);
                 }
 
-                var t = new typed.Typed(cts);
+                t = new typed.Typed(cts);
                 t.expand_columns = true;
                 return t;
             }
@@ -367,10 +364,9 @@ DB.prototype.evaluate = function(v, rowd) {
 
             // selectors on state need to be looked up in the model
             if ((v.band === "istate") || (v.band === "ostate")) {
-                var attributes = _.ld.list(rowd.model, "iot:attribute", []);
-                attributes.map(function(attribute) {
-                    if (code) {
-                    } else if (_.ld.contains(attribute, "iot:purpose", v.selector)) {
+                attributes = _.ld.list(rowd.model, "iot:attribute", []);
+                attributes.map(function (attribute) {
+                    if (code) {} else if (_.ld.contains(attribute, "iot:purpose", v.selector)) {
                         code = _.ld.first(attribute, "@id", "");
                         code = code.replace(/^.*?#/, '');
 
@@ -380,13 +376,13 @@ DB.prototype.evaluate = function(v, rowd) {
                 });
 
                 if (code === null) {
-                    return undefined;   // e.g. this selector does not exist
+                    return undefined; // e.g. this selector does not exist
                 }
             } else {
                 code = v.selector;
             }
 
-            var result = d[code];
+            result = d[code];
             if (result === undefined) {
                 return null;
             } else {
@@ -398,8 +394,7 @@ DB.prototype.evaluate = function(v, rowd) {
         } else {
             return null;
         }
-    } else if (v.named) {
-    } else if (v.compute) {
+    } else if (v.named) {} else if (v.compute) {
         var operation = v.compute.operation;
         if (!operation) {
             throw new Error("missing operator");
@@ -427,7 +422,7 @@ DB.prototype.evaluate = function(v, rowd) {
 
         if (v.compute.star) {
             return operator({
-                first: true, 
+                first: true,
                 av: [],
                 ad: {},
             });
@@ -435,7 +430,7 @@ DB.prototype.evaluate = function(v, rowd) {
 
         var named = {};
         var operands = [];
-        v.compute.operands.map(function(operand) {
+        v.compute.operands.map(function (operand) {
             if (operand.named) {
                 named[operand.named.key] = self.evaluate(operand.named.value, rowd);
             } else {
@@ -445,7 +440,7 @@ DB.prototype.evaluate = function(v, rowd) {
 
         if (operands.length === 0) {
             return operator({
-                av: operands, 
+                av: operands,
                 ad: named,
             });
         } else {
@@ -454,9 +449,9 @@ DB.prototype.evaluate = function(v, rowd) {
             }
 
             var first = operands[0];
-            var result = operator({
+            result = operator({
                 first: first,
-                av: operands, 
+                av: operands,
                 ad: named,
             });
 
@@ -473,24 +468,24 @@ DB.prototype.evaluate = function(v, rowd) {
         }
     } else if (v.list) {
         var rs = [];
-        v.list.map(function(value) {
+        v.list.map(function (value) {
             rs.push(self.evaluate(value, rowd));
         });
         return rs;
     } else if (v.select_all) {
         return rowd;
     } else if (v.variable) {
-        var v = self.variabled[v.variable];
-        if (v === undefined) {
+        var actual = self.variabled[v.variable];
+        if (actual === undefined) {
             return null;
         } else {
-            return v;
+            return actual;
         }
     } else {
         console.log("THIS", v);
         throw new Error("not implemented");
     }
-}
+};
 
 /**
  *  This executes a complete statement. The callback
@@ -501,7 +496,7 @@ DB.prototype.evaluate = function(v, rowd) {
  *  This is a mess of spaghetti code and should be split into
  *  separate functions for SET, SELECT, &c
  */
-DB.prototype.run_statement = function(statement, callback) {
+DB.prototype.run_statement = function (statement, callback) {
     var self = this;
 
     if (_.ld.first(statement, "create-scene")) {
@@ -519,13 +514,13 @@ DB.prototype.run_statement = function(statement, callback) {
     } else {
         throw new Error("expected LET, SET, CREATE or SELECT");
     }
-}
+};
 
 /**
  *  This will get all the bands from the transporter,
  *  then when the data is in place, call the callback
  */
-DB.prototype.fetch_bands = function(transporter, id, bands, callback) {
+DB.prototype.fetch_bands = function (transporter, id, bands, callback) {
     var self = this;
 
     var bands = _.clone(bands);
@@ -543,23 +538,23 @@ DB.prototype.fetch_bands = function(transporter, id, bands, callback) {
     };
 
     var band_count = 1;
-    var _decrement_for_band = function() {
+    var _decrement_for_band = function () {
         if (--band_count === 0) {
             return callback(null, rowd);
         }
     };
 
-    bands.map(function(band) {
+    bands.map(function (band) {
         band_count++;
         transporter.get({
             id: id,
             band: band,
-        }, function(gd) {
+        }, function (gd) {
             if (gd.error) {
                 throw new Error(gd.error);
             }
             if (gd.value) {
-                rowd[band] = gd.value
+                rowd[band] = gd.value;
             }
 
             _decrement_for_band();
@@ -573,7 +568,7 @@ DB.prototype.fetch_bands = function(transporter, id, bands, callback) {
  *  Execute the compiled statements. The next statement
  *  won't execute until the previous one is completed.
  */
-DB.prototype.execute = function(statements, callback) {
+DB.prototype.execute = function (statements, callback) {
     var self = this;
 
     if (_.is.String(statements)) {
@@ -582,7 +577,7 @@ DB.prototype.execute = function(statements, callback) {
 
     var statement_index = -1;
 
-    var next = function() {
+    var next = function () {
         if (++statement_index === statements.length) {
             callback({
                 end: true,
@@ -590,15 +585,15 @@ DB.prototype.execute = function(statements, callback) {
             return;
         }
 
+        var statement = statements[statement_index];
+
         callback({
             start: true,
             index: statement_index,
             statement: statement,
         });
 
-        var statement = statements[statement_index];
-
-        self.run_statement(statement, function(error, columns) {
+        self.run_statement(statement, function (error, columns) {
             callback({
                 statement: statement,
                 index: statement_index,
@@ -606,7 +601,7 @@ DB.prototype.execute = function(statements, callback) {
                 columns: columns,
                 end: error ? true : false,
             });
-            
+
             if (error) {
                 return;
             }
