@@ -40,6 +40,8 @@ var DB = require('./db').DB;
  */
 DB.prototype.do_set = function (statement, rowd, callback) {
     var self = this;
+    var nvalue;
+    var ovalue;
 
     var resultds = [];
     var updated = {};
@@ -59,7 +61,7 @@ DB.prototype.do_set = function (statement, rowd, callback) {
             return callback(new Error("no band selector?"));
         }
 
-        var bd = updated[band]
+        var bd = updated[band];
         if (bd === undefined) {
             bd = {};
             updated[band] = bd;
@@ -101,15 +103,14 @@ DB.prototype.do_set = function (statement, rowd, callback) {
          *  unit space
          */
         if (unit !== null) {
-            var nvalue = units.units({
+            nvalue = units.units({
                 av: [value, unit]
             });
             value = typed.scalar(nvalue);
         }
 
-        var nvalue;
         if (assign === "&=") {
-            var ovalue = (rowd[band] || {})[code];
+            ovalue = (rowd[band] || {})[code];
             if (ovalue === undefined) {
                 delete bd[code];
             } else {
@@ -118,7 +119,7 @@ DB.prototype.do_set = function (statement, rowd, callback) {
                 });
             }
         } else if (assign === "|=") {
-            var ovalue = (rowd[band] || {})[code];
+            ovalue = (rowd[band] || {})[code];
             if (ovalue === undefined) {
                 nvalue = value;
             } else {
@@ -164,7 +165,7 @@ DB.prototype.do_set = function (statement, rowd, callback) {
         }
     });
 
-    callback(null, updated, rowd)
+    callback(null, updated, rowd);
 };
 
 /**
@@ -219,9 +220,7 @@ DB.prototype.run_statement_set = function (statement, callback) {
                         id: rowd.id,
                         band: band,
                         value: updated,
-                    }, function (ud) {
-                        _decrement();
-                    });
+                    }, _decrement);
                 }
             }
 
@@ -233,7 +232,7 @@ DB.prototype.run_statement_set = function (statement, callback) {
         if (d.end) {
             _wrap_callback(null, null);
         } else if (d.error) {
-            _wrap_callback(error, null);
+            _wrap_callback(d.error, null);
         } else {
             ++pending;
             self.fetch_bands(transporter, d.id, statement.pre.bands, function (error, rowd) {

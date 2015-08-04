@@ -523,7 +523,7 @@ DB.prototype.run_statement = function (statement, callback) {
 DB.prototype.fetch_bands = function (transporter, id, bands, callback) {
     var self = this;
 
-    var bands = _.clone(bands);
+    bands = _.clone(bands);
 
     if ((bands.indexOf('istate') > -1) || (bands.indexOf('ostate') > -1)) {
         bands.push("model");

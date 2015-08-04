@@ -93,7 +93,7 @@ DB.prototype.do_select = function (statement, rowd, callback) {
         });
     });
 
-    callback(null, resultds)
+    callback(null, resultds);
 };
 
 /**
@@ -201,7 +201,7 @@ DB.prototype.run_statement_select = function (statement, callback) {
         if (d.end) {
             _wrap_callback(null, null);
         } else if (d.error) {
-            _wrap_callback(error, null);
+            _wrap_callback(d.error, null);
         } else {
             pending++;
 

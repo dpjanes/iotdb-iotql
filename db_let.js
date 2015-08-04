@@ -51,7 +51,7 @@ DB.prototype.run_statement_let = function (statement, callback) {
         meta: {},
     });
 
-    self.variabled[variable] = value
+    self.variabled[variable] = value;
 
     callback(null, null);
 };

@@ -148,4 +148,4 @@ DB.prototype._decompile_list_comma = function (fragments, joiner) {
     });
 
     return results.join(joiner);
-}
+};
