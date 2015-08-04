@@ -48,7 +48,6 @@ var logger = bunyan.createLogger({
 });
 
 var iotql = require("iotdb-iotql");
-var parser = require("../grammar").parser;
 
 var help = function() {
     console.log("usage: iotql");
@@ -57,11 +56,9 @@ var help = function() {
 
 var run_interactive = function(ad, db) {
     var _iotql_eval = function(cmd, context, filename, callback) {
-        var statements = parser.parse(cmd);
-
         var name = "";
         var resultds = [];
-        db.execute(statements, function(cd) {
+        db.execute(cmd, function(cd) {
             if (cd.end) {
                 callback(null, resultds);
             } else if (cd.start) {

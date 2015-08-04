@@ -1,0 +1,2 @@
+-- should return null
+SELECT idmeta:*;

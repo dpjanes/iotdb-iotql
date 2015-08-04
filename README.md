@@ -70,8 +70,7 @@ or (more flexible, but unwieldy)
 
 ### Connect with IOTDB
 
-    var iotql = require('iotql')
-    var db = iotql
+    iotql = require('iotql')
 
 
 ## Running

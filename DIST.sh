@@ -3,11 +3,10 @@
 #
 #   David Janes
 #   IOTDB
-#   YYYY-MM-DD
+#   2015-08-04
 #
 
-exit 0
-PACKAGE=homestar-TEMPLATE
+PACKAGE=iotql
 DIST_ROOT=/var/tmp/.dist.$$
 
 if [ ! -d "$DIST_ROOT" ]

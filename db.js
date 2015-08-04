@@ -576,6 +576,10 @@ DB.prototype.fetch_bands = function(transporter, id, bands, callback) {
 DB.prototype.execute = function(statements, callback) {
     var self = this;
 
+    if (_.is.String(statements)) {
+        statements = parser.parse(statements);
+    }
+
     var statement_index = -1;
 
     var next = function() {

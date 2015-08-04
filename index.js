@@ -23,6 +23,8 @@
 "use strict";
 
 var DB = require('./db').DB;
+var parser = require("./grammar").parser;
+
 var iotdb = require('iotdb')
 var iotdb_transport = require('iotdb-transport')
 var _ = iotdb._;
@@ -80,6 +82,8 @@ var connect = function(paramd, done) {
 
 /**
  *  API
+ *  connect is the main one you want
  */
-exports.DB = DB;
 exports.connect = connect;
+exports.DB = DB;
+exports.parse = parser.parse;
