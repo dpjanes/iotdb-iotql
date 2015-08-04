@@ -66,7 +66,12 @@ or (more flexible, but unwieldy)
 
 ## Command Line
 
-## 
+## Code
+
+### Connect with IOTDB
+
+    var iotql = require('iotql')
+    var db = iotql
 
 
 ## Running

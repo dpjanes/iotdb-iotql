@@ -47,90 +47,83 @@ var logger = bunyan.createLogger({
     module: 'iotql',
 });
 
+var iotql = require("iotdb-iotql");
 var parser = require("../grammar").parser;
-var typed = require("../typed");
-var DB = require('../db').DB;
-
-/* for minimist */
-var boolean = [
-    "samples", "json",
-];
-var defaults = {};
-var db;
-var ad;
 
 var help = function() {
     console.log("usage: iotql");
     console.log("");
 };
 
-var iotql_eval = function(cmd, context, filename, callback) {
-    var statements = parser.parse(cmd);
+var run_interactive = function(ad, db) {
+    var _iotql_eval = function(cmd, context, filename, callback) {
+        var statements = parser.parse(cmd);
 
-    var name = "";
-    var resultds = [];
-    db.execute(statements, function(cd) {
-        if (cd.end) {
-            callback(null, resultds);
-        } else if (cd.start) {
-            /*
-            if (cd.index === 0) {
-                child_process.spawnSync("rm", [ "-rf", "samples/.things" ]);
-                child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
+        var name = "";
+        var resultds = [];
+        db.execute(statements, function(cd) {
+            if (cd.end) {
+                callback(null, resultds);
+            } else if (cd.start) {
+                /*
+                if (cd.index === 0) {
+                    child_process.spawnSync("rm", [ "-rf", "samples/.things" ]);
+                    child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
+                }
+                */
+            } else if (cd.error) {
+                console.log("-- ERROR: %s", cd.error);
+            } else if (cd.columns) {
+                var rowdd = {};
+
+                cd.columns.map(function(column, column_index) {
+                    if (column.value === null) {
+                        return;
+                    }
+                    var rowd = {
+                        value: column.value,
+                    };
+                    if (column.units) {
+                        rowd.units = column.units;
+                    }
+
+                    rowdd[column.as] = rowd
+                });
+
+                resultds.push(rowdd);
             }
-            */
-        } else if (cd.error) {
-            console.log("-- ERROR: %s", cd.error);
-        } else if (cd.columns) {
-            var rowdd = {};
+        });
 
-            cd.columns.map(function(column, column_index) {
-                if (column.value === null) {
-                    return;
-                }
-                var rowd = {
-                    value: column.value,
-                };
-                if (column.units) {
-                    rowd.units = column.units;
-                }
+    };
 
-                rowdd[column.as] = rowd
-            });
-
-            resultds.push(rowdd);
+    var _iotql_writer = function(o) {
+        if (ad.json) {
+            return util.inspect(o, { depth: null });
         }
-    });
 
-};
+        o.map(function(d) {
+            for (var key in d) {
+                var valued = d[key];
+                var value = valued.value;
+                if (!_.is.String(value)) {
+                    value = util.inspect(valued.value, { depth: null });
+                }
 
-var run_interactive = function() {
+                if (valued.units) {
+                    console.log(util.format("%s %s %s", key, value, valued.units));
+                } else {
+                    console.log(util.format("%s %s", key, value));
+                }
+            }
+            console.log();
+        });
+        return "";
+    };
+
     repl.start({
         prompt: "iotql> ",
-        eval: iotql_eval,
-        writer: function(o) {
-            if (ad.json) {
-                return util.inspect(o, { depth: null });
-            }
-
-            o.map(function(d) {
-                for (var key in d) {
-                    var valued = d[key];
-                    var value = valued.value;
-                    if (!_.is.String(value)) {
-                        value = util.inspect(valued.value, { depth: null });
-                    }
-
-                    if (valued.units) {
-                        console.log(util.format("%s %s %s", key, value, valued.units));
-                    } else {
-                        console.log(util.format("%s %s", key, value));
-                    }
-                }
-                console.log();
-            });
-            return "";
-        },
+        eval: _iotql_eval,
+        writer: _iotql_writer,
     })
     .on('exit', function() {
         process.exit(0)
@@ -138,13 +131,12 @@ var run_interactive = function() {
 };
 
 var run_cli = function()  {
-    ad = require('minimist')(process.argv.slice(2), {
-        boolean: boolean,
-        default: defaults,
+    var ad = require('minimist')(process.argv.slice(2), {
+        boolean: [ "samples", "json" ],
+        default: {},
     });
 
-    var things_url = null;
-    var recipes_url = null;
+    var connect_paramd = {};
     if (ad.samples) {
         var src_dir = path.join(__dirname, "..", "samples", "things");
         var dst_dir = path.join(os.tmpdir(), "iotql-things-" + _.uid(8));
@@ -152,57 +144,18 @@ var run_cli = function()  {
         child_process.spawnSync("rm", [ "-rf", dst_dir ]);
         child_process.spawnSync("cp", [ "-R", src_dir, dst_dir ]);
 
-        things_url = dst_dir;
+        connect_paramd.things_url = dst_dir;
     } else if (ad.things) {
-        things_url = ad.things;
+        connect_paramd.things_url = ad.things;
     }
 
-    if (ad.recipes) {
-        recipes_url = ad.recipes;
-    }
-
-    /* default connection */
-    if (!things_url && !recipes_url) {
-        var things_url = "iotdb://";
-        var recipes_url = "file://recipes";
-    }
-
-    var things_transporter;
-    var recipes_transporter;
-
-    var connected = function() {
-        if (things_transporter === undefined) {
-            return;
-        } else if (recipes_transporter === undefined) {
-            return;
-        }
-
-        db = new DB(things_transporter, recipes_transporter);
-        run_interactive();
-    };
-
-    iotdb_transport.connect(things_url, function(error, td) {
+    iotql.connect(connect_paramd, function(error, db) {
         if (error) {
-            throw new Error(_.error.message(error));
+            throw error;
         }
 
-        things_transporter = td.transport;
-        connected();
+        run_interactive(ad, db);
     });
-
-    if (!recipes_url) {
-        recipes_transporter = null;
-        connected();
-    } else {
-        iotdb_transport.connect(recipes_url, function(error, td) {
-            if (error) {
-                throw new Error(_.error.message(error));
-            }
-
-            recipes_transporter = td.transport;
-            connected();
-        });
-    }
 };
 
 run_cli();
