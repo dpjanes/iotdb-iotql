@@ -9,12 +9,20 @@ Here's a sketch of some ideas for an IoT control language, similar to SQL, built
 
 ### Bands
 Band documentation [here](https://homestar.io/about/bands).
-There are multiple sets of data associated with any one Thing.
+There are multiple bands of data associated with any one Thing.
 
 * meta: the metadata
+* state: when reading, the istate; when writing, the ostate: This is usually, except for certain edge cases, the right thing to do.
 * ostate: the "output state" - what we want a Thing to do, what we want it to transition to
 * istate: the "input state" - the actual state of a Thing
-* state: when reading, the istate; when writing, the ostate: This is usually, except for certain edge cases, the right thing to do.
+
+### Shortcuts
+
+The following shortcuts are available
+
+* <code>meta:name</code> is really <code>meta:schema:name</code>, that is, selecting <code>schema:name</code> from the band <code>meta</code>
+* <code>meta:zone</code> is really <code>meta:iot:zone</code>, that is, selecting <code>iot:zone</code> from the band <code>meta</code>
+* <code>meta:facet</code> is really <code>meta:iot:facet</code>, that is, selecting <code>iot:facet</code> from the band <code>meta</code>
 
 ### Facets
 
@@ -40,6 +48,13 @@ This takes a very "semantic web" view toward lists. Some items can have multiple
 JSONish. Not sure what this means yet.
 
 ## Examples
+### Get everything
+
+	SELECT
+		id,
+		meta:*,
+		state:*
+		
 ### Turn on everything
 
 	SET
@@ -64,8 +79,8 @@ Mappings:
 * <code>state:on</code> → OSTATE(iot-attribute:on) 
 * <code>meta:name</code> → META(schema:name)
 
-The IOTQL knows that certain words gets mapped into different namespaces.
-
+N.B.: 
+* <code>meta:name</code> is a shortcut for <code>meta:schema:name</code>
 
 ### Set all lights in the basement to half-bright
 
@@ -74,7 +89,7 @@ The IOTQL knows that certain words gets mapped into different namespaces.
 	WHERE
 		meta:zone & "Basement"
 	AND
-		meta:facet & facets:lighting
+		meta:facet & iot-facet:lighting
 		
 Originally we had "=" instead of "&", but it's not really the operator we want to do. Theoretically there's a list on both sides. The "&" operator is to test for intersection of lists. Items that are not lists are cast to lists. 
 		
@@ -83,7 +98,7 @@ Mappings:
 * <code>state:brightness</code> → OSTATE(iot-attribute:brightness)
 * <code>meta:zone</code> → META(iot:zone)
 * <code>meta:facet</code> → META(iot:facet)
-* <code>facets:lighting</code> → iot-facet:lighting
+* <code>iot-facet:lighting</code> → iot-facet:lighting
 * % → a value between 0 and 100, equivalent to UNITS(#,iot-unit:math.fraction.percent)
 
 ### Get the temperature
@@ -105,21 +120,21 @@ Note - what do we do with Things that don't have the attribute <code>sensor.temp
 ### Get the temperature in Celsius, only from HVAC equipment
 
 	SELECT
-		UNITS(state:sensor.temperature,units:temperature.metric.celsius)
+		UNITS(state:sensor.temperature,iot-unit:temperature.metric.celsius)
 	WHERE
-		meta:facet & facets:climate
+		meta:facet & iot-facet:climate
 		
 Mappings:
 
 * <code>state:sensor.temperature</code> → OSTATE(iot-attribute:sensor.temperature)
-* <code>units:temperature.metric.celsius</code> → iot-attribute:temperature.metric.celsius
-* <code>facets:climate</code> → iot-facet:climate
+* <code>iot-unit:temperature.metric.celsius</code> → iot-attribute:temperature.metric.celsius
+* <code>iot-facet:climate</code> → iot-facet:climate
 * <code>meta:facet</code> → iot:facet
 
 ### Set the temperature in the basement to 68F
 
 	SET
-		state:temperature = UNITS(68,units:temperature.imperial.fahrenheit)
+		state:temperature = UNITS(68,iot-unit:temperature.imperial.fahrenheit)
 	WHERE
 		meta:zone & "Basement"
 	AND 
@@ -157,8 +172,7 @@ Note that since we accept Pythonic type trues, so we could also do
 	SELECT
 		id, meta:name
 	WHERE
-		state:on
-					
+		state:on					
 	
 ## Select everything that is in the Interstitial State
 
