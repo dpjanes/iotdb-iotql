@@ -28,9 +28,7 @@
 "use strict";
 
 var iotdb = require('iotdb');
-var iotdb_transport = require('iotdb-transport')
 var _ = iotdb.helpers;
-var cfg = iotdb.cfg;
 
 var repl = require('repl');
 var path = require('path');
@@ -47,29 +45,38 @@ var logger = bunyan.createLogger({
     module: 'iotql',
 });
 
-var iotql = require("iotdb-iotql");
+var iotql = require("../index");
+
+var json_rpc;
+try {
+    json_rpc = require('json-rpc2');
+} catch (x) {
+}
 
 var help = function() {
-    console.log("usage: iotql");
+    console.log("usage: iotql [options]");
     console.log("");
+    console.log("options:");
+    console.log("--samples     : use the small sample data set");
+    console.log("--json        : print out results as JSON");
+    console.log("--help        : print this message");
+
+    if (json_rpc) {
+        console.log("--rpc         : become a JSON RPC server (method is 'execute')");
+        console.log("--port <port> : listen for JSON RPC messages on this port");
+    }
 };
 
-var run_interactive = function(ad, db) {
+var run_interactive = function(paramd) {
     var _iotql_eval = function(cmd, context, filename, callback) {
         var name = "";
         var resultds = [];
-        db.execute(cmd, function(cd) {
-            if (cd.end) {
+        paramd.db.execute(cmd, function(cd) {
+            if (cd.error) {
+                console.log("-- ERROR: %s", cd.error);
+            } else if (cd.end) {
                 callback(null, resultds);
             } else if (cd.start) {
-                /*
-                if (cd.index === 0) {
-                    child_process.spawnSync("rm", [ "-rf", "samples/.things" ]);
-                    child_process.spawnSync("cp", [ "-R", "samples/things", "samples/.things" ]);
-                }
-                */
-            } else if (cd.error) {
-                console.log("-- ERROR: %s", cd.error);
             } else if (cd.columns) {
                 var rowdd = {};
 
@@ -94,7 +101,7 @@ var run_interactive = function(ad, db) {
     };
 
     var _iotql_writer = function(o) {
-        if (ad.json) {
+        if (paramd.ad.json) {
             return util.inspect(o, { depth: null });
         }
 
@@ -117,21 +124,67 @@ var run_interactive = function(ad, db) {
         return "";
     };
 
-    repl.start({
-        prompt: "iotql> ",
-        eval: _iotql_eval,
-        writer: _iotql_writer,
-    })
-    .on('exit', function() {
-        process.exit(0)
-    });
+    if (paramd.rpc_server) {
+        paramd.rpc_server.expose('execute', function(args, opt, callback) {
+            if (args.length !== 1) {
+                return callback(new Error("execute takes exactly one argument"));
+            }
+
+            _iotql_eval(argv[0], null, null, function(error, raw) {
+                if (error) {
+                    return callback(error);
+                }
+
+                return callback(null, _iotql_writer(raw));
+            });
+        });
+
+        console.log("listening for JSON RPC connections at %s:%s", paramd.ad.host, paramd.ad.port);
+    } else {
+        repl.start({
+            prompt: "iotql> ",
+            eval: _iotql_eval,
+            writer: _iotql_writer,
+        })
+        .on('exit', function() {
+            process.exit(0)
+        });
+    }
 };
 
 var run_cli = function()  {
     var ad = require('minimist')(process.argv.slice(2), {
-        boolean: [ "samples", "json" ],
-        default: {},
+        boolean: [ "samples", "json", "help", "rpc", ],
+        default: {
+            port: 16016,
+            host: '0.0.0.0',
+        },
     });
+    
+    if (ad.help) {
+        help();
+        process.exit(0);
+    }
+
+    var rpc_server;
+    if (ad.rpc) {
+        if (!json_rpc) {
+            console.log("error: JSON RPC is not installed");
+            console.log("");
+            console.log("please do this command find:");
+            console.log("");
+            console.log("$ npm install json-rpc2");
+            process.exit(1);
+        }
+
+        rpc_server = json_rpc.Server.$create({
+            'websocket': true, 
+            'headers': { 
+                'Access-Control-Allow-Origin': '*'
+            }
+        });
+        rpc_server.listen(parseInt(ad.port), ad.host);
+    }
 
     var connect_paramd = {};
     if (ad.samples) {
@@ -151,8 +204,23 @@ var run_cli = function()  {
             throw error;
         }
 
-        run_interactive(ad, db);
+        run_interactive({
+            ad: ad, 
+            db: db,
+            rpc_server: rpc_server,
+        });
     });
 };
 
 run_cli();
+
+/*
+    // create JSON RPC rpc_server
+     
+    function add(args, opt, callback) {
+      callback(null, args[0] + args[1]);
+    }
+     
+    rpc_server.expose('add', add);
+     
+*/
