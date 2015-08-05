@@ -22,8 +22,8 @@
 
 "use strict";
 
-var DB = require('./db').DB;
-var parser = require("./grammar").parser;
+var DB = require('./lib/db').DB;
+var parser = require("./lib/grammar").parser;
 
 var iotdb = require('iotdb');
 var iotdb_transport = require('iotdb-transport');

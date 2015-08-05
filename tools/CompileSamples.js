@@ -30,7 +30,7 @@
 var fs = require('fs');
 var path = require('path');
 var minimist = require('minimist');
-var parser = require("./grammar").parser;
+var parser = require("../lib/grammar").parser;
 
 var ad = require('minimist')(process.argv.slice(2), {
     boolean: ["all", "write", "test"],
