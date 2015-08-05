@@ -38,7 +38,25 @@ Make sure you've [installed and set up HomeStar](https://homestar.io/about/insta
 
 _Not implemented yet_
 
-	$ iotql http://homestar.io:20000/
+	$ iotql --things http://homestar.io:20000/api/things
+	
+### As JSON RPC server
+
+IoTQL can act as a JSON-RPC server so it can be used from a web browser terminal server.
+
+First, make sure you have JSON-RPC2 installed:
+
+	$ npm install json-rpc2
+	
+Then run IoTQL as a JSON RPC server
+
+	$ iotql --samples --rpc
+	
+Then try it from the browser (assuming you have the [GitHub IoTQL project](https://github.com/dpjanes/iotdb-iotql) available).
+
+	$ open examples/jquery-terminal/index.html
+	
+Note that there's no security or anything, so this is purely for demonstration purposes.
 	
 # Library Version
 
@@ -76,21 +94,25 @@ Transporters do not need to support queries.
 Transporters that _do_ support query will always set <code>d.query</code>
 to <code>true</code> when a <code>query</code> statement is used.
 
-## Syntax / Examples
+# Syntax / Examples
 
-### Turn on everything
+## Get Everything
+
+	SELECT id, meta:*, meta:*;
+
+## Turn on everything
 
 	SET state:on = true
 	
-### Sight lights to yellow
+## Sight lights to yellow
 
 	SET state:color = "yellow" WHERE meta:facet & facets.lighting;
 	
-### Set the temperature in the basement - in Celsius
+## Set the temperature in the basement - in Celsius
 
 	SET state:temperature = 20°C WHERE zone & "Basement"
 
-### What's the temperature - in Fahrenheit
+## What's the temperature - in Fahrenheit
 
 	SELECT units(state:sensor.temperature, °F)
 	
