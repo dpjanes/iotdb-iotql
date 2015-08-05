@@ -8,6 +8,16 @@ IoTQL - an SQL-like language for the IoT
 IoTQL is an SQL-like language for the IoT. 
 It allows you to query Things, change their state, and define actions to happen in the future.
 
+Here's a few example queries - see below and the docs folder for a lot more:
+
+	-- see everything
+	SELECT id, state:*, meta:*;
+	-- set the temperature in the basement
+	SET state:temperature = 20°C WHERE meta:zone & "Basement";
+	-- set the color of Hue lights
+	SET state:color = "#FF9999" WHERE meta:model-id = "hue-light";
+	
+
 It's written to work with HomeStar / IOTDB but is flexible enough to plug into almost any projects that can present a simple [Transporter API](https://github.com/dpjanes/iotdb-transport).
 
 # Command Line Version
@@ -110,7 +120,7 @@ to <code>true</code> when a <code>query</code> statement is used.
 	
 ## Set the temperature in the basement - in Celsius
 
-	SET state:temperature = 20°C WHERE zone & "Basement"
+	SET state:temperature = 20°C WHERE meta:zone & "Basement"
 
 ## What's the temperature - in Fahrenheit
 
