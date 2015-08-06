@@ -43,6 +43,9 @@
     null,
     "schema:name",
     "Imperial Temperature / Humidity",
-    null
+    null,
+    "sensor.temperature",
+    70,
+    "iot-unit:temperature.imperial.fahrenheit"
   ]
 ]

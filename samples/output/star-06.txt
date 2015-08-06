@@ -157,6 +157,9 @@
     "id",
     "thing-05",
     null,
+    "state:sensor.temperature",
+    70,
+    "iot-unit:temperature.imperial.fahrenheit",
     "state:sensor.humidity",
     30,
     "iot-unit:iot-unit:math.fraction.percent",
@@ -179,13 +182,22 @@
     null,
     "c03",
     {
-      "iot:attribute": {
-        "@id": "#hum",
-        "iot:purpose": "iot-attribute:sensor.humidity",
-        "iot:role": "iot:role-reading",
-        "iot:type": "iot:integer",
-        "iot:unit": "iot-unit:iot-unit:math.fraction.percent"
-      }
+      "iot:attribute": [
+        {
+          "@id": "#tem",
+          "iot:purpose": "iot-attribute:sensor.temperature",
+          "iot:role": "iot:role-reading",
+          "iot:type": "iot:integer",
+          "iot:unit": "iot-unit:temperature.imperial.fahrenheit"
+        },
+        {
+          "@id": "#hum",
+          "iot:purpose": "iot-attribute:sensor.humidity",
+          "iot:role": "iot:role-reading",
+          "iot:type": "iot:integer",
+          "iot:unit": "iot-unit:iot-unit:math.fraction.percent"
+        }
+      ]
     },
     null
   ]

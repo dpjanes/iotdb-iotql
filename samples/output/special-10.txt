@@ -8,5 +8,10 @@
     "sensor.temperature",
     23.889,
     "iot-unit:temperature.si.celsius"
+  ],
+  [
+    "sensor.temperature",
+    75,
+    "iot-unit:temperature.imperial.fahrenheit"
   ]
 ]

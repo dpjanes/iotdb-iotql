@@ -1,1 +1,13 @@
-[]
+[
+  [
+    "id",
+    "thing-05",
+    null,
+    "schema:name",
+    "Imperial Temperature / Humidity",
+    null,
+    "sensor.temperature",
+    70,
+    "iot-unit:temperature.imperial.fahrenheit"
+  ]
+]

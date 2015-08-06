@@ -1,19 +1,19 @@
 [
   [
     "sensor.temperature",
-    2,
+    3,
     null,
     "sensor.temperature",
-    36,
+    106,
     null,
     "sensor.temperature",
     16,
     null,
     "sensor.temperature",
-    20,
+    70,
     null,
     "sensor.temperature",
-    18,
+    35.333333333333336,
     null
   ]
 ]
