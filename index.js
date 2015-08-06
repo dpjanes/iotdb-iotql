@@ -23,7 +23,7 @@
 "use strict";
 
 var DB = require('./lib/db').DB;
-var parser = require("./lib/grammar").parser;
+var parser = require("./grammar/grammar").parser;
 
 var iotdb = require('iotdb');
 var iotdb_transport = require('iotdb-transport');
