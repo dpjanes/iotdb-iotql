@@ -110,8 +110,8 @@ var run_interactive = function(paramd) {
             for (var key in d) {
                 var valued = d[key];
                 var value = valued.value;
-                if (!_.is.String(value)) {
-                    value = util.inspect(valued.value, { depth: null });
+                if (1 || !_.is.String(value)) {
+                    value = util.inspect(valued.value, { depth: null, colors: true });
                 }
 
                 if (valued.units) {
