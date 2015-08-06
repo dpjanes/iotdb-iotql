@@ -18,5 +18,10 @@
     "id",
     "thing-04",
     null
+  ],
+  [
+    "id",
+    "thing-05",
+    null
   ]
 ]

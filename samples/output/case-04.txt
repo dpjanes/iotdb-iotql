@@ -30,5 +30,13 @@
     "schema:name",
     "hello 04",
     null
+  ],
+  [
+    "id",
+    "thing-05",
+    null,
+    "schema:name",
+    "hello 04",
+    null
   ]
 ]

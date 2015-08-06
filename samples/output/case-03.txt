@@ -18,5 +18,10 @@
     "schema:name",
     "hello 3",
     null
+  ],
+  [
+    "schema:name",
+    "hello 3",
+    null
   ]
 ]

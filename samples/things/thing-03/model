@@ -2,6 +2,7 @@
     "iot:attribute": {
         "@id": "#on",
         "iot:purpose": "iot-attribute:on",
+        "iot:type": "iot:boolean",
         "iot:role": [ "iot:role-reading", "iot:role-control" ]
     }
 }

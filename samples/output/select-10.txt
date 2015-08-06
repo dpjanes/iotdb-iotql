@@ -6,6 +6,11 @@
   ],
   [
     "schema:name",
+    "Imperial Temperature / Humidity",
+    null
+  ],
+  [
+    "schema:name",
     "Lights (03)",
     null
   ],

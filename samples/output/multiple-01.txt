@@ -20,8 +20,18 @@
     null
   ],
   [
+    "id",
+    "thing-05",
+    null
+  ],
+  [
     "schema:name",
     "Front Door Contact Switch",
+    null
+  ],
+  [
+    "schema:name",
+    "Imperial Temperature / Humidity",
     null
   ],
   [

@@ -30,6 +30,7 @@
         "@id": "#temperature",
         "iot:purpose": "iot-attribute:sensor.temperature",
         "iot:role": "iot:role-reading",
+        "iot:type": "iot:number",
         "iot:unit": "iot-unit:temperature.si.celsius"
       }
     },
@@ -69,6 +70,7 @@
         "@id": "#t",
         "iot:purpose": "iot-attribute:sensor.temperature",
         "iot:role": "iot:role-reading",
+        "iot:type": "iot:number",
         "iot:unit": "iot-unit:temperature.si.celsius"
       }
     },
@@ -103,6 +105,7 @@
       "iot:attribute": {
         "@id": "#on",
         "iot:purpose": "iot-attribute:on",
+        "iot:type": "iot:boolean",
         "iot:role": [
           "iot:role-reading",
           "iot:role-control"
@@ -144,7 +147,44 @@
       "iot:attribute": {
         "@id": "#open",
         "iot:purpose": "iot-attribute:open",
+        "iot:type": "iot:boolean",
         "iot:role": "iot:role-control"
+      }
+    },
+    null
+  ],
+  [
+    "id",
+    "thing-05",
+    null,
+    "state:sensor.humidity",
+    30,
+    "iot-unit:iot-unit:math.fraction.percent",
+    "meta:iot:thing-id",
+    "thing-05",
+    null,
+    "meta:iot:model-id",
+    "model-05",
+    null,
+    "meta:schema:name",
+    "Imperial Temperature / Humidity",
+    null,
+    "meta:iot:facet",
+    [
+      "iot-facet:climate"
+    ],
+    null,
+    "meta:iot:zone",
+    "Main Floor",
+    null,
+    "c03",
+    {
+      "iot:attribute": {
+        "@id": "#hum",
+        "iot:purpose": "iot-attribute:sensor.humidity",
+        "iot:role": "iot:role-reading",
+        "iot:type": "iot:integer",
+        "iot:unit": "iot-unit:iot-unit:math.fraction.percent"
       }
     },
     null

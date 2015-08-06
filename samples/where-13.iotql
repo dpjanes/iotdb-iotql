@@ -1,4 +1,4 @@
--- a trick! actually no where, it will select everything
+-- a trick! it will select everything
 SELECT
     id, meta:name, state:sensor.temperature
 ;

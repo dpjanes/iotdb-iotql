@@ -36,5 +36,13 @@
     "schema:name",
     "Front Door Contact Switch",
     null
+  ],
+  [
+    "id",
+    "thing-05",
+    null,
+    "schema:name",
+    "Imperial Temperature / Humidity",
+    null
   ]
 ]
