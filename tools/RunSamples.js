@@ -30,7 +30,7 @@ var path = require('path');
 var util = require('util');
 var minimist = require('minimist');
 var child_process = require('child_process');
-var parser = require("../lib/grammar").parser;
+var parser = require("../grammar/grammar").parser;
 var FSTransport = require('iotdb-transport-fs').Transport;
 var DB = require('../lib/db').DB;
 
