@@ -1,0 +1,34 @@
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "sensor.temperature",
+    20,
+    "iot-unit:temperature.si.celsius"
+  ],
+  [
+    "id",
+    "thing-02",
+    null,
+    "sensor.temperature",
+    16,
+    "iot-unit:temperature.si.celsius"
+  ],
+  [
+    "id",
+    "thing-05",
+    null,
+    "sensor.temperature",
+    70,
+    "iot-unit:temperature.imperial.fahrenheit"
+  ],
+  [
+    "id",
+    "thing-05",
+    null,
+    "sensor.temperature",
+    70,
+    "iot-unit:temperature.imperial.fahrenheit"
+  ]
+]
