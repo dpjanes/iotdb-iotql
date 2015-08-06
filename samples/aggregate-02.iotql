@@ -1,4 +1,5 @@
 -- aggregates on values
+-- SUM, MIN, MAX and AVG will be <error> because of type mismatch
 SELECT
     COUNT(state:sensor.temperature), SUM(state:sensor.temperature), 
     MIN(state:sensor.temperature), MAX(state:sensor.temperature), AVG(state:sensor.temperature)

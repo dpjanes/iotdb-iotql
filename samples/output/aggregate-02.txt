@@ -4,16 +4,16 @@
     3,
     null,
     "sensor.temperature",
-    106,
+    null,
     null,
     "sensor.temperature",
-    16,
+    null,
     null,
     "sensor.temperature",
-    70,
+    null,
     null,
     "sensor.temperature",
-    35.333333333333336,
+    null,
     null
   ]
 ]

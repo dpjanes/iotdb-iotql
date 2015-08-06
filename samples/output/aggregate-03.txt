@@ -3,11 +3,17 @@
     "sensor.temperature",
     3,
     null,
-    "c01",
-    "Front Door Contact Switch",
-    null,
-    "c02",
-    "Thing 2",
-    null
+    "sensor.temperature",
+    57.111000000000004,
+    "iot-unit:temperature.si.celsius",
+    "sensor.temperature",
+    16,
+    "iot-unit:temperature.si.celsius",
+    "sensor.temperature",
+    21.111,
+    "iot-unit:temperature.si.celsius",
+    "sensor.temperature",
+    19.037000000000003,
+    "iot-unit:temperature.si.celsius"
   ]
 ]

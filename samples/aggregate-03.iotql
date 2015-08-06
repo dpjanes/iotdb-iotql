@@ -1,4 +1,5 @@
--- aggregates on strings (MIN & MAX only)
+-- aggregates on values with type conversion
 SELECT
-    COUNT(state:sensor.temperature), MIN(meta:name), MAX(meta:name)
+    COUNT(state:sensor.temperature), SUM(state:sensor.temperature°C), 
+    MIN(state:sensor.temperature°C), MAX(state:sensor.temperature°C), AVG(state:sensor.temperature°C)
 ;
