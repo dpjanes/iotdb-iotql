@@ -107,6 +107,10 @@ var run_interactive = function(paramd) {
             return util.inspect(o, { depth: null });
         }
 
+        if (!o) {
+            return "";
+        }
+
         var lines = [];
         o.map(function(d) {
             for (var key in d) {

@@ -25,6 +25,8 @@
 var DB = require('./lib/db').DB;
 var parser = require("./grammar/grammar").parser;
 
+var fs = require('fs');
+
 var iotdb = require('iotdb');
 var iotdb_transport = require('iotdb-transport');
 var _ = iotdb._;
@@ -32,8 +34,13 @@ var _ = iotdb._;
 var connect = function (paramd, done) {
     paramd = _.defaults(paramd, {
         things_url: "iotdb://",
-        recipes_url: "file://recipes",
     });
+
+    if (!paramd.recipes_url) {
+        if (fs.existsSync("cookbooks")) {
+            paramd.recipes_url = "recipes://cookbooks";
+        }
+    }
 
     var things_transporter;
     var recipes_transporter;
