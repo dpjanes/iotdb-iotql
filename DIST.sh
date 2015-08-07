@@ -33,9 +33,9 @@ echo "=================="
         --exclude "node_modules" \
         README.md LICENSE \
         package.json index.js \
-        grammar.js \
-        db.js db_*.js \
-        math.js operators.js string.js typed.js units.js \
+        grammar/grammar.js \
+        lib/*.js \
+        bin/iotql \
         |
     ( cd "${NPM_DST}" && tar xvf - )
 

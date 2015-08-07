@@ -99,6 +99,9 @@ EXPRESSION:
     "SELECT" SELECT-TERMS "WHERE" VALUE
     { $$ = [ { "select": $2, "where": $4, "store": "things" } ]; }
     |
+    "SELECT" SELECT-TERMS "FROM" SYMBOL-SIMPLE "WHERE" VALUE
+    { $$ = [ { "select": $2, "store": $4.toLowerCase(), "where": $6 } ]; }
+    |
     "SET" SET-TERMS
     { $$ = [ { "set": $2, "store": "things" } ]; }
     |

@@ -7,7 +7,5 @@ BEGIN
         state:on = true
     WHERE
         meta:facet & iot-facet:lighting
-    AND
-        meta:zone & "Foyer"
     ;
 END;

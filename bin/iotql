@@ -81,9 +81,11 @@ var run_interactive = function(paramd) {
                 var rowdd = {};
 
                 cd.columns.map(function(column, column_index) {
+                    /*
                     if (column.value === null) {
                         return;
                     }
+                     */
                     var rowd = {
                         value: column.value,
                     };
@@ -196,6 +198,7 @@ var run_cli = function()  {
         child_process.spawnSync("cp", [ "-R", src_dir, dst_dir ]);
 
         connect_paramd.things_url = dst_dir;
+        connect_paramd.recipes_url = "recipes://cookbooks";
     } else if (ad.things) {
         connect_paramd.things_url = ad.things;
     }
@@ -214,14 +217,3 @@ var run_cli = function()  {
 };
 
 run_cli();
-
-/*
-    // create JSON RPC rpc_server
-     
-    function add(args, opt, callback) {
-      callback(null, args[0] + args[1]);
-    }
-     
-    rpc_server.expose('add', add);
-     
-*/
