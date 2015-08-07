@@ -12,7 +12,7 @@
     "thing-02",
     null,
     "schema:name",
-    "hello 04",
+    "Thing 2",
     null
   ],
   [
@@ -20,7 +20,7 @@
     "thing-03",
     null,
     "schema:name",
-    "hello 04",
+    "Lights (03)",
     null
   ],
   [
@@ -28,7 +28,7 @@
     "thing-04",
     null,
     "schema:name",
-    "hello 04",
+    "Front Door Contact Switch",
     null
   ],
   [
@@ -36,7 +36,7 @@
     "thing-05",
     null,
     "schema:name",
-    "hello 04",
+    "Imperial Temperature / Humidity",
     null
   ]
 ]

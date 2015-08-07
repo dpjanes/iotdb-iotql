@@ -1,8 +1,12 @@
 {
-    "iot:attribute": {
-        "@id": "#on",
-        "iot:purpose": "iot-attribute:on",
-        "iot:type": "iot:boolean",
-        "iot:role": [ "iot:role-reading", "iot:role-control" ]
-    }
+    "iot:attribute": [
+        {
+            "@id": "#on",
+            "iot:purpose": "iot-attribute:on",
+            "iot:type": "iot:boolean",
+            "iot:read": true,
+            "iot:write": true,
+            "iot:role": [ "iot-attribute:role-reading", "iot-attribute:role-control" ]
+        }
+    ]
 }

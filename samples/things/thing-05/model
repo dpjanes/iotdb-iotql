@@ -3,14 +3,16 @@
         {
             "@id": "#tem",
             "iot:purpose": "iot-attribute:sensor.temperature",
-            "iot:role": "iot:role-reading",
+            "iot:read": true,
+            "iot:role": "iot-attribute:role-reading",
             "iot:type": "iot:integer",
             "iot:unit": "iot-unit:temperature.imperial.fahrenheit"
         },
         {
             "@id": "#hum",
             "iot:purpose": "iot-attribute:sensor.humidity",
-            "iot:role": "iot:role-reading",
+            "iot:read": true,
+            "iot:role": "iot-attribute:role-reading",
             "iot:type": "iot:integer",
             "iot:unit": "iot-unit:iot-unit:math.fraction.percent"
         }

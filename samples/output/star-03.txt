@@ -2,6 +2,9 @@
   [
     "id",
     "thing-01",
-    null
+    null,
+    "ostate:sensor.temperature",
+    null,
+    "iot-unit:temperature.si.celsius"
   ]
 ]
