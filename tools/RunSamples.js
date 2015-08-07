@@ -29,10 +29,11 @@ var fs = require('fs');
 var path = require('path');
 var util = require('util');
 var minimist = require('minimist');
-var child_process = require('child_process');
+
 var parser = require("../grammar/grammar").parser;
-var FSTransport = require('iotdb-transport-fs').Transport;
 var DB = require('../lib/db').DB;
+var helpers = require('../lib/helpers');
+var iotql = require('../index');
 
 var ad = require('minimist')(process.argv.slice(2), {
     boolean: ["write", "test", "all"],
@@ -116,10 +117,6 @@ DB.prototype.run_path_test = function (iotql_path, statements, done) {
             lines.push(util.format("== %s[%s]", name, cd.index));
             lines.push(util.format("============="));
 
-            if (cd.index === 0) {
-                child_process.spawnSync("rm", ["-rf", "samples/.things"]);
-                child_process.spawnSync("cp", ["-R", "samples/things", "samples/.things"]);
-            }
         } else if (cd.error) {
             lines.push(util.format("-- ERROR: %s", cd.error));
             done(cd.error);
@@ -163,11 +160,6 @@ DB.prototype.run_path_user = function (iotql_path, statements, done) {
             console.log("=============");
             console.log("== %s[%s]", name, cd.index);
             console.log("=============");
-
-            if (cd.index === 0) {
-                child_process.spawnSync("rm", ["-rf", "samples/.things"]);
-                child_process.spawnSync("cp", ["-R", "samples/things", "samples/.things"]);
-            }
         } else if (cd.error) {
             console.log("-- ERROR: %s", cd.error);
             done(cd.error);
@@ -192,12 +184,6 @@ DB.prototype.run_path_user = function (iotql_path, statements, done) {
 };
 
 // --- main ---
-
-var transporter = new FSTransport({
-    prefix: "samples/.things",
-});
-var db = new DB(transporter);
-
 var iotql_paths = [];
 if (ad.all) {
     var samples_dir = "samples";
@@ -214,17 +200,26 @@ if (ad.all) {
     iotql_paths = ad._;
 }
 
-var run_next = function () {
-    if (iotql_paths.length === 0) {
-        return;
+var connect_paramd = helpers.duplicate_samples("iotql-test");
+iotql.connect(connect_paramd, function(error, db) {
+    if (error) {
+        throw error;
     }
 
-    var iotql_path = iotql_paths[0];
-    iotql_paths.splice(0, 1);
+    var run_next = function () {
+        if (iotql_paths.length === 0) {
+            return;
+        }
 
-    db.run_path(iotql_path, function () {
-        run_next();
-    });
-};
+        var iotql_path = iotql_paths[0];
+        iotql_paths.splice(0, 1);
 
-run_next();
+        helpers.duplicate_samples("iotql-test");
+        db.run_path(iotql_path, function () {
+            run_next();
+        });
+    };
+
+    run_next();
+});
+

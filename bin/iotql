@@ -47,6 +47,7 @@ var logger = bunyan.createLogger({
 });
 
 var iotql = require("../index");
+var helpers = require("../lib/helpers");
 
 var json_rpc;
 try {
@@ -196,6 +197,8 @@ var run_cli = function()  {
 
     var connect_paramd = {};
     if (ad.samples) {
+        connect_paramd = helpers.duplicate_samples();
+        /*
         var tmp_root = path.join(process.env["HOME"], ".iotdb", "iotql-samples");
         mkdirp.sync(tmp_root);
 
@@ -217,6 +220,7 @@ var run_cli = function()  {
 
             connect_paramd.recipes_url = "recipes://" + dst_cookbooks_dir;
         }
+        */
     } else if (ad.things) {
         connect_paramd.things_url = ad.things;
     }
