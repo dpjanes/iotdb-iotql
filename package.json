@@ -7,6 +7,7 @@
         "url": "https://github.com/dpjanes/iotql/issues"
     }, 
     "dependencies": {
+        "mkdirp": "~0.5.1", 
         "iotdb-transport": "~0.0.6", 
         "iotdb-transport-fs": "~0.0.13", 
         "iotdb-transport-iotdb": "~0.0.9"

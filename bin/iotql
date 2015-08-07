@@ -32,6 +32,7 @@ var _ = iotdb.helpers;
 
 var repl = require('repl');
 var path = require('path');
+var mkdirp = require('mkdirp');
 var os = require('os');
 var util = require('util');
 var child_process = require('child_process');
@@ -195,14 +196,27 @@ var run_cli = function()  {
 
     var connect_paramd = {};
     if (ad.samples) {
-        var src_dir = path.join(__dirname, "..", "samples", "things");
-        var dst_dir = path.join(os.tmpdir(), "iotql-things-" + _.uid(8));
+        var tmp_root = path.join(process.env["HOME"], ".iotdb", "iotql-samples");
+        mkdirp.sync(tmp_root);
 
-        child_process.spawnSync("rm", [ "-rf", dst_dir ]);
-        child_process.spawnSync("cp", [ "-R", src_dir, dst_dir ]);
+        {
+            var src_things_dir = path.join(__dirname, "..", "samples", "things");
+            var dst_things_dir = path.join(tmp_root, "things");
 
-        connect_paramd.things_url = dst_dir;
-        connect_paramd.recipes_url = "recipes://cookbooks";
+            child_process.spawnSync("rm", [ "-rf", dst_things_dir ]);
+            child_process.spawnSync("cp", [ "-R", src_things_dir, dst_things_dir ]);
+
+            connect_paramd.things_url = dst_things_dir;
+        }
+        {
+            var src_cookbooks_dir = path.join(__dirname, "..", "samples", "cookbooks");
+            var dst_cookbooks_dir = path.join(tmp_root, "cookbooks");
+
+            child_process.spawnSync("rm", [ "-rf", dst_cookbooks_dir ]);
+            child_process.spawnSync("cp", [ "-R", src_cookbooks_dir, dst_cookbooks_dir ]);
+
+            connect_paramd.recipes_url = "recipes://" + dst_cookbooks_dir;
+        }
     } else if (ad.things) {
         connect_paramd.things_url = ad.things;
     }
