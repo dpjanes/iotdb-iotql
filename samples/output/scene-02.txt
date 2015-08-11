@@ -1,1 +1,33 @@
-[]
+[
+  [
+    "id",
+    "thing-01",
+    null,
+    "temperature",
+    18,
+    "iot-unit:temperature.si.celsius"
+  ],
+  [
+    "id",
+    "thing-02",
+    null
+  ],
+  [
+    "id",
+    "thing-03",
+    null,
+    "on",
+    false,
+    null
+  ],
+  [
+    "id",
+    "thing-04",
+    null
+  ],
+  [
+    "id",
+    "thing-05",
+    null
+  ]
+]
