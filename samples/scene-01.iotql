@@ -1,12 +1,20 @@
--- sets the temperature to 22.5 degrees C
+-- create a scene turn thing-03 on 
 CREATE SCENE
     goodnight
 BEGIN
     SET state:on = true
     WHERE id = 'thing-03';
 END;
+
+--
+-- do the scene
+--
 DO goodnight;
+
+-- note we use ostate here because we're working with
+-- sample data. With real things ostate will transition
+-- back to null after the light really turns on
 SELECT 
     id, ostate:on 
 WHERE
-    ostate:on != NULL;
+    id = 'thing-03';

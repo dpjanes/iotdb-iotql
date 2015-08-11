@@ -1,7 +1,10 @@
 -- sets the temperature to 18 degrees C and then turns off the lights
+-- demonstrate multiple statements being executed
 CREATE SCENE
     goodnight
 BEGIN
     SET state:temperature = UNITS(18,iot-unit:temperature.si.celsius);
     SET state:on = false WHERE meta:facet & iot-facet:lighting;
-END
+END;
+DO goodnight;
+

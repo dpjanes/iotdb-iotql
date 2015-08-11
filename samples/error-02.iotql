@@ -1,0 +1,3 @@
+-- was setting a dictionary, should now be "true"
+SET ostate:on = !ostate:on;
+SELECT ostate:on;

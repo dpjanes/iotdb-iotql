@@ -164,6 +164,7 @@ DB.prototype.run_path_user = function (iotql_path, statements, done) {
             console.log("-- ERROR: %s", cd.error);
             done(cd.error);
         } else if (cd.columns) {
+            // console.log(cd.columns);
             cd.columns.map(function (column, column_index) {
                 var v = column.value;
                 if (_.is.Array(v)) {
@@ -172,10 +173,11 @@ DB.prototype.run_path_user = function (iotql_path, statements, done) {
                     v = JSON.stringify(v);
                 }
 
+
                 if (column.units) {
-                    console.log("%s: %s [%s]", column_index, v, column.units);
+                    console.log("%s: %s [%s]", column.as, v, column.units);
                 } else {
-                    console.log("%s: %s", column_index, v);
+                    console.log("%s: %s", column.as, v);
                 }
             });
             console.log("--");

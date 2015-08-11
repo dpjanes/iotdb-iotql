@@ -1,8 +1,5 @@
 [
   [
-    "id",
-    "thing-03",
-    null,
     "on",
     true,
     null
