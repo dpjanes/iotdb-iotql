@@ -3,5 +3,8 @@ CREATE SCENE
     lights(value)
 BEGIN
     SELECT "hello"
-END
-;
+END ;
+
+-- run it 
+DO lights;
+

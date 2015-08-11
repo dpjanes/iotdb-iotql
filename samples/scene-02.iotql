@@ -10,5 +10,5 @@ END;
 -- do it
 DO goodnight;
 
--- get the 
-
+-- get the changes;
+SELECT id, ostate:temperature, ostate:on;

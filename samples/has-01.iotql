@@ -1,0 +1,2 @@
+SELECT id, ostate:on WHERE has(ostate:on);
+
