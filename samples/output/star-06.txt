@@ -6,6 +6,9 @@
     "istate:sensor.temperature",
     20,
     "iot-unit:temperature.si.celsius",
+    "istate:temperature",
+    21,
+    "iot-unit:temperature.si.celsius",
     "meta:iot:thing-id",
     "thing-01",
     null,
@@ -32,6 +35,14 @@
           "iot:purpose": "iot-attribute:sensor.temperature",
           "iot:read": true,
           "iot:role": "iot-attribute:role-reading",
+          "iot:type": "iot:number",
+          "iot:unit": "iot-unit:temperature.si.celsius"
+        },
+        {
+          "@id": "#set-point",
+          "iot:purpose": "iot-attribute:temperature",
+          "iot:read": true,
+          "iot:write": true,
           "iot:type": "iot:number",
           "iot:unit": "iot-unit:temperature.si.celsius"
         }

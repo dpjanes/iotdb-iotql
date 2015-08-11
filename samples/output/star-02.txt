@@ -5,6 +5,9 @@
     null,
     "istate:sensor.temperature",
     20,
+    "iot-unit:temperature.si.celsius",
+    "istate:temperature",
+    21,
     "iot-unit:temperature.si.celsius"
   ]
 ]

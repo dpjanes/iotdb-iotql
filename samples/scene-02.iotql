@@ -6,5 +6,9 @@ BEGIN
     SET state:temperature = UNITS(18,iot-unit:temperature.si.celsius);
     SET state:on = false WHERE meta:facet & iot-facet:lighting;
 END;
+
+-- do it
 DO goodnight;
+
+-- get the 
 
