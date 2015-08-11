@@ -20,6 +20,7 @@
 "["                     return '['
 "]"                     return ']'
 "id"                    return 'ID'
+"DO"                    return 'DO'
 "NULL"                  return 'NULL'
 "SELECT"                return 'SELECT'
 "AS"                    return 'AS'
@@ -113,6 +114,15 @@ EXPRESSION:
     |
     "UPDATE" SYMBOL-SIMPLE "SET" SET-TERMS "WHERE" VALUE
     { $$ = [ { "set": $4, "where": $6, "store": $2.toLowerCase() } ]; }
+    |
+    "DO" SYMBOL-SIMPLE
+    {
+        $$ = [
+            {
+                "do" : $2
+            }
+        ];
+    }
     |
     "CREATE-SCENE" SYMBOL-SIMPLE "BEGIN" EXPRESSION-LIST "END"
     { $$ = [

@@ -1,6 +1,12 @@
--- sets the temperature to 18 degrees C
+-- sets the temperature to 22.5 degrees C
 CREATE SCENE
     goodnight
 BEGIN
-    SET state:temperature = UNITS(18,iot-unit:temperature.si.celsius)
-END
+    SET state:on = true
+    WHERE id = 'thing-03';
+END;
+DO goodnight;
+SELECT 
+    id, ostate:on 
+WHERE
+    ostate:on != NULL;

@@ -8,6 +8,7 @@
     }, 
     "dependencies": {
         "mkdirp": "~0.5.1", 
+        "async": "~1.4.2", 
         "iotdb-transport": "~0.0.6", 
         "iotdb-transport-fs": "~0.0.13", 
         "iotdb-transport-iotdb": "~0.0.9"
