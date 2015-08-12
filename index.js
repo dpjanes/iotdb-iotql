@@ -76,13 +76,15 @@ var connect = function (paramd, done) {
     } else {
         iotdb_transport.connect(paramd.recipes_url, function (error, td) {
             if (error) {
-                done(error);
-                done = null;
-                return;
+                console.log("cannot connect to recipes (ignoring): %s", error);
+
+                recipes_transporter = null;
+                _connected();
+            } else {
+                recipes_transporter = td.transport;
+                _connected();
             }
 
-            recipes_transporter = td.transport;
-            _connected();
         });
     }
 };

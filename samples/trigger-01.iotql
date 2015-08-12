@@ -1,6 +1,6 @@
 CREATE TRIGGER
     front_door_light-1
-SELECT
+WHERE
     state:open = true
 BEGIN
     SET

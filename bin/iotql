@@ -40,10 +40,9 @@ var child_process = require('child_process');
 var minimist = require('minimist');
 var FSTransport = require('iotdb-transport-fs').Transport
 
-var bunyan = require('bunyan');
-var logger = bunyan.createLogger({
+var logger = iotdb.logger({
     name: 'iotql',
-    module: 'iotql',
+    module: 'bin/iotql',
 });
 
 var iotql = require("../index");
