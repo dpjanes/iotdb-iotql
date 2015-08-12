@@ -1,0 +1,10 @@
+-- lists
+CREATE SCENE
+    lights(value)
+BEGIN
+    SELECT debug:assert_same($value, [ 1, 2, 3, 4 ]);
+END;
+
+-- run it, with a named argument
+DO lights([ 1, 2, 3, 4 ]);
+
