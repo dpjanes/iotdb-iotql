@@ -2,9 +2,9 @@
 CREATE SCENE
     lights(value)
 BEGIN
-    SELECT "hello"
+    SELECT debug:assert_same($value, null)
 END ;
 
--- run it 
+-- run it, without an argument (will default to null)
 DO lights;
 
