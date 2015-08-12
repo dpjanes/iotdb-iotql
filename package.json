@@ -8,9 +8,9 @@
     }, 
     "dependencies": {
         "async": "~1.4.2", 
-        "iotdb-transport": "~0.0.7", 
-        "iotdb-transport-fs": "~0.0.13", 
-        "iotdb-transport-iotdb": "~0.0.10", 
+        "iotdb-transport": "~0.0.8", 
+        "iotdb-transport-fs": "~0.0.14", 
+        "iotdb-transport-iotdb": "~0.0.11", 
         "mkdirp": "~0.5.1"
     }, 
     "description": "IoTQL - SQL-like query language for the IoT", 
@@ -44,5 +44,5 @@
     "scripts": {
         "test": "grunt"
     }, 
-    "version": "0.0.7"
+    "version": "0.0.8"
 }
