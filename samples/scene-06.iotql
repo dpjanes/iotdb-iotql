@@ -1,0 +1,10 @@
+-- takes no argument, but gets it anyway _through magic_
+CREATE SCENE
+    lights
+BEGIN
+    SELECT debug:assert_same($temperature, 343°F)
+END;
+
+-- run it, with a named argument
+DO lights(temperature = 343°F);
+

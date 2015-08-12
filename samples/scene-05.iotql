@@ -1,0 +1,10 @@
+-- takes a _typed_ argument, and _uses_ that argument
+CREATE SCENE
+    lights(value)
+BEGIN
+    SELECT debug:assert_same($value, 343°F)
+END;
+
+-- run it, with an argument
+DO lights(343°F);
+
