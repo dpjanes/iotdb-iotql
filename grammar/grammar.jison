@@ -119,10 +119,21 @@ EXPRESSION:
     {
         $$ = [
             {
-                "do" : $2
+                "do" : $2.toLowerCase(),
+                "operands": [],
             }
         ];
-    }
+    },
+    |
+    "DO" SYMBOL-SIMPLE "(" PARAMETERS ")"
+    {{
+        $$ = [
+            {  
+                "do": $2.toLowerCase(),
+                "operands": $4,
+            }
+        ];
+    }}
     |
     "CREATE-SCENE" SYMBOL-SIMPLE "BEGIN" EXPRESSION-LIST "END"
     { $$ = [

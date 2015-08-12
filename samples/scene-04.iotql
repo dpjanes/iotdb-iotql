@@ -2,6 +2,9 @@
 CREATE SCENE
     lights(value)
 BEGIN
-    SELECT $value
-END
-;
+    SELECT debug:assert_same($value, 343)
+END;
+
+-- run it, with an argument
+DO lights(343);
+
