@@ -10,7 +10,7 @@
         "async": "~1.4.2", 
         "iotdb": "~0.9.3", 
         "iotdb-transport": "~0.0.9", 
-        "iotdb-transport-fs": "~0.0.14", 
+        "iotdb-transport-fs": "~0.0.15", 
         "iotdb-transport-iotdb": "~0.0.11", 
         "minimist": "~1.1.3", 
         "mkdirp": "~0.5.1"
@@ -45,5 +45,5 @@
     "scripts": {
         "test": "grunt"
     }, 
-    "version": "0.0.13"
+    "version": "0.0.14"
 }

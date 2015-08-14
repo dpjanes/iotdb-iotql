@@ -52,10 +52,10 @@
 "AND"                   return 'LOGIC-OPERATOR'
 "OR"                    return 'LOGIC-OPERATOR'
 "!"                     return 'LEFT-OPERATOR'
-[_a-zA-Z][-_a-zA-Z0-9]+([:][_a-zA-Z][-_a-zA-Z0-9]*[:][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
-[_a-zA-Z][-_a-zA-Z0-9]+[:]([_a-zA-Z][-_a-zA-Z0-9]*)([.][_a-zA-Z][-_a-zA-Z0-9]*)*   return 'SYMBOL'
-[_a-zA-Z][-_a-zA-Z0-9]+([:][*])   return 'SYMBOL-STAR'
-[_a-zA-Z][-_a-zA-Z0-9]+   return 'SYMBOL-SIMPLE'
+[_a-zA-Z][-_a-zA-Z0-9]*([:][_a-zA-Z][-_a-zA-Z0-9]*[:][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
+[_a-zA-Z][-_a-zA-Z0-9]*[:]([_a-zA-Z][-_a-zA-Z0-9]*)([.][_a-zA-Z][-_a-zA-Z0-9]*)*   return 'SYMBOL'
+[_a-zA-Z][-_a-zA-Z0-9]*([:][*])   return 'SYMBOL-STAR'
+[_a-zA-Z][-_a-zA-Z0-9]*   return 'SYMBOL-SIMPLE'
 [$][_a-zA-Z][-_a-zA-Z0-9]+   return 'VARIABLE'
 "*"                     return 'STAR';
 

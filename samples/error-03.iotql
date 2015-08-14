@@ -1,0 +1,18 @@
+-- small variable names
+CREATE SCENE
+    x
+BEGIN
+    SET state:on = true
+END;
+
+CREATE SCENE
+    xy
+BEGIN
+    SET state:on = true
+END;
+
+CREATE SCENE
+    xyz
+BEGIN
+    SET state:on = true
+END;
