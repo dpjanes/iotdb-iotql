@@ -1,11 +1,13 @@
 CREATE TRIGGER
-    front_door_light-1
+    front_door_light
 WHERE
     state:open = true
 BEGIN
+    SELECT debug:log("called");
     SET
         state:on = true
     WHERE
         meta:facet & iot-facet:lighting
     ;
 END;
+SET istate:on = true;
