@@ -9,5 +9,7 @@ BEGIN
     WHERE
         meta:facet & iot-facet:lighting
     ;
+    SELECT debug:exit(0, timeout=10);
 END;
-SET istate:on = true;
+
+-- SET istate:open = true;

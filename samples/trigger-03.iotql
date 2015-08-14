@@ -1,8 +1,8 @@
 CREATE TRIGGER
     front_door_light
-SELECT
-    state:open = true
 WHERE
+    state:open = true
+AND
     meta:name = "Front Door Contact Switch"
 BEGIN
     SET
@@ -13,3 +13,5 @@ BEGIN
         meta:zone & "Foyer"
         ;
 END;
+
+-- SET istate:open = true;

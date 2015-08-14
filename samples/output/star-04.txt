@@ -3,22 +3,22 @@
     "id",
     "thing-01",
     null,
-    "meta:iot:thing-id",
+    "meta:thing-id",
     "thing-01",
     null,
-    "meta:iot:model-id",
+    "meta:model-id",
     "model-01",
     null,
-    "meta:schema:name",
+    "meta:name",
     "The Name",
     null,
-    "meta:iot:facet",
+    "meta:facet",
     [
       "iot-facet:climate",
       "iot-facet:climate.heating"
     ],
     null,
-    "meta:iot:zone",
+    "meta:zone",
     "Basement",
     null
   ]

@@ -1,11 +1,11 @@
 CREATE TRIGGER
     front_door_light
-SELECT
+WHERE
     state:open = true
+AND
+    meta:name = "Front Door Contact Switch"
 FROM
     things
-WHERE
-    meta:name = "Front Door Contact Switch"
 BEGIN
     SET
         state:on = true

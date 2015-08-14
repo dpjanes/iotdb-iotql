@@ -170,6 +170,16 @@ EXPRESSION:
         }
     ]; }
     |
+    "CREATE-TRIGGER" SYMBOL-SIMPLE "WHERE" VALUE "FROM" SYMBOL-SIMPLE "BEGIN" EXPRESSION-LIST "END"
+    { $$ = [
+        {
+            "create-trigger": $2,
+            "store": $6,
+            "where": $4,
+            "begin-end": $8,
+        }
+    ]; }
+    |
     { $$ = []; }
     ;
 

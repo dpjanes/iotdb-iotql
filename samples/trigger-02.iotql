@@ -1,15 +1,17 @@
 CREATE TRIGGER
     front_door_light
-SELECT
+WHERE
     state:open = true
 FROM
     things
 BEGIN
+    SELECT debug:log("called");
     SET
         state:on = true
     WHERE
         meta:facet & iot-facet:lighting
-    AND
-        meta:zone & "Foyer"
-        ;
+    ;
+    SELECT debug:exit(0, timeout=10);
 END;
+
+-- SET istate:open = true;
