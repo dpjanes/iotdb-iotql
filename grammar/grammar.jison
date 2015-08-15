@@ -211,7 +211,7 @@ EXPRESSION:
 
 SELECT-TERMS:
     SELECT-TERMS "," SELECT-TERM
-    { $1.push($3); $$ = $1; }
+    { if ($3 !== undefined) { $1.push($3) }; $$ = $1; } // the if shouldn't be requried
     |
     SELECT-TERM
     {{ $$ = [ $1 ]; }}
@@ -510,68 +510,6 @@ ATOMIC:
         "selector": $1.replace(/^[^.]*[:]/, ""),  
         };
     }}
-    /*
-    |
-    INTEGER DECORATOR
-    {{ 
-        var selector = null;
-        if ($2 === "%") {
-            selector = 'math.fraction.percent';
-        } else if ($2 === "°C") {
-            selector = 'temperature.si.celsius';
-        } else if ($2 === "°F") {
-            selector = 'temperature.imperial.fahrenheit';
-        } else if ($2 === "°K") {
-            selector = 'temperature.si.kelvin';
-        }
-
-        $$ = {
-            "compute": {
-                "operation": "units",
-                "operands": [
-                    {
-                        actual: Number.parseInt($1)
-                    },
-                    {
-                        band: "iot-unit",
-                        selector: selector,
-                    },
-                ],
-                "join": "function",
-            },
-        };
-    }}
-    |
-    NUMBER DECORATOR
-    {{ 
-        var selector = null;
-        if ($2 === "%") {
-            selector = 'math.fraction.percent';
-        } else if ($2 === "°C") {
-            selector = 'temperature.si.celsius';
-        } else if ($2 === "°F") {
-            selector = 'temperature.imperial.fahrenheit';
-        } else if ($2 === "°K") {
-            selector = 'temperature.si.kelvin';
-        }
-
-        $$ = {
-            "compute": {
-                "operation": "units",
-                "operands": [
-                    {
-                        actual: Number.parseFloat($1)
-                    },
-                    {
-                        band: "iot-unit",
-                        selector: selector,
-                    },
-                ],
-                "join": "function",
-            },
-        };
-    }}
-    */
     |
     INTEGER
     {{ $$ = { "actual": Number.parseInt($1) }; }}

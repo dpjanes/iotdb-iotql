@@ -216,8 +216,8 @@ break;
 case 21: case 46: case 57:
  this.$ = []; 
 break;
-case 22: case 32:
- $$[$0-2].push($$[$0]); this.$ = $$[$0-2]; 
+case 22:
+ if ($$[$0] !== undefined) { $$[$0-2].push($$[$0]) }; this.$ = $$[$0-2]; 
 break;
 case 23: case 33: case 47: case 58:
  this.$ = [ $$[$0] ]; 
@@ -261,6 +261,9 @@ case 30:
         "all": true,
         };
     
+break;
+case 32:
+ $$[$0-2].push($$[$0]); this.$ = $$[$0-2]; 
 break;
 case 34: case 35:
 
