@@ -1,0 +1,4 @@
+-- demonstrate that DO and SELECT can run the same code
+-- note that DO doesn't produce any output
+DO string:upper("hi");
+SELECT string:upper("hi");

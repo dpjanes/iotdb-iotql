@@ -1,0 +1,14 @@
+-- demonstrate DO uses the "scene" namespace
+CREATE SCENE
+    goodnight
+BEGIN
+    SET state:on = true
+END;
+
+DO goodnight;
+DO scene:goodnight;
+
+-- this will not work, sorry
+-- scenes are asynchronous and we don't have 
+-- support for asynchronous functions / operations
+-- SELECT scene:goodnight();

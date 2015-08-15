@@ -119,7 +119,8 @@ EXPRESSION:
     {
         $$ = [
             {
-                "do" : $2.toLowerCase(),
+                "do": $2.toLowerCase(),
+                "module": "scene",
                 "operands": [],
             }
         ];
@@ -130,6 +131,31 @@ EXPRESSION:
         $$ = [
             {  
                 "do": $2.toLowerCase(),
+                "module": "scene",
+                "operands": $4,
+            }
+        ];
+    }}
+    |
+    "DO" SYMBOL
+    {
+        $2 = $2.toLowerCase();
+        $$ = [
+            {
+                "do": $2.replace(/^[^.]*[:]/, ""),  
+                "module": $2.replace(/[:].*$/, ""),  
+                "operands": [],
+            }
+        ];
+    },
+    |
+    "DO" SYMBOL "(" PARAMETERS ")"
+    {{
+        $2 = $2.toLowerCase();
+        $$ = [
+            {  
+                "do": $2.replace(/^[^.]*[:]/, ""),  
+                "module": $2.replace(/[:].*$/, ""),  
                 "operands": $4,
             }
         ];
