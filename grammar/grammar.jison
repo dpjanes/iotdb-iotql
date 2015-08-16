@@ -4,6 +4,7 @@
 
 "CREATE"\s+"SCENE"      return 'CREATE-SCENE'
 "CREATE"\s+"TRIGGER"    return 'CREATE-TRIGGER'
+"CREATE"\s+"MODEL"      return 'CREATE-MODEL'
 \s+                     {/* skip whitespace */}
 [-][-].*                   {/* skip comments */}
 0\b                     return 'NUMBER'
@@ -31,6 +32,8 @@
 "BEGIN"                 return 'BEGIN'
 "END"                   return 'END'
 "LET"                   return 'LET'
+"WITH"                  return 'WITH'
+"ATTRIBUTE"             return 'ATTRIBUTE'
 "false"                 return 'BOOLEAN'
 "true"                  return 'BOOLEAN'
 "="                     return '='
@@ -206,8 +209,52 @@ EXPRESSION:
         }
     ]; }
     |
+    "CREATE-MODEL" SYMBOL-SIMPLE "WITH" SET-TERMS ATTRIBUTES
+    {
+        $$ = [
+            {
+                "create-model": $2,
+                "model-values": $4,
+                "attributes": $5,
+            }
+        ];
+    }
+    |
+    "CREATE-MODEL" SYMBOL-SIMPLE "WITH" SET-TERMS 
+    {
+        $$ = [
+            {
+                "create-model": $2,
+                "model-values": $4,
+            }
+        ];
+    }
+    |
     { $$ = []; }
     ;
+
+ATTRIBUTES:
+    ATTRIBUTES ONE-ATTRIBUTE
+    {
+        $1.push($2); $$ = $1;
+    }
+    |
+    ONE-ATTRIBUTE
+    {
+        $$ = [ $1 ];
+    }
+    ;
+
+ONE-ATTRIBUTE:
+    "ATTRIBUTE" SYMBOL-SIMPLE "WITH" SET-TERMS 
+    {
+        $$ = {
+            "attribute": $2,
+            "attribute-values": $4,
+        };
+    }
+    ;
+
 
 SELECT-TERMS:
     SELECT-TERMS "," SELECT-TERM

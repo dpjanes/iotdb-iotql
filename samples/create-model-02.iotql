@@ -1,0 +1,14 @@
+CREATE MODEL SmartThingsSwitch WITH
+    iot:facet = iot:switch
+ATTRIBUTE on WITH
+    iot:purpose = iot-attribute:on,
+    iot:type = iot:boolean,
+    iot:read = true,
+    iot:write = true
+ATTRIBUTE power WITH
+    iot:purpose = iot-attribute:power,
+    iot:type = iot:number,
+    iot:unit = iot-unit:energy.power.kwh,
+    iot:read = true,
+    iot:write = true
+;
