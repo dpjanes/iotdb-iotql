@@ -438,7 +438,7 @@ VALUE:
 
         $$ = {
             "compute": {
-                "operation": "units",
+                "operation": "unit",
                 "operands": [
                     $1,
                     {
@@ -515,7 +515,7 @@ PARAMETER:
 
         $$ = {
             "compute": {
-                "operation": "units",
+                "operation": "unit",
                 "operands": [
                     $1,
                     {

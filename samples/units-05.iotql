@@ -1,8 +1,8 @@
 -- convert and convert back
 SELECT
-    units(
-        units(
-            units(
+    unit(
+        unit(
+            unit(
                 [ -40, 0, 32, 100, 212 ], 
                 iot-unit:temperature.imperial.fahrenheit
             ), 

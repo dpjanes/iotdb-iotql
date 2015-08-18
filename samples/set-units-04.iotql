@@ -2,7 +2,7 @@
 -- note that we have to read "ostate" to get the value
 -- as "state" when reading gets "istate"
 SET
-    state:sensor.temperature = units(200, iot-unit:temperature.imperial.fahrenheit)
+    state:sensor.temperature = unit(200, iot-unit:temperature.imperial.fahrenheit)
 WHERE
     id = "thing-01"
 ;

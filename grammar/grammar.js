@@ -376,7 +376,7 @@ case 50: case 60:
 
         this.$ = {
             "compute": {
-                "operation": "units",
+                "operation": "unit",
                 "operands": [
                     $$[$0-1],
                     {

@@ -1,6 +1,6 @@
--- this will attach units to a array of scalar 
+-- this will attach unit to a array of scalar 
 -- this converts each individual value to the type, and 
 -- attaches the type to the array as a whole
 SELECT
-    units([ -40, 0, 32, 100, 212 ], iot-unit:temperature.imperial.fahrenheit)
+    unit([ -40, 0, 32, 100, 212 ], iot-unit:temperature.imperial.fahrenheit)
 ;

@@ -1,4 +1,4 @@
--- this will attach units to a scalar
+-- this will attach unit to a scalar
 SELECT
-    units(10, iot-unit:temperature.imperial.fahrenheit)
+    unit(10, iot-unit:temperature.imperial.fahrenheit)
 ;

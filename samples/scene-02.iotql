@@ -3,7 +3,7 @@
 CREATE SCENE
     goodnight
 BEGIN
-    SET state:temperature = UNITS(18,iot-unit:temperature.si.celsius);
+    SET state:temperature = UNIT(18,iot-unit:temperature.si.celsius);
     SET state:on = false WHERE meta:facet & iot-facet:lighting;
 END;
 

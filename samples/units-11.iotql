@@ -1,4 +1,4 @@
--- this will do units sensitive comparisons
+-- this will do unit sensitive comparisons
 SELECT id, state:sensor.temperature WHERE state:sensor.temperature > 22;
 SELECT id, state:sensor.temperature WHERE state:sensor.temperature > 22°C;
 SELECT id, state:sensor.temperature WHERE state:sensor.temperature > 22°F;

@@ -1,4 +1,4 @@
 -- percent sign
 SELECT
-    units(5%, iot-unit:math.fraction.unit)
+    unit(5%, iot-unit:math.fraction.unit)
 ;

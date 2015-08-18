@@ -1,8 +1,8 @@
 SELECT
     id, meta:name,
-        units(state:sensor.temperature, iot-unit:temperature.imperial.fahrenheit) AS fahrenheit,
-        units(state:sensor.temperature, iot-unit:temperature.si.celsius) AS celsius,
-        units(state:sensor.temperature, iot-unit:temperature.si.kelvin) AS kelvin
+        unit(state:sensor.temperature, iot-unit:temperature.imperial.fahrenheit) AS fahrenheit,
+        unit(state:sensor.temperature, iot-unit:temperature.si.celsius) AS celsius,
+        unit(state:sensor.temperature, iot-unit:temperature.si.kelvin) AS kelvin
 WHERE
     state:sensor.temperature = 20;
 ;
