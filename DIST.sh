@@ -36,7 +36,7 @@ echo "=================="
         grammar/grammar.js \
         lib/*.js \
         samples/things \
-        bin/iotql \
+        bin/iotql bin/iotql-model \
         |
     ( cd "${NPM_DST}" && tar xvf - )
 
