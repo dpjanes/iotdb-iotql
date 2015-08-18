@@ -1,4 +1,4 @@
-CREATE MODEL SmartThingsSwitch WITH
+CREATE MODEL SmartThingsSwitch2 WITH
     iot:facet = iot:switch
 ATTRIBUTE on WITH
     iot:purpose = iot-attribute:on,

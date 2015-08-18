@@ -226,6 +226,7 @@ EXPRESSION:
             {
                 "create-model": $2,
                 "model-values": $4,
+                "attributes": [],
             }
         ];
     }

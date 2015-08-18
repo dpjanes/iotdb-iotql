@@ -230,6 +230,7 @@ case 22:
             {
                 "create-model": $$[$0-2],
                 "model-values": $$[$0],
+                "attributes": [],
             }
         ];
     

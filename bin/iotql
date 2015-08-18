@@ -58,13 +58,14 @@ var help = function() {
     console.log("usage: iotql [options]");
     console.log("");
     console.log("options:");
-    console.log("--samples     : use the small sample data set");
-    console.log("--json        : print out results as JSON");
-    console.log("--help        : print this message");
+    console.log("--samples      : use the small sample data set");
+    console.log("--json         : print out results as JSON");
+    console.log("--help         : print this message");
+    console.log("--things <url> : connect to this URL (note: weird custom URLs)");
 
     if (json_rpc) {
-        console.log("--rpc         : become a JSON RPC server (method is 'execute')");
-        console.log("--port <port> : listen for JSON RPC messages on this port");
+        console.log("--rpc          : become a JSON RPC server (method is 'execute')");
+        console.log("--port <port>  : listen for JSON RPC messages on this port");
     }
 };
 

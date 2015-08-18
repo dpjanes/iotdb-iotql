@@ -1,7 +1,8 @@
 {
     "author": "David P. Janes <davidjanes@iotdb.org> (https://iotdb.org)", 
     "bin": {
-        "iotql": "./bin/iotql"
+        "iotql": "./bin/iotql",
+        "iotql-model": "./bin/iotql-model"
     }, 
     "bugs": {
         "url": "https://github.com/dpjanes/iotql/issues"
@@ -11,6 +12,7 @@
         "iotdb": "~0.9.3", 
         "iotdb-transport": "~0.0.9", 
         "iotdb-transport-fs": "~0.0.15", 
+        "iotdb-transport-null": "~0.0.15", 
         "iotdb-transport-iotdb": "~0.0.11", 
         "minimist": "~1.1.3", 
         "mkdirp": "~0.5.1"

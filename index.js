@@ -37,9 +37,11 @@ var connect = function (paramd, done) {
     });
 
     if (!paramd.recipes_url) {
+        /*
         if (fs.existsSync("cookbooks")) {
             paramd.recipes_url = "recipes://cookbooks";
         }
+        */
     }
 
     var things_transporter;
