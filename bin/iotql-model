@@ -1,0 +1,128 @@
+#!/usr/bin/env node
+// vi:syntax=javascript
+
+/*
+ *  iotql-model
+ *
+ *  David Janes
+ *  IOTDB.org
+ *  2015-08-17
+ *
+ *  Turn CREATE MODEL statments into files
+ *
+ *  Copyright [2013-2014] [David P. Janes]
+ *  
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *  
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *  
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+"use strict";
+
+var iotdb = require('iotdb');
+var _ = iotdb.helpers;
+
+var fs = require('fs');
+
+var minimist = require('minimist');
+
+var logger = iotdb.logger({
+    name: 'iotql',
+    module: 'bin/iotql',
+});
+
+var iotql = require("../index");
+var helpers = require("../lib/helpers");
+
+var help = function() {
+    console.log("usage: iotql-model <model>.iotql*");
+    console.log("");
+    console.log("options:");
+    console.log("--help        : print this message");
+};
+
+
+var run = function()  {
+    var ad = require('minimist')(process.argv.slice(2), {
+        boolean: [ "help", ],
+    });
+
+    if (ad.help) {
+        help();
+        process.exit(0);
+    }
+
+    if (ad._.length === 0) {
+        console.log("error: at least one model file is required\n");
+        help();
+        process.exit(0);
+    }
+
+    var iotql_paths = ad._;
+
+    iotql.connect({
+        things_url: "null:",
+        recipes_url: null,
+    }, function(error, db) {
+        if (error) {
+            throw error;
+        }
+
+        db.on("model", function(model_code, jsonld) {
+            jsonld = _.ld.compact(jsonld);
+            var jsonld$ = JSON.stringify(jsonld, null, 2) + "\n";
+
+            var filename = model_code + ".jsonld";
+            fs.writeFile(filename, jsonld$, function(error) {
+                if (error) {
+                    console.log("+ ERROR writing file:", filename, error);
+                } else {
+                    console.log("+ wrote:", filename);
+                }
+            });
+        });
+
+        var run_path = function (iotql_path, done) {
+            var iotql_script;
+            try {
+                iotql_script = fs.readFileSync(iotql_path, 'utf-8');
+            } catch (x) {
+                console.log("%s: failed: %s", iotql_path, x);
+                return done(x);
+            }
+
+            db.execute(iotql_script, function (cd) {
+                if (cd.end) {
+                    done(null);
+                } else if (cd.error) {
+                    done(cd.error);
+                }
+            });
+        };
+
+        var run_next = function () {
+            if (iotql_paths.length === 0) {
+                return;
+            }
+
+            var iotql_path = iotql_paths[0];
+            iotql_paths.splice(0, 1);
+
+            run_path(iotql_path, function () {
+                run_next();
+            });
+        };
+
+        run_next();
+    });
+};
+
+run();
