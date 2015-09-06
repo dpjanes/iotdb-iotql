@@ -2,18 +2,18 @@
     "iot:attribute": [
         {
             "@id": "#tem",
-            "iot:purpose": "iot-attribute:sensor.temperature",
+            "iot:purpose": "iot-purpose:sensor.temperature",
             "iot:read": true,
-            "iot:role": "iot-attribute:role-reading",
-            "iot:type": "iot:integer",
+            "iot:role": "iot-purpose:role-reading",
+            "iot:type": "iot:type.integer",
             "iot:unit": "iot-unit:temperature.imperial.fahrenheit"
         },
         {
             "@id": "#hum",
-            "iot:purpose": "iot-attribute:sensor.humidity",
+            "iot:purpose": "iot-purpose:sensor.humidity",
             "iot:read": true,
-            "iot:role": "iot-attribute:role-reading",
-            "iot:type": "iot:integer",
+            "iot:role": "iot-purpose:role-reading",
+            "iot:type": "iot:type.integer",
             "iot:unit": "iot-unit:iot-unit:math.fraction.percent"
         }
     ]

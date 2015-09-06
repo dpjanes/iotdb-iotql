@@ -5,6 +5,7 @@
 "CREATE"\s+"SCENE"      return 'CREATE-SCENE'
 "CREATE"\s+"TRIGGER"    return 'CREATE-TRIGGER'
 "CREATE"\s+"MODEL"      return 'CREATE-MODEL'
+"CONNECT"\s+"MODEL"     return 'CONNECT-MODEL'
 \s+                     {/* skip whitespace */}
 [-][-].*                   {/* skip comments */}
 0\b                     return 'NUMBER'
@@ -231,6 +232,28 @@ EXPRESSION:
         ];
     }
     |
+    "CONNECT-MODEL" SYMBOL-SIMPLE
+    {
+        $$ = [
+            {
+                "connect-model": $2,
+                "model-values": [],
+                "attributes": [],
+            }
+        ];
+    }
+    |
+    "CONNECT-MODEL" SYMBOL-SIMPLE "WITH" SET-TERMS 
+    {
+        $$ = [
+            {
+                "connect-model": $2,
+                "model-values": $4,
+                "attributes": [],
+            }
+        ];
+    }
+    |
     { $$ = []; }
     ;
 
@@ -274,7 +297,7 @@ SELECT-TERM:
     {{ $$ = $1 }}
     |
     D-SYMBOL "AS" SYMBOL-SIMPLE
-    {{ $1.column = $3; $$ = $1; }}
+    {{ $1.column = $3; $$ = $1; }}   // want to rename to "as"
     |
     SYMBOL-SIMPLE "(" STAR ")"
     {{ $$ = {
@@ -292,7 +315,7 @@ SELECT-TERM:
             "operation": $1,
             "star": true,
         },
-        "column": $6,
+        "column": $6,    // want to rename to "as"
       }
     }}
     |

@@ -2,11 +2,11 @@
     "iot:attribute": [
         {
             "@id": "#open",
-            "iot:purpose": "iot-attribute:open",
-            "iot:type": "iot:boolean",
+            "iot:purpose": "iot-purpose:open",
+            "iot:type": "iot:type.boolean",
             "iot:read": true,
             "iot:write": true,
-            "iot:role": [ "iot-attribute:role-reading", "iot-attribute:role-control" ]
+            "iot:role": [ "iot-purpose:role-reading", "iot-purpose:role-control" ]
         }
     ]
 }

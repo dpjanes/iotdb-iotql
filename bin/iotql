@@ -61,7 +61,10 @@ var help = function() {
     console.log("--samples      : use the small sample data set");
     console.log("--json         : print out results as JSON");
     console.log("--help         : print this message");
-    console.log("--things <url> : connect to this URL (note: weird custom URLs)");
+
+    // note this one applies only if dealing with IOTDB transporter
+    console.log("--no-connect   : don't automatically connect to things");  
+    // console.log("--things <url> : connect to this URL (note: weird custom URLs)");
 
     if (json_rpc) {
         console.log("--rpc          : become a JSON RPC server (method is 'execute')");
@@ -71,6 +74,11 @@ var help = function() {
 
 var run_interactive = function(paramd) {
     var _iotql_eval = function(cmd, context, filename, callback) {
+        var match = cmd.match(/^[(]([^]*)[)]\s*$/m);
+        if (match) {
+            cmd = match[1];
+        }
+
         var name = "";
         var resultds = [];
         paramd.db.execute(cmd, function(cd) {
@@ -163,7 +171,7 @@ var run_interactive = function(paramd) {
 
 var run_cli = function()  {
     var ad = require('minimist')(process.argv.slice(2), {
-        boolean: [ "samples", "json", "help", "rpc", ],
+        boolean: [ "samples", "json", "help", "rpc", "connect", ],
         default: {
             port: 16016,
             host: '0.0.0.0',
@@ -223,6 +231,10 @@ var run_cli = function()  {
         */
     } else if (ad.things) {
         connect_paramd.things_url = ad.things;
+    } 
+    
+    if (ad.connect) {
+        iotdb.connect();
     }
 
     iotql.connect(connect_paramd, function(error, db) {

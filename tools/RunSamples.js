@@ -174,6 +174,7 @@ DB.prototype.run_path_user = function (iotql_path, statements, done) {
                 }
 
 
+                // console.log("HERE:XXX", column);
                 if (column.units) {
                     console.log("%s: %s [%s]", column.as, v, column.units);
                 } else {

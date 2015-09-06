@@ -32,18 +32,18 @@
       "iot:attribute": [
         {
           "@id": "#temperature",
-          "iot:purpose": "iot-attribute:sensor.temperature",
+          "iot:purpose": "iot-purpose:sensor.temperature",
           "iot:read": true,
-          "iot:role": "iot-attribute:role-reading",
-          "iot:type": "iot:number",
+          "iot:role": "iot-purpose:role-reading",
+          "iot:type": "iot:type.number",
           "iot:unit": "iot-unit:temperature.si.celsius"
         },
         {
           "@id": "#set-point",
-          "iot:purpose": "iot-attribute:temperature",
+          "iot:purpose": "iot-purpose:temperature",
           "iot:read": true,
           "iot:write": true,
-          "iot:type": "iot:number",
+          "iot:type": "iot:type.number",
           "iot:unit": "iot-unit:temperature.si.celsius"
         }
       ]
@@ -83,10 +83,10 @@
       "iot:attribute": [
         {
           "@id": "#t",
-          "iot:purpose": "iot-attribute:sensor.temperature",
+          "iot:purpose": "iot-purpose:sensor.temperature",
           "iot:read": true,
-          "iot:role": "iot-attribute:role-reading",
-          "iot:type": "iot:number",
+          "iot:role": "iot-purpose:role-reading",
+          "iot:type": "iot:type.number",
           "iot:unit": "iot-unit:temperature.si.celsius"
         }
       ]
@@ -122,13 +122,13 @@
       "iot:attribute": [
         {
           "@id": "#on",
-          "iot:purpose": "iot-attribute:on",
-          "iot:type": "iot:boolean",
+          "iot:purpose": "iot-purpose:on",
+          "iot:type": "iot:type.boolean",
           "iot:read": true,
           "iot:write": true,
           "iot:role": [
-            "iot-attribute:role-reading",
-            "iot-attribute:role-control"
+            "iot-purpose:role-reading",
+            "iot-purpose:role-control"
           ]
         }
       ]
@@ -168,13 +168,13 @@
       "iot:attribute": [
         {
           "@id": "#open",
-          "iot:purpose": "iot-attribute:open",
-          "iot:type": "iot:boolean",
+          "iot:purpose": "iot-purpose:open",
+          "iot:type": "iot:type.boolean",
           "iot:read": true,
           "iot:write": true,
           "iot:role": [
-            "iot-attribute:role-reading",
-            "iot-attribute:role-control"
+            "iot-purpose:role-reading",
+            "iot-purpose:role-control"
           ]
         }
       ]
@@ -213,18 +213,18 @@
       "iot:attribute": [
         {
           "@id": "#tem",
-          "iot:purpose": "iot-attribute:sensor.temperature",
+          "iot:purpose": "iot-purpose:sensor.temperature",
           "iot:read": true,
-          "iot:role": "iot-attribute:role-reading",
-          "iot:type": "iot:integer",
+          "iot:role": "iot-purpose:role-reading",
+          "iot:type": "iot:type.integer",
           "iot:unit": "iot-unit:temperature.imperial.fahrenheit"
         },
         {
           "@id": "#hum",
-          "iot:purpose": "iot-attribute:sensor.humidity",
+          "iot:purpose": "iot-purpose:sensor.humidity",
           "iot:read": true,
-          "iot:role": "iot-attribute:role-reading",
-          "iot:type": "iot:integer",
+          "iot:role": "iot-purpose:role-reading",
+          "iot:type": "iot:type.integer",
           "iot:unit": "iot-unit:iot-unit:math.fraction.percent"
         }
       ]
