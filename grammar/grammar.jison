@@ -378,7 +378,7 @@ SET-TERM:
     ;
 
 SIMPLE-SET-TERMS:
-    SIMPLE-SET-TERMS "," SET-TERM
+    SIMPLE-SET-TERMS "," SIMPLE-SET-TERM
     { $1.push($3); $$ = $1; }
     |
     SIMPLE-SET-TERM

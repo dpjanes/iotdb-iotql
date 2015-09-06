@@ -1,0 +1,2 @@
+-- connecting within IOTQL
+CONNECT MODEL SmartThingsSwitch1;

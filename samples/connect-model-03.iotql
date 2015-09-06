@@ -1,0 +1,2 @@
+-- connecting within IOTQL (with arguments)
+CONNECT MODEL SmartThingsSwitch1 WITH pin = 3, tag = "Created";
