@@ -243,7 +243,7 @@ EXPRESSION:
         ];
     }
     |
-    "CONNECT-MODEL" SYMBOL-SIMPLE "WITH" SET-TERMS 
+    "CONNECT-MODEL" SYMBOL-SIMPLE "WITH" SIMPLE-SET-TERMS 
     {
         $$ = [
             {
@@ -370,6 +370,28 @@ SET-TERM:
             lhs: {
                 "band": $1.replace(/[:].*$/, ""),  
                 "selector": $1.replace(/^[^.]*[:]/, ""),  
+            },
+            rhs: $3,
+            assign: $2,
+        };
+    }}
+    ;
+
+SIMPLE-SET-TERMS:
+    SIMPLE-SET-TERMS "," SET-TERM
+    { $1.push($3); $$ = $1; }
+    |
+    SIMPLE-SET-TERM
+    {{ $$ = [ $1 ]; }}
+    ;
+
+SIMPLE-SET-TERM:
+    SYMBOL-SIMPLE "=" VALUE
+    {{
+        $$ = {
+            lhs: {
+                "band": "",
+                "selector": $1,
             },
             rhs: $3,
             assign: $2,

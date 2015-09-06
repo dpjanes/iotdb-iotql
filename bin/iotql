@@ -175,6 +175,7 @@ var run_cli = function()  {
         default: {
             port: 16016,
             host: '0.0.0.0',
+            connect: true,
         },
     });
     
@@ -233,7 +234,7 @@ var run_cli = function()  {
         connect_paramd.things_url = ad.things;
     } 
     
-    if (ad.connect) {
+    if (ad.connect && !ad.things) {
         iotdb.connect();
     }
 
