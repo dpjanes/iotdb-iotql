@@ -234,7 +234,7 @@ var run_cli = function()  {
         connect_paramd.things_url = ad.things;
     } 
     
-    if (ad.connect && !ad.things) {
+    if (ad.connect && !ad.samples) {
         iotdb.connect();
     }
 

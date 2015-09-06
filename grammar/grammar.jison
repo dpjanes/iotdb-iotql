@@ -60,7 +60,7 @@
 [_a-zA-Z][-_a-zA-Z0-9]*[:]([_a-zA-Z][-_a-zA-Z0-9]*)([.][_a-zA-Z][-_a-zA-Z0-9]*)*   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]*([:][*])   return 'SYMBOL-STAR'
 [_a-zA-Z][-_a-zA-Z0-9]*   return 'SYMBOL-SIMPLE'
-[$][_a-zA-Z][-_a-zA-Z0-9]+   return 'VARIABLE'
+[$][_a-zA-Z][-_a-zA-Z0-9]*   return 'VARIABLE'
 "*"                     return 'STAR';
 
     
@@ -183,9 +183,9 @@ EXPRESSION:
         }
     ]; }
     |
-    "LET" VARIABLE "=" VALUE
+    "LET" SYMBOL-SIMPLE "=" VALUE
     { $$ = [ {
-            "let": $2,
+            "let": "$" + $2, // sigh
             "rhs": $4,
         } ]; 
     }
