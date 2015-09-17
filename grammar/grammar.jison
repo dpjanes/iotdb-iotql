@@ -56,6 +56,9 @@
 "AND"                   return 'LOGIC-OPERATOR'
 "OR"                    return 'LOGIC-OPERATOR'
 "!"                     return 'LEFT-OPERATOR'
+[$][_a-zA-Z][-_a-zA-Z0-9]*[$][_a-zA-Z][-_a-zA-Z0-9]*([:][_a-zA-Z][-_a-zA-Z0-9]*[:][_a-zA-Z][-_a-zA-Z0-9]+)   return 'VARIABLE'
+[$][_a-zA-Z][-_a-zA-Z0-9]*[$][_a-zA-Z][-_a-zA-Z0-9]*[:]([_a-zA-Z][-_a-zA-Z0-9]*)([.][_a-zA-Z][-_a-zA-Z0-9]*)*   return 'VARIABLE'
+[$][_a-zA-Z][-_a-zA-Z0-9]*[$]id return 'VARIABLE'
 [_a-zA-Z][-_a-zA-Z0-9]*([:][_a-zA-Z][-_a-zA-Z0-9]*[:][_a-zA-Z][-_a-zA-Z0-9]+)   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]*[:]([_a-zA-Z][-_a-zA-Z0-9]*)([.][_a-zA-Z][-_a-zA-Z0-9]*)*   return 'SYMBOL'
 [_a-zA-Z][-_a-zA-Z0-9]*([:][*])   return 'SYMBOL-STAR'
@@ -195,6 +198,7 @@ EXPRESSION:
         {
             "create-trigger": $2,
             "store": "things",
+            "triggers": [],
             "where": $4,
             "begin-end": $6,
         }
@@ -205,6 +209,7 @@ EXPRESSION:
         {
             "create-trigger": $2,
             "store": $6,
+            "triggers": [],
             "where": $4,
             "begin-end": $8,
         }
@@ -343,6 +348,19 @@ D-SYMBOL:
     VALUE
     ;
 
+/*
+ *  Parsed symbol
+ */
+P-SYMBOL:
+    SYMBOL
+    {{
+        $$ = {
+            "band": $1.replace(/[:].*$/, ""),  
+            "selector": $1.replace(/^[^.]*[:]/, ""),  
+        };
+    }}
+    ;
+
 SET-TERMS:
     SET-TERMS "," SET-TERM
     { $1.push($3); $$ = $1; }
@@ -352,25 +370,19 @@ SET-TERMS:
     ;
 
 SET-TERM:
-    SYMBOL "=" VALUE
+    P-SYMBOL "=" VALUE
     {{
         $$ = {
-            lhs: {
-                "band": $1.replace(/[:].*$/, ""),  
-                "selector": $1.replace(/^[^.]*[:]/, ""),  
-            },
+            lhs: $1,
             rhs: $3,
             assign: $2,
         };
     }}
     |
-    SYMBOL ASSIGN-OPERATOR VALUE
+    P-SYMBOL ASSIGN-OPERATOR VALUE
     {{
         $$ = {
-            lhs: {
-                "band": $1.replace(/[:].*$/, ""),  
-                "selector": $1.replace(/^[^.]*[:]/, ""),  
-            },
+            lhs: $1,
             rhs: $3,
             assign: $2,
         };
@@ -450,11 +462,11 @@ VALUE:
         };
     }}
     |
-    SYMBOL "(" PARAMETERS ")"
+    P-SYMBOL "(" PARAMETERS ")"
     {{ $$ = {  
             "compute": {
-                "module": $1.replace(/[:].*$/, ""),  
-                "operation": $1.replace(/^[^.]*[:]/, ""),  
+                "module": $1.band,
+                "operation": $1.selector,
                 "operands": $3,
                 "join": "function",
             }
@@ -527,11 +539,11 @@ PARAMETER:
         };
     }}
     |
-    SYMBOL "(" VALUES ")"
+    P-SYMBOL "(" VALUES ")"
     {{ $$ = {  
             "compute": {
-                "module": $1.replace(/[.].*$/, ""),  
-                "operation": $1.replace(/^[^.]*[.]/, ""),  
+                "module": $1.band,
+                "operation": $1.selector,
                 "operands": $3,
                 "join": "function",
             }
@@ -597,12 +609,8 @@ VALUES:
 
 
 ATOMIC:
-    SYMBOL
-    {{ $$ = {
-        "band": $1.replace(/[:].*$/, ""),  
-        "selector": $1.replace(/^[^.]*[:]/, ""),  
-        };
-    }}
+    P-SYMBOL
+    {{ $$ = $1; }}
     |
     INTEGER
     {{ $$ = { "actual": Number.parseInt($1) }; }}
@@ -623,5 +631,16 @@ ATOMIC:
     {{ $$ = { "id": true }; }}
     |
     VARIABLE
-    {{ $$ = { "variable": $1 }; }}
+    {{
+        var match = $1.match(/^([$][^$]+)([$]([^:]+)(:(.+$))?)?/);
+        $$ = { 
+            "variable": {
+                "complete": $1,
+                "variable": match[1],
+                "band": match[3],
+                "selector": match[5],
+            },
+        };
+    }}
     ;
+
