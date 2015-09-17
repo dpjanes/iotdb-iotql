@@ -1,4 +1,4 @@
-CREATE TRIGGER
+CREATE RULE
     front_door_light
 WHERE
     state:open = true

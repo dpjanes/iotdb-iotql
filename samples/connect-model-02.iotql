@@ -1,2 +1,2 @@
 -- connecting within IOTQL (with an argument)
-CONNECT MODEL SmartThingsSwitch1 WITH pin = 3;
+CREATE THING SmartThingsSwitch1 WITH pin = 3;

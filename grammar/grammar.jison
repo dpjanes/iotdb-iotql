@@ -3,9 +3,9 @@
 %%  
 
 "CREATE"\s+"SCENE"      return 'CREATE-SCENE'
-"CREATE"\s+"TRIGGER"    return 'CREATE-TRIGGER'
+"CREATE"\s+"RULE"       return 'CREATE-TRIGGER'
 "CREATE"\s+"MODEL"      return 'CREATE-MODEL'
-"CONNECT"\s+"MODEL"     return 'CONNECT-MODEL'
+"CREATE"\s+"THING"      return 'CONNECT-MODEL'
 \s+                     {/* skip whitespace */}
 [-][-].*                   {/* skip comments */}
 0\b                     return 'NUMBER'
