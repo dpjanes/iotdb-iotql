@@ -409,6 +409,24 @@ SIMPLE-SET-TERM:
             assign: $2,
         };
     }}
+    |
+    P-SYMBOL "=" VALUE
+    {{
+        $$ = {
+            lhs: $1,
+            rhs: $3,
+            assign: $2,
+        };
+    }}
+    |
+    P-SYMBOL ASSIGN-OPERATOR VALUE
+    {{
+        $$ = {
+            lhs: $1,
+            rhs: $3,
+            assign: $2,
+        };
+    }}
     ;
 
 VALUE:
