@@ -187,9 +187,9 @@ EXPRESSION:
         }
     ]; }
     |
-    "LET" SYMBOL-SIMPLE "=" VALUE
+    "LET" P-VARIABLE "=" VALUE
     { $$ = [ {
-            "let": "$" + $2, // sigh
+            "let": $2,
             "rhs": $4,
         } ]; 
     }
@@ -658,6 +658,13 @@ ATOMIC:
     ID
     {{ $$ = { "id": true }; }}
     |
+    P-VARIABLE
+    {{
+        $$ = $1;
+    }}
+    ;
+
+P-VARIABLE:
     VARIABLE
     {{
         var match = $1.match(/^([$][^$]+)([$]([^:]+)(:(.+$))?)?/);
@@ -671,4 +678,3 @@ ATOMIC:
         };
     }}
     ;
-
