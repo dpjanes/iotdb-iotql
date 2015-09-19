@@ -35,6 +35,7 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var os = require('os');
 var util = require('util');
+var fs = require('fs');
 var child_process = require('child_process');
 
 var minimist = require('minimist');
@@ -60,6 +61,7 @@ var help = function() {
     console.log("options:");
     console.log("--samples      : use the small sample data set");
     console.log("--json         : print out results as JSON");
+    console.log("--load <file>  : load this file first (not interactive)");
     console.log("--help         : print this message");
 
     // note this one applies only if dealing with IOTDB transporter
@@ -141,7 +143,17 @@ var run_interactive = function(paramd) {
         return lines.join("\n");
     };
 
-    if (paramd.rpc_server) {
+    if (paramd.load) {
+        var contents = fs.readFileSync(paramd.load, "utf-8")
+        _iotql_eval(contents, null, null, function(error, raw) {
+            if (error) {
+                console.log(error);
+                return;
+            }
+
+            _iotql_writer(raw);
+        });
+    } else if (paramd.rpc_server) {
         paramd.rpc_server.expose('execute', function(args, opt, callback) {
             if (args.length !== 1) {
                 return callback(new Error("execute takes exactly one argument"));
@@ -204,6 +216,9 @@ var run_cli = function()  {
         rpc_server.listen(parseInt(ad.port), ad.host);
     }
 
+    if (ad.load) {
+    }
+
     var connect_paramd = {};
     if (ad.samples) {
         connect_paramd = helpers.duplicate_samples();
@@ -247,6 +262,7 @@ var run_cli = function()  {
             ad: ad, 
             db: db,
             rpc_server: rpc_server,
+            load: ad.load,
         });
     });
 };
