@@ -3,7 +3,7 @@
 %%  
 
 "CREATE"\s+"SCENE"      return 'CREATE-SCENE'
-"CREATE"\s+"RULE"       return 'CREATE-TRIGGER'
+"CREATE"\s+"RULE"       return 'CREATE-RULE'
 "CREATE"\s+"MODEL"      return 'CREATE-MODEL'
 "CONNECT"\s+"MODEL"     return 'CONNECT-MODEL'
 "CONNECT"\s+"ALL"       return 'CONNECT-ALL'
@@ -194,10 +194,10 @@ EXPRESSION:
         } ]; 
     }
     |
-    "CREATE-TRIGGER" SYMBOL-SIMPLE "WHERE" VALUE "BEGIN" EXPRESSION-LIST "END"
+    "CREATE-RULE" SYMBOL-SIMPLE "WHERE" VALUE "BEGIN" EXPRESSION-LIST "END"
     { $$ = [
         {
-            "create-trigger": $2,
+            "create-rule": $2,
             "store": "things",
             "triggers": [],
             "where": $4,
@@ -205,10 +205,10 @@ EXPRESSION:
         }
     ]; }
     |
-    "CREATE-TRIGGER" SYMBOL-SIMPLE "WHERE" VALUE "FROM" SYMBOL-SIMPLE "BEGIN" EXPRESSION-LIST "END"
+    "CREATE-RULE" SYMBOL-SIMPLE "WHERE" VALUE "FROM" SYMBOL-SIMPLE "BEGIN" EXPRESSION-LIST "END"
     { $$ = [
         {
-            "create-trigger": $2,
+            "create-rule": $2,
             "store": $6,
             "triggers": [],
             "where": $4,

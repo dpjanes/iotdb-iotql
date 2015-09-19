@@ -75,8 +75,8 @@ var parser = (function(){
 var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[2,26],$V1=[1,4],$V2=[1,5],$V3=[1,6],$V4=[1,7],$V5=[1,8],$V6=[1,9],$V7=[1,10],$V8=[1,11],$V9=[1,12],$Va=[1,13],$Vb=[5,24],$Vc=[5,7,10,12,24,37,40],$Vd=[2,37],$Ve=[1,19],$Vf=[1,25],$Vg=[1,28],$Vh=[1,20],$Vi=[1,21],$Vj=[1,23],$Vk=[1,29],$Vl=[1,30],$Vm=[1,31],$Vn=[1,32],$Vo=[1,33],$Vp=[1,34],$Vq=[1,35],$Vr=[1,37],$Vs=[5,7,24],$Vt=[5,7,10,12,24,37],$Vu=[1,56],$Vv=[1,55],$Vw=[1,57],$Vx=[1,59],$Vy=[5,7,10,12,20,23,24,27,36,37,40,48,49,52,56],$Vz=[2,74],$VA=[5,7,10,12,20,23,24,27,36,37,40,48,49,56],$VB=[2,71],$VC=[1,66],$VD=[5,7,12,24,36,37],$VE=[1,85],$VF=[1,87],$VG=[2,60],$VH=[20,56],$VI=[7,24],$VJ=[1,112],$VK=[20,37],$VL=[1,134],$VM=[5,7,24,37],$VN=[5,7,24,36];
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"expressions":3,"EXPRESSION-LIST":4,"EOF":5,"EXPRESSION":6,";":7,"SELECT":8,"SELECT-TERMS":9,"FROM":10,"SYMBOL-SIMPLE":11,"WHERE":12,"VALUE":13,"SET":14,"SET-TERMS":15,"UPDATE":16,"DO":17,"(":18,"PARAMETERS":19,")":20,"SYMBOL":21,"CREATE-SCENE":22,"BEGIN":23,"END":24,"LET":25,"P-VARIABLE":26,"=":27,"CREATE-TRIGGER":28,"CREATE-MODEL":29,"WITH":30,"ATTRIBUTES":31,"CONNECT-MODEL":32,"SIMPLE-SET-TERMS":33,"CONNECT-ALL":34,"ONE-ATTRIBUTE":35,"ATTRIBUTE":36,",":37,"SELECT-TERM":38,"D-SYMBOL":39,"AS":40,"STAR":41,"SYMBOL-STAR":42,"P-SYMBOL":43,"SET-TERM":44,"ASSIGN-OPERATOR":45,"SIMPLE-SET-TERM":46,"LEFT-OPERATOR":47,"BI-OPERATOR":48,"LOGIC-OPERATOR":49,"LIST":50,"ATOMIC":51,"DECORATOR":52,"PARAMETER":53,"VALUES":54,"[":55,"]":56,"INTEGER":57,"NUMBER":58,"STRING":59,"BOOLEAN":60,"NULL":61,"ID":62,"VARIABLE":63,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",7:";",8:"SELECT",10:"FROM",11:"SYMBOL-SIMPLE",12:"WHERE",14:"SET",16:"UPDATE",17:"DO",18:"(",20:")",21:"SYMBOL",22:"CREATE-SCENE",23:"BEGIN",24:"END",25:"LET",27:"=",28:"CREATE-TRIGGER",29:"CREATE-MODEL",30:"WITH",32:"CONNECT-MODEL",34:"CONNECT-ALL",36:"ATTRIBUTE",37:",",40:"AS",41:"STAR",42:"SYMBOL-STAR",45:"ASSIGN-OPERATOR",47:"LEFT-OPERATOR",48:"BI-OPERATOR",49:"LOGIC-OPERATOR",52:"DECORATOR",55:"[",56:"]",57:"INTEGER",58:"NUMBER",59:"STRING",60:"BOOLEAN",61:"NULL",62:"ID",63:"VARIABLE"},
+symbols_: {"error":2,"expressions":3,"EXPRESSION-LIST":4,"EOF":5,"EXPRESSION":6,";":7,"SELECT":8,"SELECT-TERMS":9,"FROM":10,"SYMBOL-SIMPLE":11,"WHERE":12,"VALUE":13,"SET":14,"SET-TERMS":15,"UPDATE":16,"DO":17,"(":18,"PARAMETERS":19,")":20,"SYMBOL":21,"CREATE-SCENE":22,"BEGIN":23,"END":24,"LET":25,"P-VARIABLE":26,"=":27,"CREATE-RULE":28,"CREATE-MODEL":29,"WITH":30,"ATTRIBUTES":31,"CONNECT-MODEL":32,"SIMPLE-SET-TERMS":33,"CONNECT-ALL":34,"ONE-ATTRIBUTE":35,"ATTRIBUTE":36,",":37,"SELECT-TERM":38,"D-SYMBOL":39,"AS":40,"STAR":41,"SYMBOL-STAR":42,"P-SYMBOL":43,"SET-TERM":44,"ASSIGN-OPERATOR":45,"SIMPLE-SET-TERM":46,"LEFT-OPERATOR":47,"BI-OPERATOR":48,"LOGIC-OPERATOR":49,"LIST":50,"ATOMIC":51,"DECORATOR":52,"PARAMETER":53,"VALUES":54,"[":55,"]":56,"INTEGER":57,"NUMBER":58,"STRING":59,"BOOLEAN":60,"NULL":61,"ID":62,"VARIABLE":63,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",7:";",8:"SELECT",10:"FROM",11:"SYMBOL-SIMPLE",12:"WHERE",14:"SET",16:"UPDATE",17:"DO",18:"(",20:")",21:"SYMBOL",22:"CREATE-SCENE",23:"BEGIN",24:"END",25:"LET",27:"=",28:"CREATE-RULE",29:"CREATE-MODEL",30:"WITH",32:"CONNECT-MODEL",34:"CONNECT-ALL",36:"ATTRIBUTE",37:",",40:"AS",41:"STAR",42:"SYMBOL-STAR",45:"ASSIGN-OPERATOR",47:"LEFT-OPERATOR",48:"BI-OPERATOR",49:"LOGIC-OPERATOR",52:"DECORATOR",55:"[",56:"]",57:"INTEGER",58:"NUMBER",59:"STRING",60:"BOOLEAN",61:"NULL",62:"ID",63:"VARIABLE"},
 productions_: [0,[3,2],[4,3],[4,1],[6,2],[6,4],[6,4],[6,6],[6,2],[6,4],[6,4],[6,6],[6,2],[6,5],[6,2],[6,5],[6,5],[6,8],[6,4],[6,7],[6,9],[6,5],[6,4],[6,2],[6,4],[6,1],[6,0],[31,2],[31,1],[35,4],[9,3],[9,1],[38,1],[38,3],[38,4],[38,6],[38,1],[39,0],[39,1],[39,1],[43,1],[15,3],[15,1],[44,3],[44,3],[33,3],[33,1],[46,3],[46,3],[46,3],[13,2],[13,3],[13,3],[13,3],[13,4],[13,4],[13,3],[13,1],[13,1],[13,2],[19,0],[19,1],[19,3],[53,3],[53,4],[53,4],[53,3],[53,1],[53,1],[53,2],[50,3],[54,0],[54,1],[54,3],[51,1],[51,1],[51,1],[51,1],[51,1],[51,1],[51,1],[51,1],[26,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
@@ -196,7 +196,7 @@ break;
 case 19:
  this.$ = [
         {
-            "create-trigger": $$[$0-5],
+            "create-rule": $$[$0-5],
             "store": "things",
             "triggers": [],
             "where": $$[$0-3],
@@ -207,7 +207,7 @@ break;
 case 20:
  this.$ = [
         {
-            "create-trigger": $$[$0-7],
+            "create-rule": $$[$0-7],
             "store": $$[$0-3],
             "triggers": [],
             "where": $$[$0-5],
