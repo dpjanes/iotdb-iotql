@@ -6,6 +6,7 @@
 "CREATE"\s+"RULE"       return 'CREATE-TRIGGER'
 "CREATE"\s+"MODEL"      return 'CREATE-MODEL'
 "CREATE"\s+"THING"      return 'CONNECT-MODEL'
+"CONNECT"\s+"ALL"       return 'CONNECT-ALL'
 \s+                     {/* skip whitespace */}
 [-][-].*                   {/* skip comments */}
 0\b                     return 'NUMBER'
@@ -255,6 +256,15 @@ EXPRESSION:
                 "connect-model": $2,
                 "model-values": $4,
                 "attributes": [],
+            }
+        ];
+    }
+    |
+    "CONNECT-ALL" 
+    {
+        $$ = [
+            {
+                "connect-all": true,
             }
         ];
     }
