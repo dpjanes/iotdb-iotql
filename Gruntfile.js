@@ -53,11 +53,18 @@ module.exports = function (grunt) {
                     indentSize: 4
                 }
             },
-        }
+        },
+        run: {
+            'test-samples': {
+                args: [ 'tools/RunSamples.js', '--all', '--test' ],
+            }
+        },
     });
+
+    grunt.loadNpmTasks('grunt-run');
 
     // Default task.
     // grunt.registerTask('default', ['jsbeautifier', 'jshint', 'nodeunit']);
-    grunt.registerTask('default', ['jsbeautifier', 'jshint']);
+    grunt.registerTask('default', ['jsbeautifier', 'jshint', 'run:test-samples' ]);
 
 };

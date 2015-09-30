@@ -204,14 +204,14 @@ if (ad.all) {
 }
 
 var connect_paramd = helpers.duplicate_samples("iotql-test");
-iotql.connect(connect_paramd, function(error, db) {
+iotql.connect(connect_paramd, function (error, db) {
     if (error) {
         throw error;
     }
 
     var run_next = function () {
         if (iotql_paths.length === 0) {
-            process.exit(0);    // sigh
+            process.exit(0); // sigh
             return;
         }
 
@@ -226,4 +226,3 @@ iotql.connect(connect_paramd, function(error, db) {
 
     run_next();
 });
-
