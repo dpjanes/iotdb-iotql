@@ -211,6 +211,7 @@ iotql.connect(connect_paramd, function(error, db) {
 
     var run_next = function () {
         if (iotql_paths.length === 0) {
+            process.exit(0);    // sigh
             return;
         }
 
