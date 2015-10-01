@@ -5,6 +5,7 @@
 "CREATE"\s+"SCENE"      return 'CREATE-SCENE'
 "CREATE"\s+"RULE"       return 'CREATE-RULE'
 "CREATE"\s+"MODEL"      return 'CREATE-MODEL'
+"CREATE"\s+"VIEW"       return 'CREATE-VIEW'
 "CONNECT"\s+"MODEL"     return 'CONNECT-MODEL'
 "CONNECT"\s+"ALL"       return 'CONNECT-ALL'
 \s+                     {/* skip whitespace */}
@@ -193,6 +194,15 @@ EXPRESSION:
             "rhs": $4,
         } ]; 
     }
+    |
+    "CREATE-VIEW" SYMBOL-SIMPLE "WHERE" SELECT-TERMS
+    { $$ = [
+        {
+            "create-view": $2,
+            "where": $4,
+            "store": "things",
+        }
+    ]; }
     |
     "CREATE-RULE" SYMBOL-SIMPLE "WHERE" VALUE "BEGIN" EXPRESSION-LIST "END"
     { $$ = [

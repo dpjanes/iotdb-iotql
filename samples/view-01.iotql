@@ -1,0 +1,5 @@
+-- creating a view of one room
+CREATE VIEW
+    Foyer
+WHERE
+    meta:zone & "Foyer";
