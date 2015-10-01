@@ -1,0 +1,5 @@
+-- this should fail
+CREATE VIEW
+    THINGS
+WHERE
+    meta:zone & "Foyer";

@@ -1,0 +1,5 @@
+-- all lighting related stuff
+CREATE VIEW
+    FacetLighting
+WHERE
+    meta:facet & iot-facet:lighting

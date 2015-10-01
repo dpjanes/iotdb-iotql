@@ -1,5 +1,5 @@
 -- creating a view of one room
 CREATE VIEW
-    Foyer
+    ZoneMasterBedroom
 WHERE
-    meta:zone & "Foyer";
+    meta:zone & "Master Bedroom";

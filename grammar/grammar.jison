@@ -195,7 +195,7 @@ EXPRESSION:
         } ]; 
     }
     |
-    "CREATE-VIEW" SYMBOL-SIMPLE "WHERE" SELECT-TERMS
+    "CREATE-VIEW" SYMBOL-SIMPLE "WHERE" VALUE
     { $$ = [
         {
             "create-view": $2,
