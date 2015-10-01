@@ -73,7 +73,10 @@ Note that there's no security or anything, so this is purely for demonstration p
 ## Installation
 To embed IoTQL in your projects, do:
 
-	$ npm install iotql
+	$ homestar install iotql
+
+You can use <code>npm</code> instead of <code>homestar</code> if you're not
+using [HomeStar](https://homestar.io/about).
 
 ## Usage
 
@@ -132,22 +135,34 @@ or (more flexible, but unwieldy)
 	             units:temperature.imperial.fahrenheit)
 	
 # Development
-## Running
+## Test Cases
+### Running
 
 This isn't quite finished yet, but you can do
 
-    $ node RunSamples --all
+    $ node tools/RunSamples --all
 
 The samples are in <code>samples</code>. The Things it
 runs against are in <code>samples/things</code>. 
 How that's structured should be fairly obvious.
 
+### Writing expected results
+
+    $ node tools/RunSamples --all --write
+
+### Testing against expected results
+
+    $ node tools/RunSamples --all --test
+
+This can also be done by
+
+    $ npm test
+
 ## Compile the Grammar
 
 to compile the grammar, you need to do this
 
-    $ jison grammar.jison
-
+    $ ( cd ./grammar; jison grammar.jison )
 
 ## More Documentation
 See [IoTQL.pdf](https://github.com/dpjanes/iotdb-iotql/blob/master/docs/IoTQL.pdf)
