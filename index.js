@@ -93,7 +93,8 @@ var connect = function (paramd, done) {
 
 /**
  *  API
- *  connect is the main one you want
+ *  connect is the main one you want - it will pass 
+ *  back a 'db' that you can then call 
  */
 exports.connect = connect;
 exports.DB = DB;

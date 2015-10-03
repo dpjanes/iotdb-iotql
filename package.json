@@ -25,12 +25,12 @@
         "grunt-contrib-uglify": "~0.9.2", 
         "grunt-contrib-watch": "~0.6.1", 
         "grunt-jsbeautifier": "~0.2.10", 
-        "grunt-run": "~0.5.1",
+        "grunt-run": "~0.5.1", 
         "jison": "~0.4.15", 
         "jshint-stylish": "~2.0.1", 
         "json-rpc2": "~1.0.2", 
-        "load-grunt-tasks": "~3.2.0", 
-        "request": "~2.62.0"
+        "load-grunt-tasks": "~3.3.0", 
+        "request": "~2.64.0"
     }, 
     "homepage": "https://homestar.io", 
     "homestar": {}, 
@@ -45,5 +45,5 @@
     "scripts": {
         "test": "grunt"
     }, 
-    "version": "0.0.23"
+    "version": "0.0.24"
 }
