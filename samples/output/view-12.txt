@@ -1,0 +1,18 @@
+[
+  [
+    "id",
+    "thing-03",
+    null,
+    "on",
+    true,
+    null
+  ],
+  [
+    "id",
+    "thing-03",
+    null,
+    "on",
+    true,
+    null
+  ]
+]
