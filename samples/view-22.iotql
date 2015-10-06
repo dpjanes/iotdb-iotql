@@ -1,0 +1,16 @@
+-- create a view and use it with a SELECT (use USE VIEW)
+CREATE VIEW
+    MasterBedroom
+WHERE
+    meta:zone & "Master Bedroom";
+
+SELECT
+    id, state:on
+WHERE
+    has(state:on);
+
+USE VIEW MasterBedroom;
+SELECT
+    id, state:on
+WHERE
+    has(state:on);

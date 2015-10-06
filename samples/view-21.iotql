@@ -1,0 +1,17 @@
+-- create a view and use it with a WHERE (with USE VIEW)
+CREATE VIEW
+    MasterBedroom
+WHERE
+    meta:zone & "Master Bedroom";
+
+SELECT id, ostate:on WHERE has(ostate:on);
+
+USE VIEW MasterBedroom;
+
+SET
+    state:on = false
+WHERE
+    meta:facet & iot-facet:lighting;
+
+SELECT id, ostate:on WHERE has(ostate:on);
+

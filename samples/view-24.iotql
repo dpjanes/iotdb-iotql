@@ -1,0 +1,18 @@
+-- make sure USE VIEW is contained to BEGIN/END
+-- this will break because the VIEW referenced does not exist
+CREATE VIEW
+    OnlyTheName
+WHERE
+    meta:name = "The Name";
+
+CREATE SCENE
+    SetTemperature
+BEGIN
+    USE VIEW OnlyTheNameXXX;
+    SET istate:sensor.temperature = 100°C;
+END;
+
+SELECT id, meta:name, state:sensor.temperature WHERE HAS(state:sensor.temperature);
+DO SetTemperature;
+SELECT id, meta:name, state:sensor.temperature WHERE HAS(state:sensor.temperature);
+

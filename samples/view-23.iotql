@@ -1,0 +1,17 @@
+-- make sure USE VIEW is contained to BEGIN/END
+CREATE VIEW
+    OnlyTheName
+WHERE
+    meta:name = "The Name";
+
+CREATE SCENE
+    SetTemperature
+BEGIN
+    USE VIEW OnlyTheName;
+    SET istate:sensor.temperature = 100°C;
+END;
+
+SELECT id, meta:name, state:sensor.temperature WHERE HAS(state:sensor.temperature);
+DO SetTemperature;
+SELECT id, meta:name, state:sensor.temperature WHERE HAS(state:sensor.temperature);
+

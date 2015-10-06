@@ -171,7 +171,7 @@ break;
 case 16:
  this.$ = [
         {
-            "create-scene": $$[$0-3],
+            "create-scene": $$[$0-3].toLowerCase(),
             "parameters": [],
             "begin-end": $$[$0-1]
         }
@@ -180,7 +180,7 @@ break;
 case 17:
  this.$ = [
         {
-            "create-scene": $$[$0-6],
+            "create-scene": $$[$0-6].toLowerCase(),
             "parameters": [ { variable: $$[$0-4] }, ],
             "begin-end": $$[$0-1]
         }
@@ -196,14 +196,14 @@ break;
 case 19:
  this.$ = [
         {
-            "use-view": $$[$0],
+            "use-view": $$[$0].toLowerCase(),
         }
     ]; 
 break;
 case 20:
  this.$ = [
         {
-            "create-view": $$[$0-2],
+            "create-view": $$[$0-2].toLowerCase(),
             "where": $$[$0],
             "store": "things",
         }

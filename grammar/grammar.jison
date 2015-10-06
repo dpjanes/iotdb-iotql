@@ -174,7 +174,7 @@ EXPRESSION:
     "CREATE-SCENE" SYMBOL-SIMPLE "BEGIN" EXPRESSION-LIST "END"
     { $$ = [
         {
-            "create-scene": $2,
+            "create-scene": $2.toLowerCase(),
             "parameters": [],
             "begin-end": $4
         }
@@ -183,7 +183,7 @@ EXPRESSION:
     "CREATE-SCENE" SYMBOL-SIMPLE "(" SYMBOL-SIMPLE ")" "BEGIN" EXPRESSION-LIST "END"
     { $$ = [
         {
-            "create-scene": $2,
+            "create-scene": $2.toLowerCase(),
             "parameters": [ { variable: $4 }, ],
             "begin-end": $7
         }
