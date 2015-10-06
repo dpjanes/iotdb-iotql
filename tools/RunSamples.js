@@ -219,7 +219,9 @@ iotql.connect(connect_paramd, function (error, db) {
         iotql_paths.splice(0, 1);
 
         helpers.duplicate_samples("iotql-test");
+        db.stack_push();
         db.run_path(iotql_path, function () {
+            db.stack_pop();
             run_next();
         });
     };

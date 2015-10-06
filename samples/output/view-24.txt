@@ -1,6 +1,17 @@
 [
   [
     "id",
+    "thing-01",
+    null,
+    "schema:name",
+    "The Name",
+    null,
+    "sensor.temperature",
+    20,
+    "iot-unit:temperature.si.celsius"
+  ],
+  [
+    "id",
     "thing-02",
     null,
     "schema:name",
@@ -9,5 +20,16 @@
     "sensor.temperature",
     16,
     "iot-unit:temperature.si.celsius"
+  ],
+  [
+    "id",
+    "thing-05",
+    null,
+    "schema:name",
+    "Imperial Temperature / Humidity",
+    null,
+    "sensor.temperature",
+    70,
+    "iot-unit:temperature.imperial.fahrenheit"
   ]
 ]
