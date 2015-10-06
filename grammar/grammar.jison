@@ -8,6 +8,7 @@
 "CREATE"\s+"VIEW"       return 'CREATE-VIEW'
 "CONNECT"\s+"MODEL"     return 'CONNECT-MODEL'
 "CONNECT"\s+"ALL"       return 'CONNECT-ALL'
+"USE"\s+"VIEW"          return 'USE-VIEW'
 \s+                     {/* skip whitespace */}
 [-][-].*                   {/* skip comments */}
 0\b                     return 'NUMBER'
@@ -195,10 +196,17 @@ EXPRESSION:
         } ]; 
     }
     |
+    "USE-VIEW" SYMBOL-SIMPLE
+    { $$ = [
+        {
+            "use-view": $2.toLowerCase(),
+        }
+    ]; }
+    |
     "CREATE-VIEW" SYMBOL-SIMPLE "WHERE" VALUE
     { $$ = [
         {
-            "create-view": $2,
+            "create-view": $2.toLowerCase(),
             "where": $4,
             "store": "things",
         }
