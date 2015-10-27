@@ -303,6 +303,14 @@ ATTRIBUTES:
     ;
 
 ONE-ATTRIBUTE:
+    "ATTRIBUTE" STRING "WITH" SET-TERMS 
+    {
+        $$ = {
+            "attribute": eval($2),
+            "attribute-values": $4,
+        };
+    }
+    |
     "ATTRIBUTE" SYMBOL-SIMPLE "WITH" SET-TERMS 
     {
         $$ = {
