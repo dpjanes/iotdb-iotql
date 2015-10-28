@@ -78,9 +78,11 @@ var run = function()  {
 
         db.on("model", function(model_code, jsonld) {
             jsonld = _.ld.compact(jsonld);
+            _.ld.patchup(jsonld);
+
             var jsonld$ = JSON.stringify(jsonld, null, 2) + "\n";
 
-            var filename = model_code + ".jsonld";
+            var filename = _.id.to_camel_case(model_code) + ".json";
             fs.writeFile(filename, jsonld$, function(error) {
                 if (error) {
                     console.log("+ ERROR writing file:", filename, error);
