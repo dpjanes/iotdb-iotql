@@ -8,7 +8,7 @@
         "url": "https://github.com/dpjanes/iotql/issues"
     }, 
     "dependencies": {
-        "async": "~1.4.2", 
+        "async": "~1.5.0", 
         "iotdb": ">=0.10.0", 
         "iotdb-transport": "~0.0.14", 
         "iotdb-transport-fs": "~0.0.18", 
@@ -22,15 +22,15 @@
         "grunt": "~0.4.5", 
         "grunt-contrib-jshint": "~0.11.3", 
         "grunt-contrib-nodeunit": "~0.4.1", 
-        "grunt-contrib-uglify": "~0.9.2", 
+        "grunt-contrib-uglify": "~0.10.0", 
         "grunt-contrib-watch": "~0.6.1", 
         "grunt-jsbeautifier": "~0.2.10", 
-        "grunt-run": "~0.5.1", 
+        "grunt-run": "~0.5.2", 
         "jison": "~0.4.15", 
         "jshint-stylish": "~2.0.1", 
         "json-rpc2": "~1.0.2", 
         "load-grunt-tasks": "~3.3.0", 
-        "request": "~2.64.0"
+        "request": "~2.65.0"
     }, 
     "homepage": "https://homestar.io", 
     "homestar": {}, 
@@ -45,5 +45,5 @@
     "scripts": {
         "test": "grunt"
     }, 
-    "version": "0.0.26"
+    "version": "0.0.27"
 }
