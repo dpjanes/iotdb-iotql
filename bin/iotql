@@ -74,6 +74,25 @@ var help = function() {
     }
 };
 
+var is_simple_array = function(values) {
+    if (!_.is.Array(values)) {
+        return false;
+    }
+
+    for (var vi = 0; vi < values.length; vi++) {
+        var v = values[vi];
+        if (_.is.Object(v)) {
+            return false;
+        } else if (_.is.Array(v)) {
+            return false;
+        } else if (_.is.Function(v)) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
 var run_interactive = function(paramd) {
     var _iotql_eval = function(cmd, context, filename, callback) {
         var match = cmd.match(/^[(]([^]*)[)]\s*$/m);
@@ -127,6 +146,17 @@ var run_interactive = function(paramd) {
         o.map(function(d) {
             for (var key in d) {
                 var valued = d[key];
+                if (is_simple_array(valued.value)) {
+                    valued.value.map(function(v) {
+                        if (valued.units) {
+                            lines.push(util.format("%s %s %s", key, v, valued.units));
+                        } else {
+                            lines.push(util.format("%s %s", key, v));
+                        }
+                    });
+                    continue;
+                }
+
                 var value = valued.value;
                 if (1 || !_.is.String(value)) {
                     value = util.inspect(valued.value, { depth: null, colors: true });
@@ -222,29 +252,6 @@ var run_cli = function()  {
     var connect_paramd = {};
     if (ad.samples) {
         connect_paramd = helpers.duplicate_samples();
-        /*
-        var tmp_root = path.join(process.env["HOME"], ".iotdb", "iotql-samples");
-        mkdirp.sync(tmp_root);
-
-        {
-            var src_things_dir = path.join(__dirname, "..", "samples", "things");
-            var dst_things_dir = path.join(tmp_root, "things");
-
-            child_process.spawnSync("rm", [ "-rf", dst_things_dir ]);
-            child_process.spawnSync("cp", [ "-R", src_things_dir, dst_things_dir ]);
-
-            connect_paramd.things_url = dst_things_dir;
-        }
-        {
-            var src_cookbooks_dir = path.join(__dirname, "..", "samples", "cookbooks");
-            var dst_cookbooks_dir = path.join(tmp_root, "cookbooks");
-
-            child_process.spawnSync("rm", [ "-rf", dst_cookbooks_dir ]);
-            child_process.spawnSync("cp", [ "-R", src_cookbooks_dir, dst_cookbooks_dir ]);
-
-            connect_paramd.recipes_url = "recipes://" + dst_cookbooks_dir;
-        }
-        */
     } else if (ad.things) {
         connect_paramd.things_url = ad.things;
     } 

@@ -43,7 +43,8 @@
         "url": "https://github.com/dpjanes/iotql"
     }, 
     "scripts": {
+        "postinstall": "node bin/postinstall.js", 
         "test": "grunt"
     }, 
-    "version": "0.0.28"
+    "version": "0.0.31"
 }

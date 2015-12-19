@@ -32,12 +32,12 @@ echo "=================="
     tar cf - \
         --exclude "node_modules" \
         README.md LICENSE \
-        package.json index.js \
+        homestar.json package.json index.js \
         grammar/grammar.js \
         lib/*.js \
         samples/things \
         commands/*.js \
-        bin/iotql bin/iotql-model \
+        bin/iotql bin/iotql-model bin/postinstall.js \
         |
     ( cd "${NPM_DST}" && tar xvf - )
 
