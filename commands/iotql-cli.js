@@ -37,17 +37,41 @@ var child_process = require('child_process')
 
 exports.command = "iotql-cli";
 exports.summary = "start the IoTQL command line";
+exports.boolean = [ "samples", "json", "help", "connect" ];
 
 exports.help = function () {
-    console.log("usage: homestar iotql-cli");
+    console.log("usage: homestar iotql-cli <options>");
     console.log("");
-    console.log("Start your local Home☆Star Runner");
+    console.log("--samples      : use the small sample data set");
+    console.log("--json         : print out results as JSON");
+    console.log("--load <file>  : load this file first (not interactive)");
+    console.log("--help         : print this message");
+    console.log("--no-connect   : don't automatically connect to things");  
 };
 
 exports.run = function (ad) {
     var node_path = process.execPath;
     var app_path = path.join(__dirname, "..", "bin", "iotql");
-    var argv = [ app_path ].concat(ad._.slice(0));
+    var argv = [ app_path ].concat(ad._.slice(1));
+
+    if (ad.samples) {
+        argv.push("--samples");
+    }
+    if (ad.json) {
+        argv.push("--json");
+    }
+    if (ad.help) {
+        argv.push("--help");
+    }
+    /*
+    if (ad.connect === false) {
+        argv.push("--no-connect");
+    }
+    */
+    if (ad.load) {
+        argv.push("--load");
+        argv.push(load);
+    }
 
     child_process.spawn(node_path, argv, {
         stdio: 'inherit'
