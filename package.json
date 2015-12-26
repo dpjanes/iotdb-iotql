@@ -10,7 +10,7 @@
     "dependencies": {
         "async": "~1.5.0", 
         "iotdb": ">=0.10.0", 
-        "iotdb-transport": "~0.0.14", 
+        "iotdb-transport": "~0.0.15", 
         "iotdb-transport-fs": "~0.0.18", 
         "iotdb-transport-iotdb": "~0.0.14", 
         "iotdb-transport-null": "~0.0.7", 
@@ -29,7 +29,7 @@
         "jison": "~0.4.15", 
         "jshint-stylish": "~2.1.0", 
         "json-rpc2": "~1.0.2", 
-        "load-grunt-tasks": "~3.3.0", 
+        "load-grunt-tasks": "~3.4.0", 
         "request": "~2.67.0"
     }, 
     "homepage": "https://homestar.io", 
@@ -46,5 +46,5 @@
         "postinstall": "node bin/postinstall.js", 
         "test": "grunt"
     }, 
-    "version": "0.0.32"
+    "version": "0.0.33"
 }
