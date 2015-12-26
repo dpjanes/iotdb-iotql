@@ -2,6 +2,12 @@
   [
     "c00",
     "iot-facet:climate.heating",
+    null,
+    "c01",
+    "iot-facet:climate.heating#1",
+    null,
+    "c02",
+    "iot-facet:climate.heating#2",
     null
   ]
 ]

@@ -1,4 +1,6 @@
 -- another dot-list
 SELECT
-    iot-facet:climate.heating
+    iot-facet:climate.heating,
+    iot-facet:climate.heating#1,
+    iot-facet:climate.heating#2
 ;
