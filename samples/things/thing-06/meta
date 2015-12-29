@@ -2,6 +2,6 @@
     "iot:thing-id": "thing-06",
     "iot:model-id": "model-06",
     "schema:name": "Blinds (06)",
-    "iot:facet": "iot-facet:climate",
+    "iot:facet": [ "iot-facet:climate", "iot-facet:climate.shutter" ],
     "iot:zone": [ "Master Bedroom" ]
 }

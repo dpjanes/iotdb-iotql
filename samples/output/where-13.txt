@@ -47,5 +47,13 @@
     "sensor.temperature",
     70,
     "iot-unit:temperature.imperial.fahrenheit"
+  ],
+  [
+    "id",
+    "thing-06",
+    null,
+    "schema:name",
+    "Blinds (06)",
+    null
   ]
 ]

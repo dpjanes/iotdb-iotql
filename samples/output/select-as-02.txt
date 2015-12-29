@@ -38,5 +38,13 @@
     "the_name",
     "Imperial Temperature / Humidity",
     null
+  ],
+  [
+    "the_id",
+    "thing-06",
+    null,
+    "the_name",
+    "Blinds (06)",
+    null
   ]
 ]

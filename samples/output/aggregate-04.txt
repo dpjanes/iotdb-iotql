@@ -4,7 +4,7 @@
     3,
     null,
     "c01",
-    "Front Door Contact Switch",
+    "Blinds (06)",
     null,
     "c02",
     "Thing 2",

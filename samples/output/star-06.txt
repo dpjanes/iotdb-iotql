@@ -34,7 +34,8 @@
           "@id": "#temperature",
           "iot:purpose": "iot-purpose:sensor.temperature",
           "iot:read": true,
-          "iot:role": "iot-purpose:role-reading",
+          "iot:sensor": true,
+          "iot:actuator": false,
           "iot:type": "iot:type.number",
           "iot:unit": "iot-unit:temperature.si.celsius"
         },
@@ -43,6 +44,8 @@
           "iot:purpose": "iot-purpose:temperature",
           "iot:read": true,
           "iot:write": true,
+          "iot:sensor": true,
+          "iot:actuator": true,
           "iot:type": "iot:type.number",
           "iot:unit": "iot-unit:temperature.si.celsius"
         }
@@ -85,7 +88,8 @@
           "@id": "#t",
           "iot:purpose": "iot-purpose:sensor.temperature",
           "iot:read": true,
-          "iot:role": "iot-purpose:role-reading",
+          "iot:sensor": true,
+          "iot:actuator": false,
           "iot:type": "iot:type.number",
           "iot:unit": "iot-unit:temperature.si.celsius"
         }
@@ -126,10 +130,8 @@
           "iot:type": "iot:type.boolean",
           "iot:read": true,
           "iot:write": true,
-          "iot:role": [
-            "iot-purpose:role-reading",
-            "iot-purpose:role-control"
-          ]
+          "iot:sensor": true,
+          "iot:actuator": true
         }
       ]
     },
@@ -172,10 +174,8 @@
           "iot:type": "iot:type.boolean",
           "iot:read": true,
           "iot:write": true,
-          "iot:role": [
-            "iot-purpose:role-reading",
-            "iot-purpose:role-control"
-          ]
+          "iot:sensor": true,
+          "iot:actuator": true
         }
       ]
     },
@@ -215,7 +215,8 @@
           "@id": "#tem",
           "iot:purpose": "iot-purpose:sensor.temperature",
           "iot:read": true,
-          "iot:role": "iot-purpose:role-reading",
+          "iot:sensor": true,
+          "iot:actuator": false,
           "iot:type": "iot:type.integer",
           "iot:unit": "iot-unit:temperature.imperial.fahrenheit"
         },
@@ -223,9 +224,55 @@
           "@id": "#hum",
           "iot:purpose": "iot-purpose:sensor.humidity",
           "iot:read": true,
-          "iot:role": "iot-purpose:role-reading",
+          "iot:sensor": true,
+          "iot:actuator": false,
           "iot:type": "iot:type.integer",
           "iot:unit": "iot-unit:iot-unit:math.fraction.percent"
+        }
+      ]
+    },
+    null
+  ],
+  [
+    "id",
+    "thing-06",
+    null,
+    "istate:open",
+    null,
+    null,
+    "meta:thing-id",
+    "thing-06",
+    null,
+    "meta:model-id",
+    "model-06",
+    null,
+    "meta:name",
+    "Blinds (06)",
+    null,
+    "meta:facet",
+    [
+      "iot-facet:climate",
+      "iot-facet:climate.shutter"
+    ],
+    null,
+    "meta:zone",
+    [
+      "Master Bedroom"
+    ],
+    null,
+    "c03",
+    {
+      "iot:attribute": [
+        {
+          "@id": "#on",
+          "iot:purpose": "iot-purpose:open",
+          "iot:type": "iot:type.integer",
+          "iot:minimum": 1,
+          "iot:maximum": 10,
+          "iot:read": true,
+          "iot:write": true,
+          "iot:sensor": true,
+          "iot:actuator": true
         }
       ]
     },

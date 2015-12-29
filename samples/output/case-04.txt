@@ -38,5 +38,13 @@
     "schema:name",
     "Imperial Temperature / Humidity",
     null
+  ],
+  [
+    "id",
+    "thing-06",
+    null,
+    "schema:name",
+    "Blinds (06)",
+    null
   ]
 ]

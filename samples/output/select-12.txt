@@ -21,6 +21,11 @@
   ],
   [
     "model-id",
+    "model-06",
+    null
+  ],
+  [
+    "model-id",
     "model-contact-switch",
     null
   ]
