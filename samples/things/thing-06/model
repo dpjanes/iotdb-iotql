@@ -1,0 +1,15 @@
+{
+    "iot:attribute": [
+        {
+            "@id": "#on",
+            "iot:purpose": "iot-purpose:open",
+            "iot:type": "iot:type.integer",
+            "iot:minimum": 1,
+            "iot:maximum": 10,
+            "iot:read": true,
+            "iot:write": true,
+            "iot:sensor": true,
+            "iot:actuator": true
+        }
+    ]
+}
