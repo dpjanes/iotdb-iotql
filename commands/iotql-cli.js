@@ -35,7 +35,7 @@ var fs = require('fs');
 var path = require('path');
 var child_process = require('child_process')
 
-exports.command = "iotql-cli";
+exports.command = "iotql";
 exports.summary = "start the IoTQL command line";
 exports.boolean = [ "samples", "json", "help", "connect" ];
 
@@ -72,6 +72,9 @@ exports.run = function (ad) {
         argv.push("--load");
         argv.push(load);
     }
+
+    // console.log("ARGV", argv);
+    // process.exit(0);
 
     child_process.spawn(node_path, argv, {
         stdio: 'inherit'

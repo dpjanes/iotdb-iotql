@@ -1,12 +1,13 @@
 # iotdb-iotql
-IoTQL - an SQL-like language for the IoT
+IoTQL - an SQL-like language for the IoT.
 
 <img src="https://raw.githubusercontent.com/dpjanes/iotdb-homestar/master/docs/HomeStar.png" align="right" style="margin-left: 10px; "/>
 
-# What is it?
+## What is it?
 
 IoTQL is an SQL-like language for the IoT. 
 It allows you to query Things, change their state, and define actions to happen in the future.
+It also allows you to write Models for Things.
 
 Here's a few example queries - see below and the docs folder for a lot more:
 
@@ -20,35 +21,40 @@ Here's a few example queries - see below and the docs folder for a lot more:
 
 It's written to work with HomeStar / IOTDB but is flexible enough to plug into almost any projects that can present a simple [Transporter API](https://github.com/dpjanes/iotdb-transport).
 
-# Command Line Version
 
-IoTQL can be used as a command line tool. 
-It will connect to your local [IOTDB / HomeStar](https://homestar.io/about/install) installation, sample data, or to IOTDB instances running on the web.
+# Installation
 
-## Installation
+[Install Home☆Star first](https://homestar.io/about/install).
 
-	$ npm install -g iotql
-	$ sudo install -g iotql ## if the line above doesn't work
-	
-## Usage
-### With Sample Data
+Then:
+
+    $ homestar install iotql
+    
+Then to run, do
+
+	$ homestar iotql
+
+# Usage
+## With Sample Data
 
 IoTQL ships with a (very small) data set for testing
 
-	$ iotql --samples
-	>>> SELECT id, meta:name;
+	$ homestar iotql --samples
+	>>> SELECT id, meta:*;
 
-### With IOTDB / HomeStar
+## With IOTDB / HomeStar
 
 Make sure you've [installed and set up HomeStar](https://homestar.io/about/install), and are in the proper folder - usually your home directory. Then just do:
 
-	$ iotql 
+	$ homestar iotql 
 	
+<!--
 ### With Connect to sample REST / MQTT server
 
 _Not implemented yet_
 
-	$ iotql --things http://homestar.io:20000/api/things
+	$ homestar iotql --things http://homestar.io:20000/api/things
+	-->
 	
 ### As JSON RPC server
 
@@ -60,13 +66,21 @@ First, make sure you have JSON-RPC2 installed:
 	
 Then run IoTQL as a JSON RPC server
 
-	$ iotql --samples --rpc
+	$ homestar iotql --samples --rpc
 	
 Then try it from the browser (assuming you have the [GitHub IoTQL project](https://github.com/dpjanes/iotdb-iotql) available).
 
 	$ open examples/jquery-terminal/index.html
 	
 Note that there's no security or anything, so this is purely for demonstration purposes.
+
+# Models
+
+All Models in IOTDB are now written using IoTQL. These 
+Models are compiled to JSON-LD for actual usage. You can
+see examples here:
+
+
 	
 # Library Version
 

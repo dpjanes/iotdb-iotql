@@ -1,0 +1,12 @@
+-- thing-06 has a range between 1 and 10
+-- setting to False should make the value "1"
+SET
+    state:open = false
+WHERE
+    id = "thing-06"
+;
+SELECT
+    id, meta:name, ostate:open
+WHERE
+    id = "thing-06"
+;
