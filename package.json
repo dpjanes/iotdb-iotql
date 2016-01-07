@@ -10,7 +10,7 @@
     "dependencies": {
         "async": "~1.5.1", 
         "iotdb": ">=0.11.0", 
-        "iotdb-transport": "~0.0.17", 
+        "iotdb-transport": "~0.0.18", 
         "iotdb-transport-fs": "~0.0.20", 
         "iotdb-transport-iotdb": "~0.0.16", 
         "iotdb-transport-null": "~0.0.9", 
@@ -46,5 +46,5 @@
         "postinstall": "node bin/postinstall.js", 
         "test": "grunt"
     }, 
-    "version": "0.0.35"
+    "version": "0.0.36"
 }
