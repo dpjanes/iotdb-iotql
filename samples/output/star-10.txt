@@ -40,8 +40,7 @@
           "iot-facet:climate.heating"
         ],
         "iot:zone": "Basement"
-      },
-      "state": {}
+      }
     },
     null
   ]
