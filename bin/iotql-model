@@ -49,6 +49,78 @@ var help = function() {
     console.log("--help        : print this message");
 };
 
+/**
+ *  This make sure all name spaces and @id types
+ *  we are aware of are properly represented 
+ *  in the @context
+ */
+var _ld_patchup = function (v, paramd) {
+    var nd = {};
+
+    var _add = function(v) {
+        if (!_.is.String(v)) {
+            return false;
+        }
+
+        var vmatch = v.match(/^([-a-z0-9]*):.+/);
+        if (!vmatch) {
+            return false;
+        }
+        
+        var nshort = vmatch[1];
+        var nurl = _.ld.namespace[nshort];
+        if (!nurl) {
+            return false;
+        }
+
+        nd[nshort] = nurl;
+
+        return true;
+    };
+    var _walk = function(o) {
+        if (_.is.Dictionary(o)) {
+            for (var key in o) {
+                if (!_add(key)) {
+                    continue;
+                } else if (!key.match(/^iot/)) {
+                    continue;
+                } else if (key === "iot:help") {
+                    continue;
+                }
+
+                var sv = o[key];
+                if (_walk(sv)) {
+                    nd[key] = {
+                        "@id": _.ld.expand(key),
+                        "@type": "@id"
+                    };
+                }
+            }
+        } else if (_.is.Array(o)) {
+            var any = false;
+            o.map(function(sv) {
+                _add(sv);
+                any |= _walk(sv);
+            });
+            return any;
+        } else if (_.is.String(o)) {
+            if (_add(o)) {
+                return true;
+            }
+        }
+    };
+
+    _walk(v);
+
+    if (!v["@context"]) {
+        v["@context"] = {};
+    }
+
+    _.extend(v["@context"], nd);
+
+    return v;
+};
+
 
 var run = function()  {
     var ad = require('minimist')(process.argv.slice(2), {
@@ -78,7 +150,7 @@ var run = function()  {
 
         db.on("model", function(model_code, jsonld) {
             jsonld = _.ld.compact(jsonld);
-            _.ld.patchup(jsonld);
+            _ld_patchup(jsonld);
 
             var jsonld$ = JSON.stringify(jsonld, null, 2) + "\n";
 
