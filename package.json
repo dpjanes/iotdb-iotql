@@ -9,6 +9,7 @@
     }, 
     "dependencies": {
         "async": "~2.0.0-rc.6", 
+        "canonical-json": "",
         "iotdb": ">=0.14.0", 
         "iotdb-errors": "~0.0.3", 
         "iotdb-helpers": "~0.0.1", 

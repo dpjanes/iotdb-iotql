@@ -32,61 +32,7 @@ var iotdb_transport = require('iotdb-transport');
 var _ = iotdb._;
 
 var connect = function (paramd, done) {
-    paramd = _.defaults(paramd, {
-        things_url: "iotdb://",
-    });
-
-    if (!paramd.recipes_url) {
-        if (fs.existsSync("cookbooks")) {
-            paramd.recipes_url = "recipes://cookbooks";
-        }
-    }
-
-    var things_transporter;
-    var recipes_transporter;
-
-    var _connected = function () {
-        if (done === null) {
-            return;
-        }
-
-        if (things_transporter === undefined) {
-            return;
-        } else if (recipes_transporter === undefined) {
-            return;
-        }
-
-        return done(null, new DB(things_transporter, recipes_transporter));
-    };
-
-    iotdb_transport.connect(paramd.things_url, function (error, td) {
-        if (error) {
-            done(error);
-            done = null;
-            return;
-        }
-
-        things_transporter = td.transport;
-        _connected();
-    });
-
-    if (!paramd.recipes_url) {
-        recipes_transporter = null;
-        _connected();
-    } else {
-        iotdb_transport.connect(paramd.recipes_url, function (error, td) {
-            if (error) {
-                console.log("cannot connect to recipes (ignoring): %s", error);
-
-                recipes_transporter = null;
-                _connected();
-            } else {
-                recipes_transporter = td.transport;
-                _connected();
-            }
-
-        });
-    }
+    done(null, new DB(iotdb_transport.make({}), null));
 };
 
 /**
