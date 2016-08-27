@@ -415,6 +415,17 @@ SET-TERM:
         };
     }}
     |
+    // iot:enumeration = "com.webos.app.notificationcenter" AS iot-purpose:band.info.notifications
+    P-SYMBOL "=" VALUE "AS" VALUE
+    {{
+        $$ = {
+            lhs: $1,
+            rhs: $5,
+            alias: $3,
+            assign: $2,
+        };
+    }}
+    |
     P-SYMBOL ASSIGN-OPERATOR VALUE
     {{
         $$ = {
