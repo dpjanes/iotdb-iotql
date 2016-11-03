@@ -35,7 +35,7 @@
         "load-grunt-tasks": "~3.5.2", 
         "request": "~2.74.0"
     }, 
-    "homepage": "https://homestar.io", 
+    "homepage": "https://github.com/dpjanes/node-iotdb",
     "homestar": {}, 
     "license": "Apache-2.0", 
     "main": "index.js", 

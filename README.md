@@ -3,6 +3,12 @@ IoTQL - an SQL-like language for the IoT.
 
 <img src="https://raw.githubusercontent.com/dpjanes/iotdb-homestar/master/docs/HomeStar.png" align="right" style="margin-left: 10px; "/>
 
+# About
+
+Note that we're likely going to depreciate all of this except 
+for the CREATE MODEL call. Why? Because it's starting
+to look like [Apache Drill](https://drill.apache.org/) may be a better solution.
+
 ## What is it?
 
 IoTQL is an SQL-like language for the IoT. 
@@ -21,20 +27,22 @@ Here's a few example queries - see below and the docs folder for a lot more:
 
 It's written to work with HomeStar / IOTDB but is flexible enough to plug into almost any projects that can present a simple [Transporter API](https://github.com/dpjanes/iotdb-transport).
 
+# Installation 
 
-# Installation
-
-[Install Home☆Star first](https://homestar.io/about/install).
+* [Read this first](https://github.com/dpjanes/node-iotdb/blob/master/docs/install.md)
+* [Read about installing Home☆Star](https://github.com/dpjanes/node-iotdb/blob/master/docs/homestar.md) 
 
 Then:
 
-    $ homestar install iotql
-    
-Then to run, do
+    $ npm install -g homestar    ## may require sudo
+    $ homestar install iotql 
+
+# Use
+
+Basic pattern:
 
 	$ homestar iotql
 
-# Usage
 ## With Sample Data
 
 IoTQL ships with a (very small) data set for testing
@@ -48,38 +56,11 @@ Make sure you've [installed and set up HomeStar](https://homestar.io/about/insta
 
 	$ homestar iotql 
 	
-<!--
-### With Connect to sample REST / MQTT server
-
-_Not implemented yet_
-
-	$ homestar iotql --things http://homestar.io:20000/api/things
-	-->
-	
-### As JSON RPC server
-
-IoTQL can act as a JSON-RPC server so it can be used from a web browser terminal server.
-
-First, make sure you have JSON-RPC2 installed:
-
-	$ npm install json-rpc2
-	
-Then run IoTQL as a JSON RPC server
-
-	$ homestar iotql --samples --rpc
-	
-Then try it from the browser (assuming you have the [GitHub IoTQL project](https://github.com/dpjanes/iotdb-iotql) available).
-
-	$ open examples/jquery-terminal/index.html
-	
-Note that there's no security or anything, so this is purely for demonstration purposes.
-
-# Models
+## Models
 
 All Models in IOTDB are now written using IoTQL. These 
 Models are compiled to JSON-LD for actual usage. You can
 see examples here:
-
 
 	
 # Library Version
@@ -179,5 +160,6 @@ to compile the grammar, you need to do this
     $ ( cd ./grammar; jison grammar.jison )
 
 ## More Documentation
-See [IoTQL.pdf](https://github.com/dpjanes/iotdb-iotql/blob/master/docs/IoTQL.pdf)
-See [IoTQL-CREATE.pdf](https://github.com/dpjanes/iotdb-iotql/blob/master/docs/IoTQL-CREATE.pdf)
+
+* [IoTQL.pdf](https://github.com/dpjanes/iotdb-iotql/blob/master/docs/IoTQL.pdf)
+* [IoTQL-CREATE.pdf](https://github.com/dpjanes/iotdb-iotql/blob/master/docs/IoTQL-CREATE.pdf)
